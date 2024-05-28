@@ -3,6 +3,7 @@ import {ref,reactive,onMounted,toRefs} from 'vue';
 // import TabBar from '../../components/TabBar.vue';
 // import { Dongdong } from '@nutui/icons-vue-taro';
 import Taro from '@tarojs/taro' 
+import contentData from './info.js'
 
 
 const val = ref('')
@@ -22,28 +23,28 @@ const onScrollBottom = () => {
   data.value = data.value.concat(arr.map((_, index) => len + index + 1));
 };
 
-const contentData = reactive([
-    { id: 1, image: 'http://light-food.wfzwrjx.cn/images/a.jpg', title: '巨巨巨……巨好吃，求你们去做！！' },
-    { id: 2, image: 'http://light-food.wfzwrjx.cn/images/b.jpg', title: '济南真不缺浪漫的餐厅。。。' },
-  ],
-)
+// const contentData = reactive([
+//     { id: 1, image: 'http://light-food.wfzwrjx.cn/images/a.jpg', title: '巨巨巨……巨好吃，求你们去做！！', info:'从前，一个农夫有两个水罐，一个很完好无损，一个有一条裂缝。农夫每次挑水，完好的水罐总能把水从远远的小溪运到主人家，而有裂缝的水罐回到主人家时往往只有关罐水。' },
+//     { id: 2, image: 'http://light-food.wfzwrjx.cn/images/b.jpg', title: '真不缺浪漫的餐厅。。。', info:'小猫跟着妈妈去小兔子家做客,兔子妈妈准备了很多丰富的食物来招待小猫,到了吃午饭的时间,猫妈妈和小猫被兔妈妈留下来一起吃午餐。' },
+//   ],
+// )
 const showDetail = (id) => {
   console.log('showDetail', id)
   Taro.navigateTo({
-    url: '/pages/index/detail',
-    events: {
-      // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
-      acceptDataFromOpenedPage: function(id) {
-        console.log(id)
-      },
-      someEvent: function(id) {
-        console.log(id)
-      }
-    },
-    success: function (res) {
-      // 通过eventChannel向被打开页面传送数据
-      res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
-    },
+    url: '/pages/index/detail?id='+id,
+    // events: {
+    //   // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+    //   acceptDataFromOpenedPage: function(data) {
+    //     console.log("首页event",data)
+    //   },
+    //   someEvent: function(data) {
+    //     console.log(data)
+    //   }
+    // },
+    // success: function (res) {
+    //   // 通过eventChannel向被打开页面传送数据
+    //   res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
+    // },
   })
 }
 
