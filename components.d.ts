@@ -7,8 +7,12 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    CustomCard: typeof import('./src/components/CustomCard.vue')['default']
+    NutCategory: typeof import('@nutui/nutui-taro')['Category']
+    NutCategoryPane: typeof import('@nutui/nutui-taro')['CategoryPane']
     NutGrid: typeof import('@nutui/nutui-taro')['Grid']
     NutGridItem: typeof import('@nutui/nutui-taro')['GridItem']
+    NutList: typeof import('@nutui/nutui-taro')['List']
     NutSearchbar: typeof import('@nutui/nutui-taro')['Searchbar']
     NutTabbar: typeof import('@nutui/nutui-taro')['Tabbar']
     NutTabbarItem: typeof import('@nutui/nutui-taro')['TabbarItem']

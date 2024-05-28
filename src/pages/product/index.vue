@@ -1,11 +1,38 @@
 <script setup>
 import TabBar from '../../components/TabBar.vue';
+import { reactive, toRefs, onMounted } from 'vue';
+import {categoryData} from './categoryData.js';
+
+const data = reactive({
+  categoryInfo: {},
+  category: [{}],
+  categoryChild: [{}]
+})
+
+onMounted(() => {
+  setTimeout(() => { getData() }, 500)
+})
+
+
+const getData = () => {
+    const { categoryInfo, categoryChild } = categoryData
+    data.categoryInfo = categoryInfo
+    data.category = categoryInfo.category
+    data.categoryChild = categoryChild
+}
+const change = (index) => {
+  data.categoryChild = [].concat(data.categoryInfo.category[index ].children)
+}
+const onChange = () => {
+  console.log('当前分类数据')
+}
 </script>
 
 <template>
     <!-- <TabBar></TabBar> -->
-    <view class="" hover-class="none" hover-stop-propagation="false">
-        这是商品页
-    </view>
+    <nut-category :category="data.category" @change="change">
+      <nut-category-pane :categoryChild="data.categoryChild" @onChange="onChange"> </nut-category-pane>
+    </nut-category>
+
     <TabBar :tabindex=1></TabBar>
 </template>

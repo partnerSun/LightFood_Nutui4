@@ -1,4 +1,4 @@
-import Components from 'unplugin-vue-components/webpack';
+import ComponentsPlugin  from 'unplugin-vue-components/webpack';
 import NutUIResolver from '@nutui/auto-import-resolver';
 // const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -38,10 +38,10 @@ const config = {
   },
   mini: {
     webpackChain(chain) {
-      chain.plugin('unplugin-vue-components').use(Components({
+      chain.plugin('unplugin-vue-components').use(ComponentsPlugin({
         resolvers: [
           NutUIResolver({
-            importStyle: 'sass',
+            // importStyle: 'sass',
             taro: true
           })
         ]

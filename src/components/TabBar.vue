@@ -36,7 +36,7 @@ onMounted(() => {
 
 const tabSwitch = (item, index) => {
   console.log(item, index)
-  Taro.redirectTo({ url: List[index].path })
+  Taro.navigateTo({ url: List[index].path })
 }
 </script>
 
