@@ -61,7 +61,7 @@ const showDetail = (id) => {
       <nut-grid :column-num="2" :gutter="10" :border="false" :clickable="true" class="nut-grid-1">
         <nut-grid-item class="nut-grid-item-1" v-for="(item,index) in contentData" :key="index" @click="showDetail(item.id)">
             <img :src="item.image" class="nut-grid-content-1"/>
-            <span style="margin-top: 10px;margin-left: 5px;">{{ item.title }}</span>
+            <span style="margin-top: 15px;margin-left: 10px;">{{ item.title }}</span>
         </nut-grid-item>
 
       </nut-grid>
@@ -90,11 +90,11 @@ const showDetail = (id) => {
   /* padding: 10px; */
 
 }
-.nut-grid-item-11{
- /* box-sizing: border-box;  盒模型设置为border-box，确保宽度包括内边距和边框 */
-  position: relative;
-  /* border: 1px solid red; */
-  padding-bottom:56.25%;
+.nut-grid-item-1{
+  /* height: 45vh;  */
+  /* position: relative; */
+  border: 1px solid red;
+  /* padding-bottom:56.25%; */
   /* margin-right: 10px; */
 
 }
@@ -110,7 +110,7 @@ const showDetail = (id) => {
 
 .nut-grid-content-1{
   width: 100%; 
-  height: 30vh; 
+  height: 31vh; 
   border-radius: 15px;
   border: 1px solid rgb(231, 221, 221); 
 }
