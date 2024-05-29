@@ -7,13 +7,15 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    NutButton: typeof import('@nutui/nutui-taro')['Button']
     NutCategory: typeof import('@nutui/nutui-taro')['Category']
     NutCategoryPane: typeof import('@nutui/nutui-taro')['CategoryPane']
+    NutCell: typeof import('@nutui/nutui-taro')['Cell']
+    NutEllipsis: typeof import('@nutui/nutui-taro')['Ellipsis']
     NutGrid: typeof import('@nutui/nutui-taro')['Grid']
     NutGridItem: typeof import('@nutui/nutui-taro')['GridItem']
-    NutList: typeof import('@nutui/nutui-taro')['List']
     NutSearchbar: typeof import('@nutui/nutui-taro')['Searchbar']
+    NutSwiper: typeof import('@nutui/nutui-taro')['Swiper']
+    NutSwiperItem: typeof import('@nutui/nutui-taro')['SwiperItem']
     NutTabbar: typeof import('@nutui/nutui-taro')['Tabbar']
     NutTabbarItem: typeof import('@nutui/nutui-taro')['TabbarItem']
     TabBar: typeof import('./src/components/TabBar.vue')['default']

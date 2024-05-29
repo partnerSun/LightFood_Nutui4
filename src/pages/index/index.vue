@@ -48,7 +48,20 @@ const showDetail = (id) => {
   })
 }
 
+const upper = (e) => {
+  console.log('upper:', e)
+}
 
+const lower = (e) => {
+  console.log('lower:', e)
+}
+
+const scroll = (e) => {
+  console.log('scroll:', e)
+}
+
+const scrollTop=ref(0)
+const toView=ref('demo2')
 </script>
 
 <template>
@@ -57,15 +70,28 @@ const showDetail = (id) => {
 
   </view>
   <view class="demo-list">
-    <nut-list :list-data="data"  @scroll-bottom="onScrollBottom" >
+    <!-- <nut-list :list-data="data"  @scroll-bottom="onScrollBottom" >
       <nut-grid :column-num="2" :gutter="10" :border="false" :clickable="true" class="nut-grid-1">
         <nut-grid-item class="nut-grid-item-1" v-for="(item,index) in contentData" :key="index" @click="showDetail(item.id)">
-            <img :src="item.image" class="nut-grid-content-1"/>
+            <img :src="item.image[0]" class="nut-grid-content-1"/>
             <span style="margin-top: 15px;margin-left: 10px;">{{ item.title }}</span>
         </nut-grid-item>
-
       </nut-grid>
-    </nut-list>
+    </nut-list> -->
+    <scroll-view 
+    :scroll-y="true" 
+    style="height: 85vh;" 
+    @scrolltoupper="upper"
+    @scrolltolower="lower" 
+    :scroll-top="scrollTop"
+    >
+      <nut-grid :column-num="2" :gutter="10" :border="false" :clickable="true" class="nut-grid-1">
+        <nut-grid-item class="nut-grid-item-1" v-for="(item,index) in contentData" :key="index" @click="showDetail(item.id)">
+            <img :src="item.image[0]" class="nut-grid-content-1"/>
+            <span style="margin-top: 15px;margin-left: 10px;">{{ item.title }}</span>
+        </nut-grid-item>
+      </nut-grid>
+    </scroll-view>
   </view>
 
   <TabBar :tabindex=0></TabBar>
@@ -93,7 +119,7 @@ const showDetail = (id) => {
 .nut-grid-item-1{
   /* height: 45vh;  */
   /* position: relative; */
-  border: 1px solid red;
+  /* border: 1px solid red; */
   /* padding-bottom:56.25%; */
   /* margin-right: 10px; */
 
