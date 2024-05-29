@@ -1,6 +1,6 @@
 <script  setup>
 import { ref,reactive,onMounted,h,defineProps} from 'vue'
-import { Home, Shop3,  My } from '@nutui/icons-vue-taro'
+import { Home, Shop3, Follow, My } from '@nutui/icons-vue-taro'
 import Taro from '@tarojs/taro' 
 
 const List = reactive([
@@ -10,7 +10,12 @@ const List = reactive([
     path: '/pages/index/index'
   },
   {
-    title: '商店',
+    title: '工艺',
+    icon: h(Follow),
+    path: '/pages/enjoy/index'
+  },
+  {
+    title: '点单',
     icon: h(Shop3),
     path: '/pages/product/index',
   },

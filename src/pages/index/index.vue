@@ -1,143 +1,162 @@
 <script setup>
-import {ref,reactive,onMounted,toRefs} from 'vue';
-// import TabBar from '../../components/TabBar.vue';
-// import { Dongdong } from '@nutui/icons-vue-taro';
-import Taro from '@tarojs/taro' 
-import contentData from './info.js'
+import {ref,onMounted,reactive} from 'vue';
+import TabBar from '../../components/TabBar.vue';
+
+import Taro  from '@tarojs/taro' 
+import { usePullDownRefresh  } from '@tarojs/taro'
+const list=ref([
+    'http://light-food.wfzwrjx.cn/images/dp1.jpg',
+    'http://light-food.wfzwrjx.cn/images/dp2.jpg',
+    'http://light-food.wfzwrjx.cn/images/dp3.jpg'
+])
 
 
-const val = ref('')
-const search = (text) => {
-  console.log('search', text)
+usePullDownRefresh(()=>{
+      // 跳转到另一个页面
+      Taro.navigateTo({
+        url: '/pages/index/vip'  // 目标页面的路径
+      });
+
+      // 停止下拉刷新
+      Taro.stopPullDownRefresh();
+}) 
+  
+const jumpShop=()=>{
+    Taro.navigateTo({
+      url: '/pages/product/index'
+    })
 }
-
-const data = ref(new Array(5).fill(0));
-
-onMounted(() => {
-  data.value = data.value.map((_, index) => index + 1);
-});
-
-const onScrollBottom = () => {
-  let arr = new Array(5).fill(0);
-  const len = data.value.length;
-  data.value = data.value.concat(arr.map((_, index) => len + index + 1));
-};
-
-// const contentData = reactive([
-//     { id: 1, image: 'http://light-food.wfzwrjx.cn/images/a.jpg', title: '巨巨巨……巨好吃，求你们去做！！', info:'从前，一个农夫有两个水罐，一个很完好无损，一个有一条裂缝。农夫每次挑水，完好的水罐总能把水从远远的小溪运到主人家，而有裂缝的水罐回到主人家时往往只有关罐水。' },
-//     { id: 2, image: 'http://light-food.wfzwrjx.cn/images/b.jpg', title: '真不缺浪漫的餐厅。。。', info:'小猫跟着妈妈去小兔子家做客,兔子妈妈准备了很多丰富的食物来招待小猫,到了吃午饭的时间,猫妈妈和小猫被兔妈妈留下来一起吃午餐。' },
-//   ],
-// )
-const showDetail = (id) => {
-  console.log('showDetail', id)
-  Taro.navigateTo({
-    url: '/pages/index/detail?id='+id,
-    // events: {
-    //   // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
-    //   acceptDataFromOpenedPage: function(data) {
-    //     console.log("首页event",data)
-    //   },
-    //   someEvent: function(data) {
-    //     console.log(data)
-    //   }
-    // },
-    // success: function (res) {
-    //   // 通过eventChannel向被打开页面传送数据
-    //   res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
-    // },
-  })
-}
-
-const upper = (e) => {
-  console.log('upper:', e)
-}
-
-const lower = (e) => {
-  console.log('lower:', e)
-}
-
-const scroll = (e) => {
-  console.log('scroll:', e)
-}
-
-const scrollTop=ref(0)
-const toView=ref('demo2')
 </script>
 
+
 <template>
-  <view class="" hover-class="none" hover-stop-propagation="false">
-    <nut-searchbar v-model="val" @search="search" style="width: 80%;margin: auto;"></nut-searchbar>
-
-  </view>
-  <view class="demo-list">
-    <!-- <nut-list :list-data="data"  @scroll-bottom="onScrollBottom" >
-      <nut-grid :column-num="2" :gutter="10" :border="false" :clickable="true" class="nut-grid-1">
-        <nut-grid-item class="nut-grid-item-1" v-for="(item,index) in contentData" :key="index" @click="showDetail(item.id)">
-            <img :src="item.image[0]" class="nut-grid-content-1"/>
-            <span style="margin-top: 15px;margin-left: 10px;">{{ item.title }}</span>
-        </nut-grid-item>
-      </nut-grid>
-    </nut-list> -->
-    <scroll-view 
-    :scroll-y="true" 
-    style="height: 85vh;" 
-    @scrolltoupper="upper"
-    @scrolltolower="lower" 
-    :scroll-top="scrollTop"
+    
+<view class="top-view">
+    <image mode='aspectFill' class='myinc' src='http://light-food.wfzwrjx.cn/images/card-active.png'></image>
+    <view class="vip-card">下滑查看会员卡</view>
+</view>
+<view style="margin-top: 5rpx;">
+    <nut-swiper 
+    :auto-play="5000" 
+    :init-page="0"
+    style="margin: auto;width: 94vw; border-radius: 3rpx;"
     >
-      <nut-grid :column-num="2" :gutter="10" :border="false" :clickable="true" class="nut-grid-1">
-        <nut-grid-item class="nut-grid-item-1" v-for="(item,index) in contentData" :key="index" @click="showDetail(item.id)">
-            <img :src="item.image[0]" class="nut-grid-content-1"/>
-            <span style="margin-top: 15px;margin-left: 10px;">{{ item.title }}</span>
-        </nut-grid-item>
-      </nut-grid>
-    </scroll-view>
-  </view>
+        <nut-swiper-item v-for="(item, index) in list" :key="index" style="height: 30vh;">
+            <img :src="item" alt="" style="height: 100%; width: 100%;" draggable="false" />
+        </nut-swiper-item>
+    </nut-swiper>
+</view>
 
-  <TabBar :tabindex=0></TabBar>
+<view class="shop">
+  <view class="Nearby-stores">门店</view>
+</view>
+
+<view class="shop-list">
+  <image mode='aspectFill' class='shop-logo1' src='http://light-food.wfzwrjx.cn/images/bbb.png'></image>
+    <view class="shop-logo2">
+      <image :mode='aspectFill' class='shop-logo' src='http://light-food.wfzwrjx.cn/images/logo.png' ></image>
+      <view class="shop-name">店铺名</view>
+
+      <view class="distance-bar">
+        <view class="distance">99.99km</view>
+        <image :mode='aspectFill' class='arrow' src='http://light-food.wfzwrjx.cn/images/font-solid.png' :onTap="jumpShop"></image>
+      </view>
+    </view>
+
+</view>
+
+<TabBar :tabindex=0></TabBar>
 </template>
 
 <style>
-/* .demo-list .list-item {
+.top-view{
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 10px;
-  height: 150px;
-  background-color: #f4a8b6;
-  border-radius: 10px;
-} */
-.nut-grid-1{
-  /* margin: 0 -5px; */
-  /* padding-top: 10px;
-  padding-left: 5px;
-  padding-right: 5px; */
-  /* padding: 10px; */
+  justify-content:space-between;
+  padding: 15rpx 30rpx 15rpx 30rpx;
+  margin-top: 5rpx;
 
 }
-.nut-grid-item-1{
-  /* height: 45vh;  */
-  /* position: relative; */
-  /* border: 1px solid red; */
-  /* padding-bottom:56.25%; */
-  /* margin-right: 10px; */
+.vip-card{
+  width: 168rpx;
+  height: 34rpx;
+  font-size: 24rpx;
+  text-align: right;
+  color: #b3b3b3;
+}
+.myinc{
+  width: 32rpx;
+  height: 24rpx;
+  border-radius: 4rpx;
+}
+.shop{
+  display: flex;
+  justify-content:space-between;
+  align-items: flex-end;
+}
+.shop .Nearby-stores{
+  font-size: 32rpx;
+  color: #3c3c3c;
+  margin:40rpx 460rpx 20rpx 36rpx ;
 
 }
 
-.nut-grid-content-11{
-  position: absolute; /* 绝对定位 */
-  top: 0;
-  left: 0;
-  width: 90%; 
-  height: 85%; 
-  border-radius: 15px;
+
+.shop-list{
+  display: flex;
+  justify-content:center;
+  margin-right: 30rpx;
+  margin-left:36rpx ;
+  margin-bottom: 24rpx;
 }
 
-.nut-grid-content-1{
-  width: 100%; 
-  height: 31vh; 
-  border-radius: 15px;
-  border: 1px solid rgb(231, 221, 221); 
+.shop-list .shop-logo1{
+  width: 400rpx;
+  height: 320rpx;
+  object-fit: contain;
+  border-radius: 12rpx;
+}
+
+.shop-list .shop-logo2{
+  display: flex;
+  flex-direction:column;
+  width: 266rpx;
+  height: 320rpx;
+  border-radius: 12rpx;
+  background-color: #f2f3f5;
+  margin-left:18rpx;
+}
+
+.shop-list .shop-logo2 .shop-logo{
+  width: 72rpx;
+  height: 88rpx;
+  margin:48rpx 160rpx 30rpx 34rpx;
+}
+.shop-list .shop-logo2 .shop-name{
+  width: 200rpx;
+  height: 88rpx;
+  font-size: 32rpx;
+  color: #3c3c3c;
+  margin:0rpx 32rpx 0rpx 34rpx;
+}
+
+.shop-list .shop-logo2 .distance-bar{
+  display: flex;
+  justify-content:space-between;
+  margin:10rpx 32rpx 20rpx 34rpx;
+}
+
+.shop-list .shop-logo2 .distance-bar .distance{
+  width: 84rpx;
+  height: 36rpx;
+  
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #b3b3b3;
+}
+.shop-list .shop-logo2 .distance-bar .arrow{
+  width: 32rpx;
+  height: 32rpx;
+  object-fit: contain;
+  margin-left: 84rpx;
 }
 </style>

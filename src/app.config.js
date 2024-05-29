@@ -1,14 +1,17 @@
 export default defineAppConfig({
   pages: [
     'pages/index/index',
+    'pages/enjoy/index',
     'pages/product/index',
     'pages/personal/index',
-    'pages/index/detail',
+    'pages/enjoy/detail',
+    'pages/index/vip',
   ],
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: 'WeChat',
-    navigationBarTextStyle: 'black'
+    navigationBarTextStyle: 'black',
+    enablePullDownRefresh: true
   }
 })

@@ -34,5 +34,5 @@ const onChange = () => {
       <nut-category-pane :categoryChild="data.categoryChild" @onChange="onChange"> </nut-category-pane>
     </nut-category>
 
-    <TabBar :tabindex=1></TabBar>
+    <TabBar :tabindex=2></TabBar>
 </template>

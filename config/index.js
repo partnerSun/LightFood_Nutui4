@@ -1,4 +1,5 @@
 import ComponentsPlugin  from 'unplugin-vue-components/webpack';
+import Components  from 'unplugin-vue-components/webpack';
 import NutUIResolver from '@nutui/auto-import-resolver';
 // const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 

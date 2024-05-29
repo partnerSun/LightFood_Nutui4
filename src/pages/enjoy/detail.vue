@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted,defineProps, ref, reactive,toRefs,onBeforeMount} from 'vue'
+import { ref, reactive,toRefs,onBeforeMount} from 'vue'
 import contentData from './info.js'
 import Taro from '@tarojs/taro' 
 
@@ -35,11 +35,8 @@ const {result,content} = toRefs(data)
 </script>
 
 <template>
+<!-- 媒体展示 -->
 <view class="swiper-demo">
-    <!-- 这是首页某个信息的详情页 -->
-    <!-- {{ result }} -->
-    <!-- <nut-button type="primary" @click="showinfo">Primary</nut-button> -->
-
     <nut-swiper
      :init-page="0"
      :auto-play="3000"
@@ -49,18 +46,15 @@ const {result,content} = toRefs(data)
      style="width: 100vw;margin: auto;"
     >
       <nut-swiper-item v-for="(item, index) in result.image" :key="index" style="height: 60vh;">
-        <img :src="item" alt="" style="height: 100%; width: 100%" draggable="false" />
+        <image :mode='aspectFill' :src="item"  draggable="false" ></image>
       </nut-swiper-item>
     </nut-swiper>
 </view>
-
+<!-- 标题和内容 -->
 <view>
-
     <span style="color: black;font-size: 16px;margin-left: 15px;margin-top: 20px;font-weight: bold;">
      {{ result.title }}
     </span>
-
-
     <nut-cell>
       <nut-ellipsis :content="content" direction="end" rows="6" expand-text="展开" collapse-text="收起" style="color: black;">
         <template #content>

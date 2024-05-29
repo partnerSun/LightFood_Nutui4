@@ -54,7 +54,8 @@
     "@tarojs/shared": "3.6.30",
     "@tarojs/taro": "3.6.30",
     "mini-css-extract-plugin": "^2.9.0",
-    "vue": "^3.2.40"
+    "vue": "^3.2.40",
+    "vue-router": "^4.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
