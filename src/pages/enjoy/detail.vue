@@ -18,20 +18,9 @@ onBeforeMount(()=>{
 })
 
 
-// const showinfo =()=>{
-//     console.log("contentData:",contentData)
-//     console.log("result:",result)
-// }
 
-const swiperRef = ref()
-const handlePrev = () => {
-  swiperRef.value?.prev()
-}
-const handleNext = () => {
-  swiperRef.value?.next()
-}
 const {result,content} = toRefs(data)
-
+const imgMode=ref('aspectFill')
 </script>
 
 <template>
@@ -49,7 +38,7 @@ const {result,content} = toRefs(data)
      style="width: 100vw;margin: auto;"
     >
       <nut-swiper-item v-for="(item, index) in result.image" :key="index" style="height: 60vh;">
-        <image :mode='aspectFill' style="height: 100%; width: 100%" :src="item" draggable="false" ></image>
+        <image :mode='imgMode' style="height: 100%; width: 100%" :src="item" draggable="false" ></image>
       </nut-swiper-item>
     </nut-swiper>
 </view>
