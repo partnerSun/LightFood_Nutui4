@@ -37,6 +37,9 @@ const {result,content} = toRefs(data)
 <template>
 <!-- 媒体展示 -->
 <view class="swiper-demo">
+    <!-- 这是首页某个信息的详情页 -->
+    <!-- {{ result }} -->
+    <!-- <nut-button type="primary" @click="showinfo">Primary</nut-button> -->
     <nut-swiper
      :init-page="0"
      :auto-play="3000"
@@ -46,7 +49,7 @@ const {result,content} = toRefs(data)
      style="width: 100vw;margin: auto;"
     >
       <nut-swiper-item v-for="(item, index) in result.image" :key="index" style="height: 60vh;">
-        <image :mode='aspectFill' :src="item"  draggable="false" ></image>
+        <image :mode='aspectFill' style="height: 100%; width: 100%" :src="item" draggable="false" ></image>
       </nut-swiper-item>
     </nut-swiper>
 </view>

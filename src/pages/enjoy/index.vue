@@ -79,7 +79,7 @@ const toView=ref('demo2')
     >
       <nut-grid :column-num="2" :gutter="10" :border="false" :clickable="true" class="nut-grid-1">
         <nut-grid-item class="nut-grid-item-1" v-for="(item,index) in contentData" :key="index" @click="showDetail(item.id)">
-            <img :mode='aspectFill' :src="item.image[0]" class="nut-grid-content-1"/>
+            <img :mode='aspectFill' style="height: 100%; width: 100%" :src="item.image[0]" class="nut-grid-content-1"/>
             <span style="margin-top: 15px;margin-left: 10px;">{{ item.title }}</span>
         </nut-grid-item>
       </nut-grid>
