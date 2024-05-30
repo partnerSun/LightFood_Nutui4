@@ -4,6 +4,7 @@ import {ref,reactive,onMounted,toRefs} from 'vue';
 // import { Dongdong } from '@nutui/icons-vue-taro';
 import Taro from '@tarojs/taro' 
 import contentData from './info.js'
+
 defineOptions({
   inheritAttrs: false
 })
@@ -13,18 +14,14 @@ const val = ref('')
 const search = (text) => {
   console.log('search', text)
 }
-const imgMode=ref('aspectFill')
-const data = ref(new Array(5).fill(0));
 
-onMounted(() => {
-  data.value = data.value.map((_, index) => index + 1);
-});
+const imgMode=ref('scaleToFit')
+// const data = ref(new Array(5).fill(0));
 
-// const onScrollBottom = () => {
-//   let arr = new Array(5).fill(0);
-//   const len = data.value.length;
-//   data.value = data.value.concat(arr.map((_, index) => len + index + 1));
-// };
+// onMounted(() => {
+//   data.value = data.value.map((_, index) => index + 1);
+// });
+
 
 
 const showDetail = (id) => {
@@ -43,20 +40,17 @@ const lower = (e) => {
   console.log('lower:', e)
 }
 
-// const scroll = (e) => {
-//   console.log('scroll:', e)
-// }
 
 const scrollTop=ref(0)
 // const toView=ref('demo2')
 </script>
 
 <template>
-  <!-- <span>enjoy Fallthrough attribute: {{ $attrs }}</span> -->
+  <!-- 搜索框 -->
   <view class="" hover-class="none" hover-stop-propagation="false">
     <nut-searchbar v-model="val" @search="search" style="width: 80%;margin: auto;"></nut-searchbar>
-
   </view>
+  <!-- 发布分享页 -->
   <view >
     <scroll-view 
     :scroll-y="true" 
@@ -65,10 +59,11 @@ const scrollTop=ref(0)
     @scrolltolower="lower" 
     :scroll-top="scrollTop"
     >
-      <nut-grid :column-num="2" :gutter="10" :border="false" :clickable="true" class="nut-grid-1">
-        <nut-grid-item class="nut-grid-item-1" v-for="(item,index) in contentData" :key="index" @click="showDetail(item.id)">
-            <img :mode='imgMode' :src="item.image[0]" class="nut-grid-content-1"/>
-            <span style="margin-top: 15px;margin-left: 10px;">{{ item.title }}</span>
+      <nut-grid :column-num="2" :gutter="5" :border="false" :clickable="true" >
+        <nut-grid-item v-for="(item,index) in contentData" :key="index" @click="showDetail(item.id)">
+            <img :mode="imgMode" :src="item.image[0]" class="nut-grid-content-1"/>
+            <!-- <view class="title">{{ item.title }}</view> -->
+            <nut-ellipsis direction="start" :content="item.title"></nut-ellipsis>
         </nut-grid-item>
       </nut-grid>
     </scroll-view>
@@ -78,37 +73,31 @@ const scrollTop=ref(0)
 </template>
 
 <style scope>
-
-.nut-grid-1{
-  /* margin: 0 -5px; */
-  /* padding-top: 10px;
-  padding-left: 5px;
-  padding-right: 5px; */
-  /* padding: 10px; */
-
-}
-.nut-grid-item-1{
-  /* height: 45vh;  */
-  /* position: relative; */
-  /* border: 1px solid red; */
-  /* padding-bottom:56.25%; */
-  /* margin-right: 10px; */
-
+.nut-grid-item__content {
+  padding-left: 5rpx;
+  padding-right: 5rpx;
+  padding-top: 10rpx;
+  padding-bottom: 5rpx;
+  width: 48vw;
+  /* height: 100vh;  */
+  /* max-height: 40vh;  */
 }
 
-.nut-grid-content-11{
-  position: absolute; /* 绝对定位 */
-  top: 0;
-  left: 0;
-  width: 90%; 
-  height: 85%; 
-  border-radius: 15px;
+.title{
+  /* position: absolute; */
+  margin-top: 20rpx;
+  /* margin-bottom: 10rpx; */
+  /* box-sizing: border-box; */
+  text-align: left;
+  height: 60rpx;
+  max-height: 60rpx;
 }
 
 .nut-grid-content-1{
   width: 100%; 
-  height: 31vh; 
-  border-radius: 15px;
-  border: 1px solid rgb(231, 221, 221); 
+  height: 32vh; 
+  border-radius: 15rpx;
+  border: 1rpx solid rgb(231, 221, 221); 
 }
+
 </style>
