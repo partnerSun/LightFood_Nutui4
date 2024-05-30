@@ -5,6 +5,7 @@ import {ref,reactive,onMounted,toRefs} from 'vue';
 import Taro from '@tarojs/taro' 
 import contentData from './info.js'
 
+// 解决透传 Attributes
 defineOptions({
   inheritAttrs: false
 })
@@ -15,6 +16,7 @@ const search = (text) => {
   console.log('search', text)
 }
 
+const testcontent=ref('123123')
 const imgMode=ref('scaleToFit')
 // const data = ref(new Array(5).fill(0));
 
@@ -63,10 +65,15 @@ const scrollTop=ref(0)
         <nut-grid-item v-for="(item,index) in contentData" :key="index" @click="showDetail(item.id)">
             <img :mode="imgMode" :src="item.image[0]" class="nut-grid-content-1"/>
             <!-- <view class="title">{{ item.title }}</view> -->
-            <nut-ellipsis direction="start" :content="item.title"></nut-ellipsis>
+            <nut-ellipsis :content="testcontent">
+            <template #content>
+              <b>{{ testcontent }}</b>
+            </template>
+            </nut-ellipsis>
         </nut-grid-item>
       </nut-grid>
     </scroll-view>
+
   </view>
 
   <TabBar :tabindex="tabIndex"></TabBar>
@@ -79,8 +86,7 @@ const scrollTop=ref(0)
   padding-top: 10rpx;
   padding-bottom: 5rpx;
   width: 48vw;
-  /* height: 100vh;  */
-  /* max-height: 40vh;  */
+
 }
 
 .title{

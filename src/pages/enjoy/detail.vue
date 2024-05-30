@@ -3,6 +3,11 @@ import { ref, reactive,toRefs,onBeforeMount} from 'vue'
 import contentData from './info.js'
 import Taro from '@tarojs/taro' 
 
+// 解决透传 Attributes
+defineOptions({
+  inheritAttrs: false
+})
+
 let id = ref(0)
 
 const data =reactive({

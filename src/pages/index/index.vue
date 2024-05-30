@@ -1,10 +1,9 @@
 <script setup>
-import {ref,onMounted,reactive} from 'vue';
+import {ref} from 'vue';
 import TabBar from '../../components/TabBar.vue';
-
 import Taro  from '@tarojs/taro' 
 import { usePullDownRefresh  } from '@tarojs/taro'
-
+// 解决透传 Attributes
 defineOptions({
   inheritAttrs: false
 })
