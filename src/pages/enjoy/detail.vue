@@ -10,6 +10,7 @@ const data =reactive({
     content:''
 })
 
+
 onBeforeMount(()=>{
     const params = Taro.getCurrentInstance().router.params;
     id.value = Number(params.id); // 确保 id 是数字类型

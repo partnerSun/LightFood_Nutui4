@@ -1,8 +1,9 @@
 <script setup>
 import TabBar from '../../components/TabBar.vue';
-import { reactive, toRefs, onMounted } from 'vue';
+import { reactive, toRefs, onMounted, ref } from 'vue';
 import {categoryData} from './categoryData.js';
 
+const tabIndex= ref(2)
 const data = reactive({
   categoryInfo: {},
   category: [{}],
@@ -34,5 +35,5 @@ const onChange = () => {
       <nut-category-pane :categoryChild="data.categoryChild" @onChange="onChange"> </nut-category-pane>
     </nut-category>
 
-    <TabBar :tabindex=2></TabBar>
+    <TabBar :tabindex="tabIndex"></TabBar>
 </template>

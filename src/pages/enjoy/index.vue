@@ -4,8 +4,11 @@ import {ref,reactive,onMounted,toRefs} from 'vue';
 // import { Dongdong } from '@nutui/icons-vue-taro';
 import Taro from '@tarojs/taro' 
 import contentData from './info.js'
+// defineOptions({
+//   inheritAttrs: false
+// })
 
-
+const tabIndex=ref(1)
 const val = ref('')
 const search = (text) => {
   console.log('search', text)
@@ -49,6 +52,7 @@ const scrollTop=ref(0)
 </script>
 
 <template>
+  <!-- <span>enjoy Fallthrough attribute: {{ $attrs }}</span> -->
   <view class="" hover-class="none" hover-stop-propagation="false">
     <nut-searchbar v-model="val" @search="search" style="width: 80%;margin: auto;"></nut-searchbar>
 
@@ -70,7 +74,7 @@ const scrollTop=ref(0)
     </scroll-view>
   </view>
 
-  <TabBar :tabindex=1></TabBar>
+  <TabBar :tabindex="tabIndex"></TabBar>
 </template>
 
 <style scope>

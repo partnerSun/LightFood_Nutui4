@@ -1,8 +1,11 @@
 <script  setup>
-import { ref,reactive,onMounted,h,defineProps} from 'vue'
+import { ref,reactive,onBeforeMount,h,defineProps} from 'vue'
 import { Home, Shop3, Follow, My } from '@nutui/icons-vue-taro'
 import Taro from '@tarojs/taro' 
 
+// defineOptions({
+//   inheritAttrs: false
+// })
 const List = reactive([
   {
     title: '首页',
@@ -27,25 +30,30 @@ const List = reactive([
 
 
 const props = defineProps({
-  tabindex: Number,
-  default: 0
+  tabindex:{
+    Number,
+    required: true,
+    default: 0
+  } 
+  
 })
 
 
 let current = ref(0)
 
-onMounted(() => {
+onBeforeMount(() => {
   current.value = props.tabindex
 })
 
 
 const tabSwitch = (item, index) => {
-  console.log(item, index)
+  // console.log(item, index)
   Taro.redirectTo({ url: List[index].path })
 }
 </script>
 
 <template>
+  <!-- <span>tabbar Fallthrough attribute: {{ $attrs }}</span> -->
   <nut-tabbar 
   v-model="current" 
   bottom 
