@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive,toRefs,onBeforeMount} from 'vue'
-import contentData from './info.js'
+import contentData from '../../components/info.js'
 import Taro from '@tarojs/taro' 
 
 // 解决透传 Attributes

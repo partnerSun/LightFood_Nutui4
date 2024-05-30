@@ -3,7 +3,7 @@ import {ref,reactive,onMounted,toRefs} from 'vue';
 // import TabBar from '../../components/TabBar.vue';
 // import { Dongdong } from '@nutui/icons-vue-taro';
 import Taro from '@tarojs/taro' 
-import contentData from './info.js'
+import contentData from '../../components/info.js'
 
 // 解决透传 Attributes
 defineOptions({
@@ -29,7 +29,7 @@ const imgMode=ref('scaleToFit')
 const showDetail = (id) => {
   console.log('showDetail', id)
   Taro.navigateTo({
-    url: '/pages/detail/detail?id='+id,
+    url: '/pages/detail/index?id='+id,
 
   })
 }

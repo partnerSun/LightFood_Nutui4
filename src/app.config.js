@@ -4,8 +4,8 @@ export default defineAppConfig({
     'pages/enjoy/index',
     'pages/product/index',
     'pages/personal/index',
-    'pages/detail/detail',
-    'pages/index/vip',
+    'pages/detail/index',
+    'pages/vip/index',
   ],
   window: {
     backgroundTextStyle: 'light',
