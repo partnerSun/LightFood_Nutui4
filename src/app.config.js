@@ -4,7 +4,7 @@ export default defineAppConfig({
     'pages/enjoy/index',
     'pages/product/index',
     'pages/personal/index',
-    'pages/enjoy/detail',
+    'pages/detail/detail',
     'pages/index/vip',
   ],
   window: {

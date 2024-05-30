@@ -29,7 +29,7 @@ const imgMode=ref('scaleToFit')
 const showDetail = (id) => {
   console.log('showDetail', id)
   Taro.navigateTo({
-    url: '/pages/enjoy/detail?id='+id,
+    url: '/pages/detail/detail?id='+id,
 
   })
 }
