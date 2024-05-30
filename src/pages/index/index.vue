@@ -5,9 +5,9 @@ import TabBar from '../../components/TabBar.vue';
 import Taro  from '@tarojs/taro' 
 import { usePullDownRefresh  } from '@tarojs/taro'
 
-// defineOptions({
-//   inheritAttrs: false
-// })
+defineOptions({
+  inheritAttrs: false
+})
 
 const list=ref([
     'http://light-food.wfzwrjx.cn/images/dp1.jpg',
@@ -50,7 +50,7 @@ const jumpShop=()=>{
     style="margin: auto;width: 94vw; border-radius: 3rpx;"
     >
       <nut-swiper-item v-for="(item, index) in list" :key="index" style="height: 30vh;">
-          <img :src="item" alt="" style="height: 100%; width: 100%;" draggable="false" />
+        <img :src="item" alt="" style="height: 100%; width: 100%;" draggable="false" />
       </nut-swiper-item>
     </nut-swiper>
 </view>
@@ -61,18 +61,18 @@ const jumpShop=()=>{
 
 <view class="shop-list">
   <image mode='aspectFill' class='shop-logo1' src='http://light-food.wfzwrjx.cn/images/bbb.png'></image>
-    <view class="shop-logo2">
-      <image :mode="imgMode" class='shop-logo' src='http://light-food.wfzwrjx.cn/images/logo.png' ></image>
-      <view class="shop-name">店铺名</view>
+  <view class="shop-logo2">
+    <image :mode="imgMode" class='shop-logo' src='http://light-food.wfzwrjx.cn/images/logo.png' ></image>
+    <view class="shop-name">店铺名</view>
 
-      <view class="distance-bar">
-        <view class="distance">99.99km</view>
-        <image :mode="imgMode" class='arrow' src='http://light-food.wfzwrjx.cn/images/font-solid.png' :onTap="jumpShop"></image>
-      </view>
+    <view class="distance-bar">
+      <view class="distance">99.99km</view>
+      <image :mode="imgMode" class='arrow' src='http://light-food.wfzwrjx.cn/images/font-solid.png' :onTap="jumpShop"></image>
     </view>
-
+  </view>
 </view>
 
+<!-- 底部导航栏 -->
 <TabBar :tabindex="tabIndex"></TabBar>
 
 </template>

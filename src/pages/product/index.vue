@@ -3,6 +3,12 @@ import TabBar from '../../components/TabBar.vue';
 import { reactive, toRefs, onMounted, ref } from 'vue';
 import {categoryData} from './categoryData.js';
 
+// 解决透传 Attributes
+defineOptions({
+  inheritAttrs: false
+})
+
+
 const tabIndex= ref(2)
 const data = reactive({
   categoryInfo: {},

@@ -4,9 +4,9 @@ import {ref,reactive,onMounted,toRefs} from 'vue';
 // import { Dongdong } from '@nutui/icons-vue-taro';
 import Taro from '@tarojs/taro' 
 import contentData from './info.js'
-// defineOptions({
-//   inheritAttrs: false
-// })
+defineOptions({
+  inheritAttrs: false
+})
 
 const tabIndex=ref(1)
 const val = ref('')

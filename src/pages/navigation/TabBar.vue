@@ -3,8 +3,9 @@ import { ref,reactive,onBeforeMount,h,defineProps} from 'vue'
 import { Home, Shop3, Follow, My } from '@nutui/icons-vue-taro'
 import Taro from '@tarojs/taro' 
 
-
-
+// defineOptions({
+//   inheritAttrs: false
+// })
 const List = reactive([
   {
     title: '首页',
@@ -53,25 +54,16 @@ const tabSwitch = (item, index) => {
 
 <template>
   <!-- <span>tabbar Fallthrough attribute: {{ $attrs }}</span> -->
-  <view>
-    <nut-tabbar 
-    v-model="current" 
-    bottom 
-    safe-area-inset-bottom 
-    placeholder
-    @tab-switch="tabSwitch"
-
-    >
-      <nut-tabbar-item 
-      v-for="(item, index) in List" 
-      :key="index"
-      :tab-title="item.title"
-      :icon="item.icon"
-      >
-      </nut-tabbar-item>
-    </nut-tabbar>
-  </view>
-
+  <nut-tabbar 
+  v-model="current" 
+  bottom 
+  safe-area-inset-bottom 
+  placeholder
+  @tab-switch="tabSwitch"
+  >
+    <nut-tabbar-item v-for="(item, index) in List" :key="index" :tab-title="item.title" :icon="item.icon">
+    </nut-tabbar-item>
+  </nut-tabbar>
 </template>
 
   

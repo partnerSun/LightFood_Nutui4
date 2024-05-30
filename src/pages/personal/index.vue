@@ -2,6 +2,11 @@
 import { reactive, toRefs,ref } from 'vue';
 import TabBar from '../../components/TabBar.vue';
 
+// 解决透传 Attributes
+defineOptions({
+  inheritAttrs: false
+})
+
 const tabIndex=ref(3)
 const data=reactive({
     userAmount: {
@@ -74,27 +79,27 @@ const imgMode=ref('aspectFill')
 </view>
 
 <block v-if="canHX">
-<view class="content-bar" bindtap="scanOrderCode">
-  <image :mode='imgMode' class='icon' :src="user_icon_login"></image>
-  <view class="content">扫码核销</view>
-</view>
-<view class="blank"></view>
+  <view class="content-bar" bindtap="scanOrderCode">
+    <image :mode='imgMode' class='icon' :src="user_icon_login"></image>
+    <view class="content">扫码核销</view>
+  </view>
+  <view class="blank"></view>
 </block>
 
 <block v-if="!userInfo || !userInfo.avatarUrl">
-<view class="content-bar">
-  <image :mode='imgMode' class='icon' :src="user_icon_login"></image>
-  <view class="content">登陆激活会员身份</view>
-  <button bindtap="updateUserInfo"></button>
-</view>
-<view class="blank"></view>
+  <view class="content-bar">
+    <image :mode='imgMode' class='icon' :src="user_icon_login"></image>
+    <view class="content">登陆激活会员身份</view>
+    <button bindtap="updateUserInfo"></button>
+  </view>
+  <view class="blank"></view>
 </block>
 
 <navigator url="/pages/card-info/index" hover-class="none">
-<view class="content-bar">
-  <image :mode='imgMode' class='icon' :src="user_icon_edit"></image>
-  <view class="content">编辑会员卡信息</view>
-</view>
+  <view class="content-bar">
+    <image :mode='imgMode' class='icon' :src="user_icon_edit"></image>
+    <view class="content">编辑会员卡信息</view>
+  </view>
 </navigator>
 
 <view class="blank"></view>
@@ -102,29 +107,32 @@ const imgMode=ref('aspectFill')
   <image :mode='imgMode' class='icon' :src="user_icon_gift"></image>
   <view class="content hui">积分换取礼品（即将上线）</view>
 </view>
+
 <view class="blank"></view>
 <navigator url="/pages/user-record/index" hover-class="none">
-<view class="content-bar">
-  <image :mode='imgMode' class='icon' :src="user_icon_gift_recode"></image>
-  <view class="content">积分记录</view>
-</view>
+  <view class="content-bar">
+    <image :mode='imgMode' class='icon' :src="user_icon_gift_recode"></image>
+    <view class="content">积分记录</view>
+  </view>
 </navigator>
+
 <view class="blank"></view>
 <navigator url="/pages/about-us/index" hover-class="none">
-<view class="content-bar">
-  <image :mode='imgMode' class='icon' :src="user_icon_about"></image>
-  <view class="content">关于xxx产品名</view>
-</view>
+  <view class="content-bar">
+    <image :mode='imgMode' class='icon' :src="user_icon_about"></image>
+    <view class="content">关于xxx产品名</view>
+  </view>
 </navigator>
+
 <view class="blank"></view>
 <navigator url="/pages/about-us/detail?key=contact" hover-class="none">
-<view class="content-bar">
-  <image :mode='imgMode' class='icon' :src="user_icon_contact"></image>
-  <view class="content">联系我们</view>
-</view>
+  <view class="content-bar">
+    <image :mode='imgMode' class='icon' :src="user_icon_contact"></image>
+    <view class="content">联系我们</view>
+  </view>
 </navigator>
 
-
+<!-- 底部导航栏 -->
 <TabBar :tabindex="tabIndex"></TabBar>
 </template>
 
