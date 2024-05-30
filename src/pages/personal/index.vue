@@ -78,13 +78,6 @@ const imgMode=ref('aspectFill')
   <text>{{ userAmount.score }}</text>p
 </view>
 
-<block v-if="canHX">
-  <view class="content-bar" bindtap="scanOrderCode">
-    <image :mode='imgMode' class='icon' :src="user_icon_login"></image>
-    <view class="content">扫码核销</view>
-  </view>
-  <view class="blank"></view>
-</block>
 
 <block v-if="!userInfo || !userInfo.avatarUrl">
   <view class="content-bar">

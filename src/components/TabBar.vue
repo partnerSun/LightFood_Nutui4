@@ -57,10 +57,10 @@ const tabSwitch = (item, index) => {
     <nut-tabbar 
     v-model="current" 
     bottom 
-    safe-area-inset-bottom 
+    safe-area-inset-bottom
+    active-color="#63DBD4"
     placeholder
     @tab-switch="tabSwitch"
-
     >
       <nut-tabbar-item 
       v-for="(item, index) in List" 
