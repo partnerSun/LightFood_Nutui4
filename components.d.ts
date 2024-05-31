@@ -9,10 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     NutCategory: typeof import('@nutui/nutui-taro')['Category']
     NutCategoryPane: typeof import('@nutui/nutui-taro')['CategoryPane']
-    NutCell: typeof import('@nutui/nutui-taro')['Cell']
     NutEllipsis: typeof import('@nutui/nutui-taro')['Ellipsis']
-    NutGrid: typeof import('@nutui/nutui-taro')['Grid']
-    NutGridItem: typeof import('@nutui/nutui-taro')['GridItem']
     NutSearchbar: typeof import('@nutui/nutui-taro')['Searchbar']
     NutSwiper: typeof import('@nutui/nutui-taro')['Swiper']
     NutSwiperItem: typeof import('@nutui/nutui-taro')['SwiperItem']

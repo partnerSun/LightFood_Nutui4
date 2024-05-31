@@ -62,10 +62,11 @@ const config = {
           // selectorBlackList: ['nut-']
         }
       },
+      // https://taro-docs.jd.com/docs/static-reference#%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%A0%B7%E5%BC%8F%E4%B8%AD%E5%BC%95%E7%94%A8%E6%9C%AC%E5%9C%B0%E8%B5%84%E6%BA%90
       url: {
         enable: true,
         config: {
-          limit: 1024 // 设定转换尺寸上限
+          limit: 102400 // 设定转换尺寸上限
         }
       },
       cssModules: {

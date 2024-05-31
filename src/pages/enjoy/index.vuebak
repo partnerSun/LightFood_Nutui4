@@ -11,18 +11,16 @@ defineOptions({
   inheritAttrs: false
 })
 
-const imgMode=ref('scaleToFit')
-// 启用 scroll-view 增强特性
-const enhanced=ref(true)
-// 滚动条显隐控制
-const showScrollbar=ref(false)
-
 const tabIndex=ref(1)
 const val = ref('')
-
 const search = (text) => {
   console.log('search', text)
 }
+
+
+const imgMode=ref('scaleToFit')
+// const data = ref(new Array(5).fill(0));
+
 
 
 
@@ -42,6 +40,9 @@ const lower = (e) => {
   console.log('lower:', e)
 }
 
+
+const scrollTop=ref(0)
+// const toView=ref('demo2')
 </script>
 
 <template>
@@ -56,60 +57,41 @@ const lower = (e) => {
     style="height: 80vh;" 
     @scrolltoupper="upper"
     @scrolltolower="lower" 
-    :enhanced="enhanced"
-    :showScrollbar="showScrollbar"
+    :scroll-top="scrollTop"
     >
-      <view  class="parent_grid_view" >
-        <view v-for="(item,index) in contentData" :key="index" @click="showDetail(item.id)" class="grid_content_view">
-            <img :mode="imgMode" :src="item.image[0]" class="img-content"/>
+      <nut-grid :column-num="2" :gutter="5" :border="false" :clickable="true" >
+        <nut-grid-item v-for="(item,index) in contentData" :key="index" @click="showDetail(item.id)">
+            <img :mode="imgMode" :src="item.image[0]" class="nut-grid-content-1"/>
             <!-- <view class="title">{{ item.title }}</view> -->
-            <view class="title">
-              <nut-ellipsis :content="item.title" direction="end" rows="2" >
-              </nut-ellipsis>
-            </view>
-
-        </view>
-      </view>
+            <nut-ellipsis :content="item.title" direction="end" rows="2" style="margin-top: 30rpx;text-align: left;">
+            </nut-ellipsis>
+        </nut-grid-item>
+      </nut-grid>
     </scroll-view>
+
   </view>
 
   <TabBar :tabindex="tabIndex"></TabBar>
 </template>
 
 <style scope>
-.parent_grid_view{
-  display: grid;
-  grid-template-columns: 48% 49.5%; 
-  gap: 15px;
-  /* margin-left: 10px; */
-}
-/* .nut-grid-item__content {
+.nut-grid-item__content {
   position: relative;
   padding-left: 5rpx;
   padding-right: 5rpx;
   padding-top: 5rpx;
   padding-bottom: 5rpx;
   width: 48vw;
-} */
+}
 
 
-.img-content{
-  margin-top: 15rpx;
+
+.nut-grid-content-1{
   width: 100%; 
   height: 32vh; 
-  border-radius: 10rpx;
+  border-radius: 15rpx;
   border: 1rpx solid rgb(231, 221, 221); 
 }
 
-.title{
-  margin-top: 15rpx;
-  margin-left: 20rpx;
-  height: 80rpx;
-  /* max-height: 80rpx; */
-  text-align: left;
-  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  font-weight: bold;
-  /* font-size: 30rpx; */
-}
 
 </style>

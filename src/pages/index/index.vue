@@ -4,6 +4,8 @@ import TabBar from '../../components/TabBar.vue';
 import Taro  from '@tarojs/taro' 
 import { usePullDownRefresh  } from '@tarojs/taro'
 
+import icon_4_card_active from '../../images/icon-4-card-active@2x.png';
+
 
 // 解决透传 Attributes
 defineOptions({
@@ -22,7 +24,7 @@ const imgMode=ref('aspectFill')
 usePullDownRefresh(()=>{
       // 跳转到另一个页面
       Taro.navigateTo({
-        url: '/pages/index/vip'  // 目标页面的路径
+        url: '/pages/vip/index'  // 目标页面的路径
       });
 
       // 停止下拉刷新
@@ -40,7 +42,7 @@ const jumpShop=()=>{
 <template>
     <!-- <span>index Fallthrough attribute: {{ $attrs }}</span> -->
 <view class="top-view">
-    <image :mode="imgMode" class='myinc' src='http://light-food.wfzwrjx.cn/images/card-active.png'></image>
+    <image :mode="imgMode" class='myinc' :src="icon_4_card_active"></image>
     <view class="vip-card">下滑查看会员卡</view>
 </view>
 

@@ -1,6 +1,18 @@
 <script setup>
 import { reactive, toRefs,ref } from 'vue';
 import TabBar from '../../components/TabBar.vue';
+// 导入本地图片
+import icon_font_solid from '../../images/icon-font-solid-1@2x.png';
+import logo from '../../images/logo@2x.png';
+import icon_4_card_normal from '../../images/icon-4-card-normal@2x.png';
+import icon_2_1_shop_cart_normal from '../../images/icon-2-1-shop-cart-normal@2x.png';
+import icon_2_menu_normal from '../../images/icon-2-menu-normal@2x.png';
+import user_icon_login from '../../images/user-icon-login@2x.png';
+import user_icon_edit from '../../images/user-icon-edit@2x.png';
+import user_icon_gift from '../../images/user-icon-gift@2x.png';
+import user_icon_gift_recode from '../../images/user-icon-gift-recode@2x.png';
+import user_icon_about from '../../images/user-icon-about@2x.png';
+import user_icon_contact from '../../images/user-icon-contact@2x.png';
 
 // 解决透传 Attributes
 defineOptions({
@@ -20,17 +32,17 @@ const data=reactive({
 });
 
 const {userAmount,userInfo}=toRefs(data)
-const icon_font_solid=ref('http://light-food.wfzwrjx.cn/images/src/icon-font-solid-1@2x.png')
-const logo=ref('http://light-food.wfzwrjx.cn/images/src/logo@2x.png')
-const icon_4_card_normal=ref('http://light-food.wfzwrjx.cn/images/src/icon-4-card-normal@2x.png')
-const icon_2_1_shop_cart_normal=ref('http://light-food.wfzwrjx.cn/images/src/icon-2-1-shop-cart-normal@2x.png')
-const icon_2_menu_normal=ref('http://light-food.wfzwrjx.cn/images/src/icon-2-menu-normal@2x.png')
-const user_icon_login=ref('http://light-food.wfzwrjx.cn/images/src/user-icon-login@2x.png')
-const user_icon_edit=ref('http://light-food.wfzwrjx.cn/images/src/user-icon-edit@2x.png')
-const user_icon_gift=ref('http://light-food.wfzwrjx.cn/images/src/user-icon-gift@2x.png')
-const user_icon_gift_recode=ref('http://light-food.wfzwrjx.cn/images/src/user-icon-gift-recode@2x.png')
-const user_icon_about=ref('http://light-food.wfzwrjx.cn/images/src/user-icon-about@2x.png')
-const user_icon_contact=ref('http://light-food.wfzwrjx.cn/images/src/user-icon-contact@2x.png')
+// const icon_font_solid=ref('http://light-food.wfzwrjx.cn/images/src/icon-font-solid-1@2x.png')
+// const logo=ref('http://light-food.wfzwrjx.cn/images/src/logo@2x.png')
+// const icon_4_card_normal=ref('http://light-food.wfzwrjx.cn/images/src/icon-4-card-normal@2x.png')
+// const icon_2_1_shop_cart_normal=ref('http://light-food.wfzwrjx.cn/images/src/icon-2-1-shop-cart-normal@2x.png')
+// const icon_2_menu_normal=ref('http://light-food.wfzwrjx.cn/images/src/icon-2-menu-normal@2x.png')
+// const user_icon_login=ref('http://light-food.wfzwrjx.cn/images/src/user-icon-login@2x.png')
+// const user_icon_edit=ref('http://light-food.wfzwrjx.cn/images/src/user-icon-edit@2x.png')
+// const user_icon_gift=ref('http://light-food.wfzwrjx.cn/images/src/user-icon-gift@2x.png')
+// const user_icon_gift_recode=ref('http://light-food.wfzwrjx.cn/images/src/user-icon-gift-recode@2x.png')
+// const user_icon_about=ref('http://light-food.wfzwrjx.cn/images/src/user-icon-about@2x.png')
+// const user_icon_contact=ref('http://light-food.wfzwrjx.cn/images/src/user-icon-contact@2x.png')
 const imgMode=ref('aspectFill')
 </script>
 
