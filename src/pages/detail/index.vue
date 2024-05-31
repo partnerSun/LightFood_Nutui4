@@ -3,6 +3,7 @@ import { ref, reactive,toRefs,onBeforeMount} from 'vue'
 import contentData from '../../components/info.js'
 import Taro from '@tarojs/taro' 
 
+
 // 解决透传 Attributes
 defineOptions({
   inheritAttrs: false
@@ -22,7 +23,6 @@ onBeforeMount(()=>{
     data.result = contentData.find(item => item.id === id.value);
     data.content=data.result.info
 })
-
 
 
 const {result,content} = toRefs(data)

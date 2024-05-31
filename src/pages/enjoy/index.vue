@@ -5,6 +5,7 @@ import {ref,reactive,onMounted,toRefs} from 'vue';
 import Taro from '@tarojs/taro' 
 import contentData from '../../components/info.js'
 
+
 // 解决透传 Attributes
 defineOptions({
   inheritAttrs: false
@@ -20,9 +21,6 @@ const testcontent=ref('123123')
 const imgMode=ref('scaleToFit')
 // const data = ref(new Array(5).fill(0));
 
-// onMounted(() => {
-//   data.value = data.value.map((_, index) => index + 1);
-// });
 
 
 
@@ -66,9 +64,9 @@ const scrollTop=ref(0)
             <img :mode="imgMode" :src="item.image[0]" class="nut-grid-content-1"/>
             <!-- <view class="title">{{ item.title }}</view> -->
             <nut-ellipsis :content="testcontent">
-            <template #content>
-              <b>{{ testcontent }}</b>
-            </template>
+              <template #content>
+                <b>{{ testcontent }}</b>
+              </template>
             </nut-ellipsis>
         </nut-grid-item>
       </nut-grid>

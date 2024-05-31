@@ -1,7 +1,8 @@
 import { createApp } from 'vue'
 import './app.css'
 // import { Swiper, SwiperItem ,Searchbar} from '@nutui/nutui-taro'
-import { Ellipsis } from '@nutui/nutui-taro'
+// import { Ellipsis } from '@nutui/nutui-taro'
+
 
 const App = createApp({
   onShow (options) {
@@ -11,6 +12,6 @@ const App = createApp({
   
 })
 
-App.use(Ellipsis)
+// App.use(Ellipsis)
 
 export default App

@@ -1,8 +1,8 @@
 import ComponentsPlugin  from 'unplugin-vue-components/webpack';
 // import Components  from 'unplugin-vue-components/webpack';
 import NutUIResolver from '@nutui/auto-import-resolver';
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const config = {
   projectName: 'lightFood',
   date: '2024-5-27',
@@ -20,7 +20,10 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: ['@tarojs/plugin-html'],
+  plugins: [
+    '@tarojs/plugin-html'
+  ]
+  ,
   defineConstants: {
   },
   copy: {
@@ -47,6 +50,10 @@ const config = {
           })
         ]
       }))
+    },
+    enableExtract:true,
+    miniCssExtractPluginOption: {
+        ignoreOrder: true
     },
     postcss: {
       pxtransform: {
