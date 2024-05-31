@@ -43,9 +43,6 @@ const CheckedCached=(btype)=>{
     }else if (btype==2){
       collectActiveStatus.value=!collectActiveStatus.value
     }
-      
-      // activeColor.value='black'
-      // unactiveColor.value='#fa2c19'
 
 }
 
@@ -74,21 +71,21 @@ const share=()=>{
   //   }
   // })
 
-  Taro.updateShareMenu({
-      withShareTicket: true,
-      isUpdatableMessage: true,
-      activityId: '活动ID',
-      targetState: 0,
-      templateInfo: {
-        parameterList: [{
-          name: 'member_count',
-          value: '1'
-        }, {
-          name: 'room_limit',
-          value: '5'
-        }]
-      }
-    });
+  // Taro.updateShareMenu({
+  //     withShareTicket: true,
+  //     // isUpdatableMessage: true,
+  //     // activityId: '活动ID',
+  //     targetState: 0,
+  //     templateInfo: {
+  //       parameterList: [{
+  //         name: 'member_count',
+  //         value: '1'
+  //       }, {
+  //         name: 'room_limit',
+  //         value: '5'
+  //       }]
+  //     }
+  //   });
 }
 </script>
 
