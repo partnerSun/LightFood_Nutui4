@@ -67,7 +67,6 @@ const lower = (e) => {
               <nut-ellipsis :content="item.title" direction="end" rows="2" >
               </nut-ellipsis>
             </view>
-
         </view>
       </view>
     </scroll-view>

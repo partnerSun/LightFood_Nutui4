@@ -7,11 +7,14 @@ export default defineAppConfig({
     'pages/detail/index',
     'pages/vip/index',
   ],
+  // https://taro-docs.jd.com/docs/vue-page
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black',
-    enablePullDownRefresh: true
+    enablePullDownRefresh: true,
+    enableShareAppMessage: true,
+    enableShareTimeline: true
   }
 })

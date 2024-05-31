@@ -1,8 +1,9 @@
 <script setup>
-import { ref, reactive,toRefs,onBeforeMount} from 'vue'
+import { h,ref, reactive,toRefs,onBeforeMount} from 'vue'
 import contentData from '../../components/info.js'
 import Taro from '@tarojs/taro' 
-
+import { IconFont } from '@nutui/icons-vue-taro'
+import { Share, Star,Follow } from '@nutui/icons-vue-taro'
 
 // 解决透传 Attributes
 defineOptions({
@@ -10,12 +11,19 @@ defineOptions({
 })
 
 let id = ref(0)
+const imgMode=ref('aspectFill')
+
+let starActiveColor = ref('#fa2c19')
+let starUnActiveColor = ref('black')
+let CollectActiveColor = ref('#fa2c19')
+let CollectUnActiveColor = ref('black')
+let starActiveStatus=ref(false)
+let collectActiveStatus=ref(false)
 
 const data =reactive({
     result:{},
     content:''
 })
-
 
 onBeforeMount(()=>{
     const params = Taro.getCurrentInstance().router.params;
@@ -26,7 +34,62 @@ onBeforeMount(()=>{
 
 
 const {result,content} = toRefs(data)
-const imgMode=ref('aspectFill')
+
+
+const CheckedCached=(btype)=>{
+  // 
+    if (btype==1){
+      starActiveStatus.value=!starActiveStatus.value
+    }else if (btype==2){
+      collectActiveStatus.value=!collectActiveStatus.value
+    }
+      
+      // activeColor.value='black'
+      // unactiveColor.value='#fa2c19'
+
+}
+
+Taro.showShareMenu({
+  withShareTicket: true,
+  showShareItems:['shareAppMessage', 'shareTimeline'],
+  success: function (res) {
+    console.log('显示分享菜单成功', res);
+  },
+  fail: function (err) {
+    console.log('显示分享菜单失败', err);
+  },
+})
+
+const share=()=>{
+  console.log('分享')
+  // Taro.showShareMenu({
+  //   withShareTicket: true,
+  //   showShareItems:['shareAppMessage', 'shareTimeline'],
+  //   // menus: ['shareAppMessage', 'shareTimeline'],
+  //   success: function (res) {
+  //     console.log('显示分享菜单成功', res);
+  //   },
+  //   fail: function (err) {
+  //     console.log('显示分享菜单失败', err);
+  //   }
+  // })
+
+  Taro.updateShareMenu({
+      withShareTicket: true,
+      isUpdatableMessage: true,
+      activityId: '活动ID',
+      targetState: 0,
+      templateInfo: {
+        parameterList: [{
+          name: 'member_count',
+          value: '1'
+        }, {
+          name: 'room_limit',
+          value: '5'
+        }]
+      }
+    });
+}
 </script>
 
 <template>
@@ -40,7 +103,6 @@ const imgMode=ref('aspectFill')
       :enhanced="true"
       :showScrollbar="false"
       >
-      
       <!-- 媒体展示 -->
       <nut-swiper
         :init-page="0"
@@ -69,8 +131,20 @@ const imgMode=ref('aspectFill')
         <view style="height: 100px;"></view>
       </view>
     </scroll-view>
+    <!-- 底部按钮 -->
+
+    <view class="bottom-bar">
+      <!-- <Share /> -->
+      <IconFont name="share" size="20" color="#000000" @click="share"></IconFont>
+      <IconFont name="star-fill-n" v-if="starActiveStatus" :color="starActiveColor"  @click="CheckedCached(1)" size="23"></IconFont>
+      <IconFont name="star" v-else :color="starUnActiveColor" @click="CheckedCached(1)" size="23"></IconFont>
+      <IconFont name="heart-fill" v-if="collectActiveStatus" :color="CollectActiveColor"@click="CheckedCached(2)" size="24"></IconFont>
+      <IconFont name="heart1" v-else :color="CollectUnActiveColor"@click="CheckedCached(2)" size="24"></IconFont>
+
+    </view>
   </view>
   </template>
+
 
 
 <style scope>
@@ -87,5 +161,20 @@ const imgMode=ref('aspectFill')
   /* margin-top: 40rpx; */
   margin: 20rpx auto;
 }
-
+.bottom-bar{
+  display: grid;
+  justify-items:center;
+  align-items:center;
+  grid-template-columns: 50% 20% 30%;
+  position: fixed;
+  bottom: 0rpx;
+  left: 0rpx;
+  width: 100%;
+  height: 10%;
+  background-color: white;
+}
+.nut-icon {
+  --animate-duration: 1s;
+  --animate-delay: 0s;
+}
 </style>
