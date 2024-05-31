@@ -150,13 +150,18 @@ const share=()=>{
   margin: 20rpx auto;
   text-align: left;
   font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 26rpx;
+  line-height: 140%;
 }
 
 .bottom_content {
   width: 96%;
   /* margin-top: 40rpx; */
   margin: 20rpx auto;
+  font-weight: 400;
+  font-size: 24rpx;
+  line-height: 150%;
 }
 .bottom-bar{
   display: grid;

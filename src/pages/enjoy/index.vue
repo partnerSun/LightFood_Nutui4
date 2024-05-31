@@ -101,14 +101,17 @@ const lower = (e) => {
 }
 
 .title{
-  margin-top: 15rpx;
-  margin-left: 20rpx;
-  height: 80rpx;
+  margin-top: 12rpx;
+  margin-left: 17rpx;
+  height: 40rpx;
   /* max-height: 80rpx; */
   text-align: left;
   font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  font-weight: bold;
+  /* font-weight: bold; */
   /* font-size: 30rpx; */
+  font-weight: 600;
+  font-size: 22rpx;
+  line-height: 140%;
 }
 
 </style>
