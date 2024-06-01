@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/",
   "projectname": "lightFood",
   "description": "轻食小应用",
-  "appid": "touristappid",
+  "appid": "wx36d1205f2473e8ad",
   "setting": {
     "urlCheck": true,
     "es6": false,

@@ -6,6 +6,8 @@ export default defineAppConfig({
     'pages/personal/index',
     'pages/detail/index',
     'pages/vip/index',
+    'pages/login/login',
+    'pages/pay/pay'
   ],
   // https://taro-docs.jd.com/docs/vue-page
   window: {
@@ -16,5 +18,21 @@ export default defineAppConfig({
     enablePullDownRefresh: true,
     enableShareAppMessage: true,
     enableShareTimeline: true
-  }
+  },
+  permission: {
+      "scope.userLocation": {
+        "desc": "你的位置信息将用于小程序定位服务"
+      },
+      "scope.writePhotosAlbum": {
+        "desc": "你的相册"
+      },
+      "scope.record": {
+        "desc": "你的音频"
+      },
+      "scope.camera": {
+        "desc": "你的摄像头"
+      }
+    }
+  
+  
 })

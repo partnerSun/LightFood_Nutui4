@@ -110,7 +110,7 @@ const lower = (e) => {
   /* font-weight: bold; */
   /* font-size: 30rpx; */
   font-weight: 600;
-  font-size: 22rpx;
+  font-size: 26rpx;
   line-height: 140%;
 }
 

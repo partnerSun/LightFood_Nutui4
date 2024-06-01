@@ -1,9 +1,11 @@
 <script setup>
-import { h,ref, reactive,toRefs,onBeforeMount} from 'vue'
+import { h,ref, reactive,toRefs,onBeforeMount,onMounted} from 'vue'
 import contentData from '../../components/info.js'
 import Taro from '@tarojs/taro' 
 import { IconFont } from '@nutui/icons-vue-taro'
 import { Share, Star,Follow } from '@nutui/icons-vue-taro'
+
+
 
 // 解决透传 Attributes
 defineOptions({
@@ -46,7 +48,10 @@ const CheckedCached=(btype)=>{
 
 }
 
-Taro.showShareMenu({
+
+
+onMounted(() => {
+  Taro.showShareMenu({
   withShareTicket: true,
   showShareItems:['shareAppMessage', 'shareTimeline'],
   success: function (res) {
@@ -56,8 +61,9 @@ Taro.showShareMenu({
     console.log('显示分享菜单失败', err);
   },
 })
+})
 
-const share=()=>{
+const share = () => {
   console.log('分享')
   // Taro.showShareMenu({
   //   withShareTicket: true,
@@ -133,6 +139,7 @@ const share=()=>{
     <view class="bottom-bar">
       <!-- <Share /> -->
       <IconFont name="share" size="20" color="#000000" @click="share"></IconFont>
+      <share></share>
       <IconFont name="star-fill-n" v-if="starActiveStatus" :color="starActiveColor"  @click="CheckedCached(1)" size="23"></IconFont>
       <IconFont name="star" v-else :color="starUnActiveColor" @click="CheckedCached(1)" size="23"></IconFont>
       <IconFont name="heart-fill" v-if="collectActiveStatus" :color="CollectActiveColor"@click="CheckedCached(2)" size="24"></IconFont>

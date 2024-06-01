@@ -1,6 +1,8 @@
 <script setup>
-import { reactive, toRefs,ref } from 'vue';
+import { reactive, toRefs,ref ,onBeforeMount,onMounted } from 'vue';
 import TabBar from '../../components/TabBar.vue';
+import Taro,{eventCenter,getCurrentInstance}from '@tarojs/taro'
+import { checkLogin, isLoggedIn } from '../../utils/auth'
 // 导入本地图片
 import icon_font_solid from '../../images/icon-font-solid-1@2x.png';
 import logo from '../../images/logo@2x.png';
@@ -14,7 +16,7 @@ import user_icon_gift_recode from '../../images/user-icon-gift-recode@2x.png';
 import user_icon_about from '../../images/user-icon-about@2x.png';
 import user_icon_contact from '../../images/user-icon-contact@2x.png';
 
-// 解决透传 Attributes
+// 解决透传 Attributes 
 defineOptions({
   inheritAttrs: false
 })
@@ -44,6 +46,14 @@ const {userAmount,userInfo}=toRefs(data)
 // const user_icon_about=ref('http://light-food.wfzwrjx.cn/images/src/user-icon-about@2x.png')
 // const user_icon_contact=ref('http://light-food.wfzwrjx.cn/images/src/user-icon-contact@2x.png')
 const imgMode=ref('aspectFill')
+
+onMounted(() => {
+  // checkLogin()
+  eventCenter.on(getCurrentInstance().router.onShow, () => {
+    checkLogin()
+    console.log('onShow1')
+  })
+})
 </script>
 
 <template>
