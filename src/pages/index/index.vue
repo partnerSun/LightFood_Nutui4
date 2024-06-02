@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from 'vue';
+import {ref,onMounted} from 'vue';
 import TabBar from '../../components/TabBar.vue';
 import Taro  from '@tarojs/taro' 
 import { usePullDownRefresh  } from '@tarojs/taro'
@@ -21,6 +21,22 @@ const list=ref([
 const tabIndex=ref(0)
 const imgMode=ref('aspectFill')
 
+const handlePullDownRefresh = async () => {
+  try {
+    console.log('下拉刷新触发');
+    // 跳转到另一个页面
+    await Taro.navigateTo({
+      url: '/pages/vip/index' // 目标页面的路径
+    });
+    console.log('导航成功');
+  } catch (error) {
+    console.error('导航失败:', error);
+  } finally {
+    // 停止下拉刷新
+    console.log('停止下拉刷新');
+    Taro.stopPullDownRefresh();
+  }
+};
 usePullDownRefresh(()=>{
       // 停止下拉刷新
       Taro.stopPullDownRefresh();
@@ -29,8 +45,14 @@ usePullDownRefresh(()=>{
         url: '/pages/vip/index'  // 目标页面的路径
       });
 
-
 }) 
+onMounted(() => {
+  // usePullDownRefresh(handlePullDownRefresh);
+  // 如果需要在组件销毁时移除事件监听器，可以使用Taro.offPullDownRefresh
+
+});
+
+
   
 const jumpShop=()=>{
     Taro.navigateTo({
