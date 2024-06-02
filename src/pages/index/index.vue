@@ -22,13 +22,14 @@ const tabIndex=ref(0)
 const imgMode=ref('aspectFill')
 
 usePullDownRefresh(()=>{
+      // 停止下拉刷新
+      Taro.stopPullDownRefresh();
       // 跳转到另一个页面
       Taro.navigateTo({
         url: '/pages/vip/index'  // 目标页面的路径
       });
 
-      // 停止下拉刷新
-      Taro.stopPullDownRefresh();
+
 }) 
   
 const jumpShop=()=>{

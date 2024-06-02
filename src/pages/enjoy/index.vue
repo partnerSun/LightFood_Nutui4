@@ -93,7 +93,7 @@ const lower = (e) => {
 
 
 .img-content{
-  margin-top: 15rpx;
+  margin-top: 5rpx;
   width: 100%; 
   height: 32vh; 
   border-radius: 10rpx;
@@ -101,17 +101,16 @@ const lower = (e) => {
 }
 
 .title{
-  margin-top: 12rpx;
+  margin-top: 8rpx;
   margin-left: 17rpx;
-  height: 40rpx;
+  margin-bottom: 8rpx;
+  /* height: 40rpx; */
   /* max-height: 80rpx; */
   text-align: left;
-  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  /* font-weight: bold; */
-  /* font-size: 30rpx; */
+  /* font-family: "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif; */
   font-weight: 600;
-  font-size: 26rpx;
-  line-height: 140%;
+  font-size: 30rpx;
+  line-height: 120%;
 }
 
 </style>

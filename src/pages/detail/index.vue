@@ -131,7 +131,7 @@ const share = () => {
           </nut-ellipsis>
         </view>
         
-        <view style="height: 100px;"></view>
+        <view style="height: 300rpx;"></view>
       </view>
     </scroll-view>
     <!-- 底部按钮 -->
@@ -156,9 +156,9 @@ const share = () => {
   width: 96%;
   margin: 20rpx auto;
   text-align: left;
-  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  /* font-family: "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif; */
   font-weight: 600;
-  font-size: 26rpx;
+  font-size: 32rpx;
   line-height: 140%;
 }
 
@@ -167,7 +167,7 @@ const share = () => {
   /* margin-top: 40rpx; */
   margin: 20rpx auto;
   font-weight: 400;
-  font-size: 24rpx;
+  font-size: 28rpx;
   line-height: 150%;
 }
 .bottom-bar{

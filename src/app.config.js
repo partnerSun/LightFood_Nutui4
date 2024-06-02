@@ -15,7 +15,7 @@ export default defineAppConfig({
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black',
-    enablePullDownRefresh: true,
+    // enablePullDownRefresh: true,
     enableShareAppMessage: true,
     enableShareTimeline: true
   },
