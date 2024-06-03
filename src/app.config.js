@@ -26,12 +26,6 @@ export default defineAppConfig({
       "scope.writePhotosAlbum": {
         "desc": "你的相册"
       },
-      "scope.record": {
-        "desc": "你的音频"
-      },
-      "scope.camera": {
-        "desc": "你的摄像头"
-      }
     }
   
   

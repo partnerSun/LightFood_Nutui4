@@ -36,13 +36,11 @@ const data=reactive({
 const {userAmount,userInfo}=toRefs(data)
 
 const imgMode=ref('aspectFill')
-const showGetphone=ref(false)
 
 onMounted(() => {
   // checkLogin()
   eventCenter.on(getCurrentInstance().router.onShow, () => {
     // checkLogin()
-    // getUserInfo()
     console.log('onShow1')
   })
 })
@@ -55,25 +53,9 @@ const chooseAvatar = async (e) => {
 
 // 获取手机号
 const getPhoneNumber = async (e) => {
-    // console.log("获取手机号回调",e.detail.errMsg);
-    showGetphone.value=false
-    Taro.showToast({
-      title: '注册成功',
-      icon: 'success'
-    })
-    console.log("手机号获取成功,注册成功")
-    // showGetphone.value=false
-    // Taro.showActionSheet({
-    //   itemList: ['A', 'B', 'C'],
-    //   success: function (res) {
-    //     console.log(res.tapIndex)
-    //   },
-    //   fail: function (res) {
-    //     console.log(res.errMsg)
-    //   }
-    // })
+    console.log("获取手机号回调",e.detail);
+    
   };
-
 
 // 获取用户头像、昵称
 const getUserInfo =() => {
@@ -82,25 +64,13 @@ const getUserInfo =() => {
     desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
     success: (res) => {
       Taro.showToast({
-        title: '获取成功',
-        // icon: 'success'
+        title: '认证成功',
+        icon: 'success'
       })
       console.log("getUserInfo res:",res)
-      showGetphone.value=true
     }
   })
 };
-
-const denyGetphone=()=>{
-    Taro.showToast({
-      title: '手机号获取失败',
-      icon: 'failure'
-    })
-    console.log("拒绝获取手机号")
-    showGetphone.value=false
-}
-
-
 </script>
 
 <template>
@@ -142,11 +112,10 @@ const denyGetphone=()=>{
   </view>
   <!-- onTap -->
   <!-- <button open-type="chooseAvatar" @chooseAvatar="chooseAvatar"></button>
-  -->
+  <button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" ></button> -->
+  <!-- <button  open-type="getUserInfo" @getUserInfo="getUserInfo" ></button> -->
   <button @click="getUserInfo"></button>
-
-  <!-- <button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">123</button>  -->
-
+ 
 </view>
 
 <view class="price-bar">
@@ -200,27 +169,11 @@ const denyGetphone=()=>{
   </view>
 </navigator>
 
-<nut-dialog
-    no-cancel-btn
-    no-ok-btn
-    title="是否同意获取手机号完成注册?"
-    v-model:visible="showGetphone"
-    :close-on-click-overlay="false"
-  >
-    <view  style="display:flex;">
-      <button size="default" type="warn" @click="denyGetphone">拒绝</button>
-      <button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" size="default" type="warn">同意</button>
-    </view>
-  </nut-dialog>
 <!-- 底部导航栏 -->
 <TabBar :tabindex="tabIndex"></TabBar>
 </template>
 
-<style scope>
-.nut-dialog__content {
-  margin-top: 100rpx;
-  margin-bottom: 0;
-}
+<style>
 page{
   position: relative;
 }

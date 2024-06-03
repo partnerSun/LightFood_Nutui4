@@ -158,8 +158,8 @@ const share = () => {
   text-align: left;
   /* font-family: "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif; */
   font-weight: 600;
-  font-size: 32rpx;
-  line-height: 140%;
+  font-size: 34rpx;
+  line-height: 150%;
 }
 
 .bottom_content {
@@ -167,7 +167,7 @@ const share = () => {
   /* margin-top: 40rpx; */
   margin: 20rpx auto;
   font-weight: 400;
-  font-size: 28rpx;
+  font-size: 32rpx;
   line-height: 150%;
 }
 .bottom-bar{
