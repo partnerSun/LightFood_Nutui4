@@ -57,11 +57,20 @@ const chooseAvatar = async (e) => {
 const getPhoneNumber = async (e) => {
     // console.log("获取手机号回调",e.detail.errMsg);
     showGetphone.value=false
-    Taro.showToast({
-      title: '注册成功',
-      icon: 'success'
-    })
-    console.log("手机号获取成功,注册成功")
+    if (e.detail)  {
+      Taro.showToast({
+        title: '注册成功',
+        icon: 'success'
+      })
+      console.log("手机号获取成功,注册成功")
+    }else{
+      Taro.showToast({
+        title: '注册失败',
+        icon: 'error'
+      })
+      console.log("手机号不同意获取,注册失败")
+    }
+
     // showGetphone.value=false
     // Taro.showActionSheet({
     //   itemList: ['A', 'B', 'C'],
@@ -83,18 +92,28 @@ const getUserInfo =() => {
     success: (res) => {
       Taro.showToast({
         title: '获取成功',
-        // icon: 'success'
+        duration:500,
+        icon: 'success'
       })
       console.log("getUserInfo res:",res)
       showGetphone.value=true
+    },
+    fail: (res) => {
+      Taro.showToast({
+        title: '取消注册',
+        duration:500,
+        icon: 'error'
+      })
+      // console.log("getUserInfo res:",res)
+      showGetphone.value=false
     }
   })
 };
 
 const denyGetphone=()=>{
     Taro.showToast({
-      title: '手机号获取失败',
-      icon: 'failure'
+      title: '获取手机号失败',
+      icon: 'error'
     })
     console.log("拒绝获取手机号")
     showGetphone.value=false
