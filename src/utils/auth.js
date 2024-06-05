@@ -1,20 +1,5 @@
-// utils/auth.js
-import Taro from '@tarojs/taro'
+import request from "./index.js";
 
-export const isLoggedIn = () => {
-  const token = Taro.getStorageSync('token')
-  return !!token
-}
-
-export const checkLogin = () => {
-  console.log('检查登录')
-  if (!isLoggedIn()) {
-    Taro.showToast({
-      title: '请先登录',
-      icon: 'none'
-    })
-    Taro.redirectTo({
-      url: '/pages/login/login' // 跳转到登录页面
-    })
-  }
+export const login2 = (data) =>{
+  return request('http://127.0.0.1:18881/api/auth/login',data,'post',3000)
 }

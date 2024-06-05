@@ -2,7 +2,7 @@
 import { reactive, toRefs,ref ,onBeforeMount,onMounted } from 'vue';
 import TabBar from '../../components/TabBar.vue';
 import Taro,{eventCenter,getCurrentInstance}from '@tarojs/taro'
-import { checkLogin, isLoggedIn } from '../../utils/auth'
+// import { checkLogin, isLoggedIn } from '../../utils/auth'
 // 导入本地图片
 import icon_font_solid from '../../images/icon-font-solid-1@2x.png';
 import logo from '../../images/logo@2x.png';
@@ -15,7 +15,9 @@ import user_icon_gift from '../../images/user-icon-gift@2x.png';
 import user_icon_gift_recode from '../../images/user-icon-gift-recode@2x.png';
 import user_icon_about from '../../images/user-icon-about@2x.png';
 import user_icon_contact from '../../images/user-icon-contact@2x.png';
+import {login2} from '../../utils/auth'
 
+// import login from '../login/login.vue';
 // 解决透传 Attributes 
 defineOptions({
   inheritAttrs: false
@@ -55,7 +57,7 @@ const chooseAvatar = async (e) => {
 
 // 获取手机号
 const getPhoneNumber = async (e) => {
-    // console.log("获取手机号回调",e.detail.errMsg);
+    console.log("获取手机号回调",e.detail);
     showGetphone.value=false
     if (e.detail)  {
       Taro.showToast({
@@ -119,6 +121,15 @@ const denyGetphone=()=>{
     showGetphone.value=false
 }
 
+const jumpLogin=()=>{
+  // Taro.navigateTo({
+  //     url: '/pages/login/login'
+  //   })
+  login2({
+    "username":"abc",
+    "password":"123123"
+  })
+}
 
 </script>
 
@@ -159,12 +170,9 @@ const denyGetphone=()=>{
       <image :mode='imgMode' class='logos4' :src="icon_2_menu_normal"></image>
     </view>
   </view>
-  <!-- onTap -->
-  <!-- <button open-type="chooseAvatar" @chooseAvatar="chooseAvatar"></button>
-  -->
-  <button @click="getUserInfo"></button>
 
-  <!-- <button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">123</button>  -->
+  <!-- <button @click="getUserInfo"></button> -->
+  <button @click="jumpLogin"></button>
 
 </view>
 

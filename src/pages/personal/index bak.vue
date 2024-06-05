@@ -2,7 +2,7 @@
 import { reactive, toRefs,ref ,onBeforeMount,onMounted } from 'vue';
 import TabBar from '../../components/TabBar.vue';
 import Taro,{eventCenter,getCurrentInstance}from '@tarojs/taro'
-import { checkLogin, isLoggedIn } from '../../utils/auth'
+// import { checkLogin, isLoggedIn } from '../../utils/auth'
 // 导入本地图片
 import icon_font_solid from '../../images/icon-font-solid-1@2x.png';
 import logo from '../../images/logo@2x.png';
