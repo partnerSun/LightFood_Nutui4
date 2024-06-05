@@ -4,6 +4,8 @@
 // import { loginByWx, loginByAlipay } from '@/api/user.js'
 import { reactive, toRefs,ref ,onBeforeMount,onMounted } from 'vue';
 import Taro,{useLoad} from '@tarojs/taro'
+import { login2 } from '../../utils/login'; 
+
 let code=ref('')
 
 useLoad(async ()=>{
@@ -85,10 +87,12 @@ const appLogin = (detail) => {
           let params = reactive({
               code: code.value,
               source: 'MP',
-              encryptedData: detail.encryptedData,
+              encryptedata: detail.encryptedData,
               iv: detail.iv
           })
 		  console.log("模拟登录成功",params)
+		  let wxloginRes=await login2(params)
+		  console.log("wxloginRes",wxloginRes)
         //   let wxloginRes = await loginByWx(params)
         //   if(wxloginRes.code == 200) {
         //       resolve(wxloginRes.data)

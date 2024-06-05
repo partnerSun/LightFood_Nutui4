@@ -51,10 +51,10 @@ onMounted(() => {
 })
 
 // 获取头像
-const chooseAvatar = async (e) => {
-    console.log("获取用户头像",e.detail);
+// const chooseAvatar = async (e) => {
+//     console.log("获取用户头像",e.detail);
     
-};
+// };
 
 // 获取手机号
 const getPhoneNumber = async (e) => {
@@ -74,44 +74,34 @@ const getPhoneNumber = async (e) => {
       console.log("手机号不同意获取,注册失败")
     }
 
-    // showGetphone.value=false
-    // Taro.showActionSheet({
-    //   itemList: ['A', 'B', 'C'],
-    //   success: function (res) {
-    //     console.log(res.tapIndex)
-    //   },
-    //   fail: function (res) {
-    //     console.log(res.errMsg)
-    //   }
-    // })
   };
 
 
 // 获取用户头像、昵称
-const getUserInfo =() => {
-    // console.log("获取用户信息回调",e.detail);
-  Taro.getUserProfile({
-    desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
-    success: (res) => {
-      Taro.showToast({
-        title: '获取成功',
-        duration:500,
-        icon: 'success'
-      })
-      console.log("getUserInfo res:",res)
-      showGetphone.value=true
-    },
-    fail: (res) => {
-      Taro.showToast({
-        title: '取消注册',
-        duration:500,
-        icon: 'error'
-      })
-      // console.log("getUserInfo res:",res)
-      showGetphone.value=false
-    }
-  })
-};
+// const getUserInfo =() => {
+//     // console.log("获取用户信息回调",e.detail);
+//   Taro.getUserProfile({
+//     desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+//     success: (res) => {
+//       Taro.showToast({
+//         title: '获取成功',
+//         duration:500,
+//         icon: 'success'
+//       })
+//       console.log("getUserInfo res:",res)
+//       showGetphone.value=true
+//     },
+//     fail: (res) => {
+//       Taro.showToast({
+//         title: '取消注册',
+//         duration:500,
+//         icon: 'error'
+//       })
+//       // console.log("getUserInfo res:",res)
+//       showGetphone.value=false
+//     }
+//   })
+// };
 
 const denyGetphone=()=>{
     Taro.showToast({
@@ -123,13 +113,14 @@ const denyGetphone=()=>{
 }
 
 const jumpLogin=()=>{
-  // Taro.navigateTo({
-  //     url: '/pages/login/login'
-  //   })
-  login2({
-    "username":"abc",
-    "password":"123123"
-  })
+  Taro.navigateTo({
+      url: '/pages/login/login'
+    })
+
+  // login2({
+  //   "username":"abc",
+  //   "password":"123123"
+  // })
 }
 
 </script>
@@ -174,6 +165,7 @@ const jumpLogin=()=>{
 
   <!-- <button @click="getUserInfo"></button> -->
   <button @click="jumpLogin"></button>
+  <!-- <nut-button type="primary" @click="jumpLogin"></nut-button> -->
 
 </view>
 

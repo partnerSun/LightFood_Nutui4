@@ -39,7 +39,8 @@ const interceptor = chain => {
         console.log('认证过期')
         Taro.removeStorageSync('TOKEN_NAME');
         if (Taro.getCurrentPages().pop().route !== 'pages/login/login') {
-          Taro.redirectTo({ url: '/pages/login/login' });
+          // Taro.redirectTo({ url: '/pages/login/login' });
+          console.log('跳转到login页')
         }
       }
       return response;
