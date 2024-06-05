@@ -1,33 +1,82 @@
-
 import Taro from '@tarojs/taro';
 
-// 创建一个封装请求方法
-const request = (options) => {
-  const token = Taro.getStorageSync('token'); // 从本地存储获取token
 
-  return Taro.request({
-    ...options,
-    header: {
-      ...options.header,
-      Authorization: `Bearer ${token}`, // 在请求头中添加token
-    },
-  }).then(response => {
-    if (response.statusCode === 401) {
-      // 处理未授权的情况，可以重定向到登录页或刷新token
-      Taro.showToast({
-        title: '登录已过期，请重新登录',
-        icon: 'none',
-      });
-      Taro.redirectTo({
-        url: '/pages/login/index',
-      });
-      return Promise.reject('登录已过期');
+// 拦截器的实现
+const interceptor = chain => {
+  const requestParams = chain.requestParams;
+  const { method, data, url } = requestParams;
+
+  // 在请求之前添加时间戳以避免缓存
+  if (method.toUpperCase() === 'GET') {
+    const timeStamp = new Date().getTime();
+    if (data) {
+      data.timeStamp = timeStamp;
+    } else {
+      requestParams.data = { timeStamp };
     }
-    return response;
+  }
+
+  // 从本地存储中获取 token
+  let token = '';
+  try {
+    token = Taro.getStorageSync('TOKEN_NAME');
+  } catch (error) {
+    token = '';
+  }
+
+  // 将 token 添加到请求头中
+  if (token) {
+    requestParams.header = {
+      ...requestParams.header,
+      Authorization: token
+    };
+  }
+
+  return chain.proceed(requestParams).then(response => {
+    // 在响应拦截器中处理响应数据
+    if (response.statusCode === 200) {
+      if (response.data.status === 401) {
+        console.log('认证过期')
+        Taro.removeStorageSync('TOKEN_NAME');
+        if (Taro.getCurrentPages().pop().route !== 'pages/login/login') {
+          Taro.redirectTo({ url: '/pages/login/login' });
+        }
+      }
+      return response;
+    } else {
+      console.log("请求错误",response.statusCode)
+      return Promise.reject(response);
+    }
   }).catch(error => {
-    // 处理其他错误
-    console.error(error);
+    console.log("请求错误",error.message)
     return Promise.reject(error);
+  });
+};
+
+// 添加拦截器
+Taro.addInterceptor(interceptor);
+
+// 封装的请求函数
+const request = (url = '', data = {}, method = 'GET', timeout = 5000) => {
+  console.log("url:",url)
+  return new Promise((resolve, reject) => {
+    Taro.request({
+      url: url,
+      data,
+      method,
+      timeout,
+      // header: {
+      //   'content-type': 'application/json'
+      // }
+    }).then(response => {
+      if (response.statusCode === 200) {
+        resolve(response.data);
+      } else {
+        reject(new Error(`请求错误: ${response.statusCode}`));
+      }
+    }).catch(error => {
+      reject(new Error(`请求错误: ${error.message}`));
+    });
   });
 };
 
