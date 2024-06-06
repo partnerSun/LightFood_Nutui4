@@ -33,10 +33,11 @@ const interceptor = chain => {
   }
 
   return chain.proceed(requestParams).then(response => {
+    console.log("拦截器response:",response)
     // 在响应拦截器中处理响应数据
     if (response.statusCode === 200) {
       if (response.data.status === 401) {
-        console.log('认证过期')
+        console.log('认证失败')
         Taro.removeStorageSync('TOKEN_NAME');
         if (Taro.getCurrentPages().pop().route !== 'pages/login/login') {
           // Taro.redirectTo({ url: '/pages/login/login' });

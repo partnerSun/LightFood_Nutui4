@@ -90,18 +90,21 @@ const appLogin = (detail) => {
               encryptedata: detail.encryptedData,
               iv: detail.iv
           })
-		  console.log("模拟登录成功",params)
+		//   console.log("模拟登录成功",params)
 		  let wxloginRes=await login2(params)
 		  console.log("wxloginRes",wxloginRes)
         //   let wxloginRes = await loginByWx(params)
-        //   if(wxloginRes.code == 200) {
-        //       resolve(wxloginRes.data)
-        //   } else {
-        //       reject(wxloginRes)
-        //   }
+          if(wxloginRes.status == 200) {
+			console.log("applogin 登录成功")
+              resolve(wxloginRes.data)
+          } else {
+			console.log("applogin 登录失败")
+              reject(wxloginRes)
+          }
   
           // #endif
-      } catch(err) {
+      } 
+	  catch(err) {
           reject(err)
       }
   });
