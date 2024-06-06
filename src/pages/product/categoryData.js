@@ -1892,38 +1892,38 @@ export  const  categoryData = {
         }
       ]
     },
-    "customCategory": [
-      {
-        "catId": "A1",
-        "catName": "电视机",
-        "showPic": false,
-        "showVideo": false
-      },
-      {
-        "catId": "A2",
-        "catName": "食品",
-        "showPic": false,
-        "showVideo": false
-      },
-      {
-        "catId": "A3",
-        "catName": "数码",
-        "showPic": false,
-        "showVideo": false
-      },
-      {
-        "catId": "A4",
-        "catName": "健康",
-        "showPic": false,
-        "showVideo": false
-      },
-      {
-        "catId": "A5",
-        "catName": "运动机械",
-        "showPic": false,
-        "showVideo": false
-      }
-    ]
+    // "customCategory": [
+    //   {
+    //     "catId": "A1",
+    //     "catName": "电视机",
+    //     "showPic": false,
+    //     "showVideo": false
+    //   },
+    //   {
+    //     "catId": "A2",
+    //     "catName": "食品",
+    //     "showPic": false,
+    //     "showVideo": false
+    //   },
+    //   {
+    //     "catId": "A3",
+    //     "catName": "数码",
+    //     "showPic": false,
+    //     "showVideo": false
+    //   },
+    //   {
+    //     "catId": "A4",
+    //     "catName": "健康",
+    //     "showPic": false,
+    //     "showVideo": false
+    //   },
+    //   {
+    //     "catId": "A5",
+    //     "catName": "运动机械",
+    //     "showPic": false,
+    //     "showVideo": false
+    //   }
+    // ]
   }
   
   
