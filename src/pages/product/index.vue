@@ -1,45 +1,45 @@
 <script setup>
 import TabBar from '../../components/TabBar.vue';
 import { reactive, toRefs, onMounted, ref } from 'vue';
+import { useLoad } from '@tarojs/taro'
 import {categoryData} from './categoryData.js';
+import {productCheck} from '../../api/product.js'
 
 // 解决透传 Attributes
 defineOptions({
   inheritAttrs: false
 })
-
-
-const tabIndex= ref(2)
 const data = reactive({
-  categoryInfo: {},
-  category: [{}],
-  categoryChild: [{}]
+  items:{}
 })
 
-onMounted(() => {
-  setTimeout(() => { getData() }, 500)
+useLoad(()=>{
+  data.items=productCheck()
 })
 
+const tabIndex=ref(2)
+const value = ref('1')
+const list = new Array(5).fill(0).map((_, index) => index + 1)
 
-const getData = () => {
-    const { categoryInfo, categoryChild } = categoryData
-    data.categoryInfo = categoryInfo
-    data.category = categoryInfo.category
-    data.categoryChild = categoryChild
-}
-const change = (index) => {
-  data.categoryChild = [].concat(data.categoryInfo.category[index ].children)
-}
-const onChange = () => {
-  console.log('当前分类数据')
-}
+const {items}=toRefs(data)
 </script>
 
 <template>
     <!-- <TabBar></TabBar> -->
-    <nut-category :category="data.category" @change="change">
-      <nut-category-pane :categoryChild="data.categoryChild" @onChange="onChange"> </nut-category-pane>
-    </nut-category>
-
+    <nut-tabs v-model="value" direction="vertical" title-scroll  name="tabName">
+      <nut-tab-pane v-for="item in list" :key="item" :title="`Tab ${item}`" :pane-key="item">
+        Content {{ item }}
+      </nut-tab-pane>
+    </nut-tabs>
+<view>
+  {{ items }}
+</view>
     <TabBar :tabindex="tabIndex"></TabBar>
 </template>
+
+<style>
+.nut-tabs.vertical>.nut-tabs__titles {
+  padding: 0;
+}
+
+</style>

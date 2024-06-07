@@ -19,10 +19,10 @@ const interceptor = chain => {
   // 从本地存储中获取 token
   let token = '';
   try {
-    token = Taro.getStorageSync('TOKEN_NAME');
-  } catch (error) {
-    token = '';
-  }
+    token = Taro.getStorageSync('token');
+    } catch (error) {
+      token = '';
+    }
 
   // 将 token 添加到请求头中
   if (token) {
@@ -36,11 +36,12 @@ const interceptor = chain => {
     console.log("拦截器response:",response)
     // 在响应拦截器中处理响应数据
     if (response.statusCode === 200) {
+      console.log("拦截器状态正常")
       if (response.data.status === 401) {
         console.log('认证失败')
         Taro.removeStorageSync('TOKEN_NAME');
         if (Taro.getCurrentPages().pop().route !== 'pages/login/login') {
-          // Taro.redirectTo({ url: '/pages/login/login' });
+          Taro.redirectTo({ url: '/pages/login/login' });
           console.log('跳转到login页')
         }
       }

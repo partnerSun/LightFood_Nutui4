@@ -4,7 +4,7 @@
 // import { loginByWx, loginByAlipay } from '@/api/user.js'
 import { reactive, toRefs,ref ,onBeforeMount,onMounted } from 'vue';
 import Taro,{useLoad} from '@tarojs/taro'
-import { login2 } from '../../utils/login'; 
+import { login2 } from '../../api/login'; 
 
 let code=ref('')
 
