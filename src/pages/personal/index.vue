@@ -15,7 +15,7 @@ import user_icon_gift from '../../images/user-icon-gift@2x.png';
 import user_icon_gift_recode from '../../images/user-icon-gift-recode@2x.png';
 import user_icon_about from '../../images/user-icon-about@2x.png';
 import user_icon_contact from '../../images/user-icon-contact@2x.png';
-import {login2} from '../../api/login'
+import {getWxUserInfoApi} from '../../api/login'
 
 
 // import login from '../login/login.vue';

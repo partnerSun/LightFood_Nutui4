@@ -4,7 +4,7 @@
 // import { loginByWx, loginByAlipay } from '@/api/user.js'
 import { reactive, toRefs,ref ,onBeforeMount,onMounted } from 'vue';
 import Taro,{useLoad} from '@tarojs/taro'
-import { login2 } from '../../api/login'; 
+import { loginApi } from '../../api/login'; 
 
 let code=ref('')
 
@@ -21,14 +21,14 @@ const wxgetUserInfo = async()=> {
       // 调用后台接口登录
       let loginRes = await appLogin(userData)
 	  console.log("userData",userData)
-	  console.log("loginRes",loginRes)
+	  console.log("loginRes.data",loginRes.data)
       // savecache
       Taro.setStorageSync('isLogin', true)
       Taro.setStorageSync('userInfo', {
         headImg: loginRes.headImg,
         userName: loginRes.userName
       });
-      Taro.setStorageSync('token', loginRes.token)
+      Taro.setStorageSync('Authorization', loginRes.data.token)
       Taro.setStorageSync('userId', loginRes.userId)
       Taro.navigateBack({
       	delta: 1
@@ -91,7 +91,7 @@ const appLogin = (detail) => {
               iv: detail.iv
           })
 		//   console.log("模拟登录成功",params)
-		  let wxloginRes=await login2(params)
+		  let wxloginRes=await loginApi(params)
 		  console.log("wxloginRes",wxloginRes)
         //   let wxloginRes = await loginByWx(params)
           if(wxloginRes.status == 200) {

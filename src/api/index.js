@@ -1,86 +1,122 @@
-import Taro from '@tarojs/taro';
+import axios from 'axios'
+// import {CONFIG} from '../config/index.js'
+import Taro from '@tarojs/taro'
 
-
-// 拦截器的实现
-const interceptor = chain => {
-  const requestParams = chain.requestParams;
-  const { method, data, url } = requestParams;
-
-  // 在请求之前添加时间戳以避免缓存
-  if (method.toUpperCase() === 'GET') {
-    const timeStamp = new Date().getTime();
-    if (data) {
-      data.timeStamp = timeStamp;
-    } else {
-      requestParams.data = { timeStamp };
-    }
-  }
-
-  // 从本地存储中获取 token
-  let token = '';
-  try {
-    token = Taro.getStorageSync('token');
-    } catch (error) {
-      token = '';
-    }
-
-  // 将 token 添加到请求头中
-  if (token) {
-    requestParams.header = {
-      ...requestParams.header,
-      Authorization: token
-    };
-  }
-
-  return chain.proceed(requestParams).then(response => {
-    console.log("拦截器response:",response)
-    // 在响应拦截器中处理响应数据
-    if (response.statusCode === 200) {
-      console.log("拦截器状态正常")
-      if (response.data.status === 401) {
-        console.log('认证失败')
-        Taro.removeStorageSync('TOKEN_NAME');
-        if (Taro.getCurrentPages().pop().route !== 'pages/login/login') {
-          Taro.redirectTo({ url: '/pages/login/login' });
-          console.log('跳转到login页')
+axios.interceptors.request.use(
+    function (config) {
+        //在request时添加时间戳，解决缓存问题
+        if (config.method=="get"){
+            let timeStamp = (new Date()).getTime()
+            //判断是否有Parmas参数
+            if (config.params) {
+                //有params参数，就可以把时间戳添加到参数当中
+                config.params.timeStamp = timeStamp
+            }else{
+                //如果没有params，就声明一个 并添加时间戳进去
+                config.params={
+                    timeStamp: timeStamp
+                }
+            }
         }
-      }
-      return response;
-    } else {
-      console.log("请求错误",response.statusCode)
-      return Promise.reject(response);
-    }
-  }).catch(error => {
-    console.log("请求错误",error.message)
+        //从本地把token取出来，添加到请求头中
+        let tokenValue = ""
+        try {
+            // tokenValue = window.localStorage.getItem('Authorization')
+            tokenValue=Taro.getStorageSync('Authorization');
+        } catch (error) {
+             tokenValue = ""
+        }
+        // 
+        if ( tokenValue == "" || tokenValue == null ) {
+            config.headers['Authorization'] = ""
+        }else {
+            config.headers['Authorization'] = tokenValue
+        }
+
+        // 在发送请求之前做些什么
+        return config;
+  }, function (error) {
+    console.log("error:",error.message)
+    // 对请求错误做些什么
     return Promise.reject(error);
   });
-};
 
-// 添加拦截器
-Taro.addInterceptor(interceptor);
+// 添加响应拦截器
+// 判断登录状态是否失效
+// 状态码是200还是401,
+// 如果是401，删除本地的token，跳转到登录页面
+// 如果是其他触发error
+axios.interceptors.response.use(function (response) {
+    if ( response.data.status == 200 ){
+        // console.log("resolve后:",Promise.resolve(response))
+        return Promise.resolve(response)
+    }else if (response.data.status == 401){
+        //弹出token失效提醒
+        console.log("token失效")
+        // 说明token失效，删除本地的token
+        Taro.removeStorageSync('Authorization');
+        //如果当前页面不是login，那么就跳转到登录页
+        // router.currentRoute != '/login' && router.replace({ path: '/login' })
+        console.log("调用login接口，自动认证")
 
-// 封装的请求函数
-const request = (url = '', data = {}, method = 'GET', timeout = 5000) => {
-  console.log("url:",url)
-  return new Promise((resolve, reject) => {
-    Taro.request({
-      url: url,
-      data,
-      method,
-      timeout,
-      // header: {
-      //   'content-type': 'application/json'
-      // }
-    }).then(response => {
-      if (response.statusCode === 200) {
-        resolve(response.data);
-      } else {
-        reject(new Error(`请求错误: ${response.statusCode}`));
-      }
-    }).catch(error => {
-      reject(new Error(`请求错误: ${error.message}`));
-    });
+    }
+    // console.log("response:",response)
+    return response;
+  }, function (error) {
+    // 超出 2xx 范围的状态码都会触发该函数。
+    console.log("请求错误error:",error.message)
+    // 对响应错误做点什么
+    return Promise.reject(error);
   });
-};
 
-export default request;
+
+//定义四个有默认值的参数
+const request = (url='',data={},method='get',timeout=5000) =>{
+    //返回一个Promise对象，用于异步处理请求结果。resolve和reject是Promise的两个回调函数，分别用来表示成功和失败。
+    return new Promise((resolve,reject)=>{
+        // console.log("使用axios请求接口")
+        //将请求参数强制转换为小写
+        const methodLower = method.toLowerCase()
+        if (methodLower === 'get'){
+            //
+            axios({
+                method: methodLower,
+                params: data,
+                url: url,
+                timeout: timeout
+            })
+            //成功
+            .then(
+                (response)=>{
+                    resolve(response)
+                }
+            )
+            //失败
+            .catch(
+                (error)=>{
+                    reject(error)
+                }
+            )
+        }else if (methodLower=== 'post'){
+            axios({
+                method: methodLower,
+                data: data,
+                url: url,
+                timeout: timeout,
+            })
+            .then(
+                (response)=>{
+                    resolve(response)
+                }
+            )
+            .catch(
+                (error)=>{
+                    reject(error)
+                }
+            )
+        }
+    })
+}
+
+
+export default request

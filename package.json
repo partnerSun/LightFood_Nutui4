@@ -43,6 +43,7 @@
     "@tarojs/helper": "3.6.30",
     "@tarojs/plugin-framework-vue3": "3.6.30",
     "@tarojs/plugin-html": "3.6.30",
+    "@tarojs/plugin-http": "^3.6.31",
     "@tarojs/plugin-platform-alipay": "3.6.30",
     "@tarojs/plugin-platform-h5": "3.6.30",
     "@tarojs/plugin-platform-jd": "3.6.30",
@@ -53,6 +54,7 @@
     "@tarojs/runtime": "3.6.30",
     "@tarojs/shared": "3.6.30",
     "@tarojs/taro": "3.6.30",
+    "axios": "^1.7.2",
     "vue": "^3.2.40",
     "vue-router": "^4.3.2"
   },
