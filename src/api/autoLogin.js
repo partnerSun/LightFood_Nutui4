@@ -25,7 +25,7 @@ useLoad ( ()=>{
     console.log("code",code.value)
 })
 
-export const autoLogin = () => {
+ const autoLoginApi = () => {
     return new Promise(async(resolve, reject) => {
         try {
             // 微信登录
@@ -42,7 +42,6 @@ export const autoLogin = () => {
             console.log("wxloginRes",wxloginRes)
           //   let wxloginRes = await loginByWx(params)
             if(wxloginRes.status == 200) {
-                Taro.setStorageSync('Authorization', wxloginRes.data.token)
                 console.log("applogin 登录成功")
                 resolve(wxloginRes.data)
             } else {
@@ -57,3 +56,28 @@ export const autoLogin = () => {
         }
     });
   }
+// 授权失败
+const onAuthError = () => {
+    Taro.showToast({
+      title: 'token续期失败',
+      mask: true,
+      icon: 'none'
+    })
+  }
+
+export const autoLogin = async () => {
+    try {
+        // 调用后台接口登录
+        let loginRes = await autoLoginApi()
+        console.log("loginRes.data",loginRes.data)
+        // savecache
+        Taro.setStorageSync('isLogin', true)
+        Taro.setStorageSync('Authorization', loginRes.data.token)
+        Taro.navigateBack({
+            delta: 1
+        });
+        // #endif					
+     } catch(err) {
+         onAuthError()
+    }
+  } 
