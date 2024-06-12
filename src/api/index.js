@@ -1,6 +1,7 @@
 import axios from 'axios'
 // import {CONFIG} from '../config/index.js'
-import Taro from '@tarojs/taro'
+import Taro,{useRouter} from '@tarojs/taro'
+import { autoLogin } from './autoLogin.js'
 
 axios.interceptors.request.use(
     function (config) {
@@ -55,8 +56,14 @@ axios.interceptors.response.use(function (response) {
         console.log("token失效")
         // 说明token失效，删除本地的token
         Taro.removeStorageSync('Authorization');
+        const router = useRouter()
         //如果当前页面不是login，那么就跳转到登录页
         // router.currentRoute != '/login' && router.replace({ path: '/login' })
+        // console.log("router.currentRoute: ",router.currentRoute)
+        autoLogin() && console.log('token已失效，自动申请成功') 
+
+        // 'pages/login/login',
+        // 'pages/login/wxlogin',
         console.log("调用login接口，自动认证")
 
     }

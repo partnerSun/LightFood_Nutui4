@@ -7,6 +7,7 @@ export default defineAppConfig({
     'pages/detail/index',
     'pages/vip/index',
     'pages/login/login',
+    'pages/login/wxlogin',
     'pages/pay/pay'
   ],
   // https://taro-docs.jd.com/docs/vue-page

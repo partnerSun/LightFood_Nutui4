@@ -6,7 +6,7 @@ export const getWxUserInfoApi = (data) =>{
 }
 
 
-export const LoginApi = (data) =>{
+export const loginApi = (data) =>{
   // console.log("date",data)
   return request('https://lf.it.novaecs.com/api/auth/login',data,'post',3000)
 }
