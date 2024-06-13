@@ -1,7 +1,9 @@
 import axios from 'axios'
 // import {CONFIG} from '../config/index.js'
-import Taro,{useRouter} from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { autoLogin } from './autoLogin.js'
+
+
 
 axios.interceptors.request.use(
     function (config) {
@@ -42,32 +44,40 @@ axios.interceptors.request.use(
     return Promise.reject(error);
   });
 
+// 获取当前路由
+const getCurrentRoute = () => {
+    const pages = Taro.getCurrentPages()
+    const currentPage = pages[pages.length - 1]
+    return currentPage.route
+}
+
 // 添加响应拦截器
-// 判断登录状态是否失效
-// 状态码是200还是401,
+// 判断登录状态是否失效, 状态码是200还是401,
 // 如果是401，删除本地的token，跳转到登录页面
 // 如果是其他触发error
-axios.interceptors.response.use(function (response) {
+axios.interceptors.response.use(async  function (response) {
     if ( response.data.status == 200 ){
-        // console.log("resolve后:",Promise.resolve(response))
         return Promise.resolve(response)
     }else if (response.data.status == 401){
         //弹出token失效提醒
-        console.log("token失效")
+        // onTipWindows('failed')
         // 说明token失效，删除本地的token
         Taro.removeStorageSync('Authorization');
-        const router = useRouter()
         //如果当前页面不是login，那么就跳转到登录页
-        // router.currentRoute != '/login' && router.replace({ path: '/login' })
-        // console.log("router.currentRoute: ",router.currentRoute)
-        autoLogin() && console.log('token已失效，自动申请成功') 
-
-        // 'pages/login/login',
-        // 'pages/login/wxlogin',
-        console.log("调用login接口，自动认证")
-
+        const currentroute=getCurrentRoute()
+        console.log("当前路由是:", currentroute)
+        if (currentroute !== 'pages/login/login' && currentroute !== 'pages/login/wxlogin'){
+            Taro.showLoading({
+                title: '加载中',
+            })
+            await autoLogin() 
+            //重新打开刷新此页面
+            await Taro.reLaunch({
+              url: '/' + currentroute
+            })
+            Taro.hideLoading()
+        }
     }
-    // console.log("response:",response)
     return response;
   }, function (error) {
     // 超出 2xx 范围的状态码都会触发该函数。

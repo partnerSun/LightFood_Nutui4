@@ -1,10 +1,8 @@
 import Taro,{useLoad} from '@tarojs/taro'
-import { ref,reactive,onMounted } from 'vue'
+import { ref,reactive } from 'vue'
 import {loginApi } from '../api/login.js'
 
 let code =ref('')
-
-
 
 const getAppCode = () => {
     return new Promise((resolve, reject) => {
@@ -20,64 +18,74 @@ const getAppCode = () => {
     })
 }
 
-useLoad ( ()=>{
-    code.value = getAppCode()
-    console.log("code",code.value)
-})
+// useLoad(async () => {
+//     try {
+//         code.value = await getAppCode()
+//         console.log("code", code.value)
+//     } catch (err) {
+//         console.error("Failed to get code", err)
+//     }
+// })
 
- const autoLoginApi = () => {
-    return new Promise(async(resolve, reject) => {
+
+const autoLoginApi = (params) => {
+    return new Promise(async (resolve, reject) => {
         try {
-            // 微信登录
-            let params = reactive({
-                code: code.value,
-                source: 'MP',
-            })
-          //   console.log("模拟登录成功",params)
-          setTimeout(() => {
-            console.log("After 3 seconds");
-        }, 3000);
-        
-            let wxloginRes=await loginApi(params)
-            console.log("wxloginRes",wxloginRes)
-          //   let wxloginRes = await loginByWx(params)
-            if(wxloginRes.status == 200) {
-                console.log("applogin 登录成功")
+            let wxloginRes = await loginApi(params)
+            console.log("wxloginRes", wxloginRes)
+
+            if (wxloginRes.status === 200) {
                 resolve(wxloginRes.data)
             } else {
-              console.log("applogin 登录失败")
                 reject(wxloginRes)
             }
-    
-            // #endif
-        } 
-        catch(err) {
+        } catch (err) {
             reject(err)
         }
     });
-  }
-// 授权失败
-const onAuthError = () => {
-    Taro.showToast({
-      title: 'token续期失败',
-      mask: true,
-      icon: 'none'
-    })
-  }
+}
+
+
+// 提示函数
+const onTipWindows = (type) => {
+    if (type == 'failed') {
+        Taro.showToast({
+            title: 'token续期失败',
+            mask: true,
+            icon: 'none'
+          })
+    }else if (type =='success') {
+        Taro.showToast({
+            title: '重新加载',
+            mask: false,
+            icon: 'none',
+        })
+    }
+
+}
 
 export const autoLogin = async () => {
     try {
+         // 获取最新的 code
+         code.value = await getAppCode()
+
+         // 准备登录参数
+         let params = reactive({
+             code: code.value,
+             source: 'MP',
+         })
+
         // 调用后台接口登录
-        let loginRes = await autoLoginApi()
+        let loginRes = await autoLoginApi(params)
         console.log("loginRes.data",loginRes.data)
         // savecache
         Taro.setStorageSync('isLogin', true)
         Taro.setStorageSync('Authorization', loginRes.data.token)
-        Taro.navigateBack({
-            delta: 1
-        });
-        // #endif					
+        // Taro.navigateBack({
+        //     delta: 1
+        // });
+        // #endif			
      } catch(err) {
-         onAuthError()
+        onTipWindows('failed')
     }
   } 

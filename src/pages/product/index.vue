@@ -10,30 +10,53 @@ defineOptions({
   inheritAttrs: false
 })
 const data = reactive({
-  items:{}
+  items:[],
+  ptypes:[]
 })
 
-useLoad(()=>{
-  data.items=productCheck()
+const activeTab = ref('')
+useLoad(async () => {
+  try {
+    const info = await productCheck()
+    const { items } = info.data.data || {}
+
+    if (items && items.length > 0) {
+      data.items = items
+      data.ptypes = [...new Set(items.map(item => item.Ptype))]
+      activeTab.value = items[0].Ptype
+      console.log("商品信息获取成功", data.items)
+      console.log("商品类型获取成功", data.ptypes)
+    } else {
+      console.log("token过期或没有商品信息")
+    }
+  } 
+  catch (err) {
+    console.error("商品信息获取失败", err)
+  }
 })
 
-const tabIndex=ref(2)
-const value = ref('1')
-const list = new Array(5).fill(0).map((_, index) => index + 1)
 
-const {items}=toRefs(data)
+const {items,ptypes}=toRefs(data)
+
+// 根据 Ptype 获取相应的商品
+const getProductsByType = (ptype) => {
+  return data.items.filter(product => product.Ptype === ptype)
+}
 </script>
 
 <template>
     <!-- <TabBar></TabBar> -->
-    <nut-tabs v-model="value" direction="vertical" title-scroll  name="tabName">
-      <nut-tab-pane v-for="item in list" :key="item" :title="`Tab ${item}`" :pane-key="item">
-        Content {{ item }}
+    <nut-tabs v-model="activeTab" direction="vertical" title-scroll  name="productTabs">
+      <nut-tab-pane v-for="ptype in ptypes" :key="ptype" :title="ptype" :pane-key="ptype">
+        <view v-for="product in getProductsByType(ptype)" :key="product.ID">
+          
+          <h3>{{ product.Product }}</h3>
+          <p>Original Price: {{ product.OriginalPrice }}</p>
+          <p>Discount: {{ product.Discount }}</p>
+          <p>Current Price: {{ product.CurrentPrice }}</p>
+        </view>
       </nut-tab-pane>
     </nut-tabs>
-<view>
-  {{ items }}
-</view>
     <TabBar :tabindex="tabIndex"></TabBar>
 </template>
 
