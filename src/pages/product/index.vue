@@ -13,7 +13,7 @@ const data = reactive({
   items:[],
   ptypes:[]
 })
-
+const tabIndex=ref(2)
 const activeTab = ref('')
 useLoad(async () => {
   try {
@@ -48,12 +48,18 @@ const getProductsByType = (ptype) => {
     <!-- <TabBar></TabBar> -->
     <nut-tabs v-model="activeTab" direction="vertical" title-scroll  name="productTabs">
       <nut-tab-pane v-for="ptype in ptypes" :key="ptype" :title="ptype" :pane-key="ptype">
-        <view v-for="product in getProductsByType(ptype)" :key="product.ID">
-          
-          <h3>{{ product.Product }}</h3>
-          <p>Original Price: {{ product.OriginalPrice }}</p>
-          <p>Discount: {{ product.Discount }}</p>
-          <p>Current Price: {{ product.CurrentPrice }}</p>
+        <view v-for="product in getProductsByType(ptype)" :key="product.ID" style="margin-bottom: 20rpx;">
+          <nut-card
+            :img-url="product.Img"
+            :title="product.Product"
+            :price="product.OriginalPrice"
+            :vip-price="product.CurrentPricee"
+            :shop-desc="product.Descr"
+            delivery="堂食"
+            shop-name="xxx店铺名"
+          >
+            <template #footer> 自定义 </template>
+          </nut-card>
         </view>
       </nut-tab-pane>
     </nut-tabs>
@@ -65,4 +71,8 @@ const getProductsByType = (ptype) => {
   padding: 0;
 }
 
+.nut-tab-pane {
+  padding: 20rpx;
+  /* margin-bottom: 20rpx; */
+}
 </style>
