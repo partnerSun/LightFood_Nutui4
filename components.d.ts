@@ -10,6 +10,7 @@ declare module 'vue' {
     NutCard: typeof import('@nutui/nutui-taro')['Card']
     NutDialog: typeof import('@nutui/nutui-taro')['Dialog']
     NutEllipsis: typeof import('@nutui/nutui-taro')['Ellipsis']
+    NutInput: typeof import('@nutui/nutui-taro')['Input']
     NutSearchbar: typeof import('@nutui/nutui-taro')['Searchbar']
     NutSwiper: typeof import('@nutui/nutui-taro')['Swiper']
     NutSwiperItem: typeof import('@nutui/nutui-taro')['SwiperItem']

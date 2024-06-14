@@ -1,12 +1,12 @@
 <script setup>
 import TabBar from '../../components/TabBar.vue';
-import { reactive, toRefs,  ref } from 'vue';
+import { reactive, toRefs,watch ,  ref } from 'vue';
 import { useLoad } from '@tarojs/taro'
 import {productCheck} from '../../api/product.js'
-import { Search,Plus } from '@nutui/icons-vue-taro'
+import { Minus,Plus } from '@nutui/icons-vue-taro'
 import { AtSearchBar } from 'taro-ui-vue3'
 import "taro-ui-vue3/dist/style/components/search-bar.scss";
-
+import Taro from '@tarojs/taro'
 // 解决透传 Attributes
 defineOptions({
   inheritAttrs: false
@@ -45,10 +45,10 @@ const getProductsByType = (ptype) => {
   return data.items.filter(product => product.Ptype === ptype)
 }
 
-
+const inputContentPostion=ref('center')
 
 const inputValue=ref('')
-
+const showDecrementButton=ref('false')
 const onChange=(value)=> {
   inputValue.value=value
   console.log('搜索框内容改变value', value)
@@ -59,9 +59,36 @@ const onActionClick=() =>{
   console.log('点击了搜索按钮')
 }
 
-const addProduct=()=>{
-  console.log('点击了添加按钮')
-}
+const loadQuantities = () => {
+  const savedQuantities = Taro.getStorageSync('productQuantities');
+  console.log("savedQuantities ",savedQuantities )
+  return savedQuantities ? JSON.parse(savedQuantities) : {};
+};
+const quantities = ref(loadQuantities());
+
+data.items.forEach(product => {
+  if (!(product.ID in quantities.value)) {
+    quantities.value[product.ID] = 0;
+  }
+});
+
+// 增加数量
+const incrementQuantity = (id) => {
+  quantities.value[id]++;
+};
+
+// 减少数量
+const decrementQuantity = (id) => {
+  if (quantities.value[id] > 0){
+    quantities.value[id]--
+  }else {
+  };
+};
+
+// 监视 quantities 的变化并同步到 localStorage
+watch(quantities, (newQuantities) => {
+  Taro.setStorageSync('productQuantities', JSON.stringify(newQuantities));
+}, { deep: true });
 
 </script>
 
@@ -82,19 +109,23 @@ const addProduct=()=>{
           :price="product.OriginalPrice"
           :vip-price="product.CurrentPrice"
           :shop-desc="product.Descr"
-          delivery="自提"
+          delivery="自取"
         >
           <template #footer> 
-            <view>
+            <view style="width: 100%;">
               <view class="discount-cs">
                 {{ product.Discount }}折
               </view>
-              <Button  class="addbutton-cs" @click="addProduct" >
-                <Plus color="black" size="18" />
-              </Button>
+              <view class="parent-button-class">
+                <Button  class="button-class" @click="decrementQuantity(product.ID)" >
+                  <Minus color="black" size="18" />
+                </Button>
+                <nut-input type="number" :readonly="true" :border="false" :input-align="inputContentPostion" v-model="quantities[product.ID]"   />
+                <Button  class="button-class" @click="incrementQuantity(product.ID)" >
+                  <Plus color="black" size="18" />
+                </Button>
+              </view>
             </view>
-
-
           </template>
         </nut-card>
       </view>
@@ -103,7 +134,12 @@ const addProduct=()=>{
   <TabBar :tabindex="tabIndex"></TabBar>
 </template>
 
-<style>
+<style scope lang="scss">
+
+page {
+  --nut-input-font-size: 24rpx;
+}
+
 .nut-tabs.vertical>.nut-tabs__titles {
   padding: 0;
 }
@@ -168,20 +204,34 @@ const addProduct=()=>{
   animation: blink-glow 3s infinite;
 }
 
-/* 商品添加 */
-.addbutton-cs{
-  margin-left: 210rpx;
-  display: flex;
-  align-items: center; /* 垂直居中 */
-  justify-content: center; /* 水平居中 */
-  width: 30px; /* 按钮宽度 */
-  height: 30px; /* 按钮高度 */
-  background-color: #fcde51; /* 背景颜色 */
-  border: none; /* 去掉边框 */
-  border-radius: 50%; /* 圆形 */
-  cursor: pointer; /* 鼠标样式 */
-  padding: 0; /* 去掉内边距 */
-  transition: transform 0.2s; /* 添加过渡效果 */
+
+.nut-input{
+  width: 60rpx;
+  padding: 1rpx;
 }
 
+.parent-button-class{
+  display: flex;
+  width: 60%;
+  margin-left: 100rpx;
+  margin-top: 20rpx;
+  /* 商品添加 */
+  .button-class{
+    /* margin-left: 210rpx; */
+    margin: auto;
+    display: flex;
+    padding: 1rpx;
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    width: 30rpx; /* 按钮宽度 */
+    height: 30rpx; /* 按钮高度 */
+    background-color: #fcde51; /* 背景颜色 */
+    border: none; /* 去掉边框 */
+    border-radius: 50%; /* 圆形 */
+    cursor: pointer; /* 鼠标样式 */
+    padding: 0; /* 去掉内边距 */
+    transition: transform 0.2s; /* 添加过渡效果 */
+  }
+
+}
 </style>

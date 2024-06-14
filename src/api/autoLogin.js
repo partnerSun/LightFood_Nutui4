@@ -1,4 +1,4 @@
-import Taro,{useLoad} from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { ref,reactive } from 'vue'
 import {loginApi } from '../api/login.js'
 
