@@ -175,9 +175,33 @@ const bottomActionSheet=()=>{
       class="actionsheet-class"
     >
       <view style="margin-bottom: 260rpx;">
-        <li v-for="product in filteredProducts" :key="product.ID">
-        <p>{{ product }}</p>
-      </li>
+        <view v-for="product in filteredProducts" :key="product.ID" style="margin-bottom: 20rpx;">
+        <nut-card
+          :img-url="product.Img"
+          :title="product.Product"
+          :price="product.OriginalPrice"
+          :vip-price="product.CurrentPrice"
+          :shop-desc="product.Descr"
+          delivery="自取"
+        >
+          <template #footer> 
+            <view style="width: 100%;">
+              <view class="discount-cs">
+                {{ product.Discount }}折
+              </view>
+              <view class="parent-button-class">
+                <view class="minusbutton-class" >
+                  <Minus  @click="decrementQuantity(product.ID)" size="16px" />  
+                </view>
+                <nut-input type="number" :readonly="true" :border="false" :input-align="inputContentPostion" v-model="quantities[product.ID]"   />
+                <view class="addbutton-class">
+                  <Plus @click="incrementQuantity(product.ID)" size="16px"/>
+                </view>
+              </view>
+            </view>
+          </template>
+        </nut-card>
+      </view>
       </view>
     </nut-action-sheet>
   </view>
