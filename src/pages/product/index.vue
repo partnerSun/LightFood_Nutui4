@@ -175,7 +175,7 @@ const bottomActionSheet=()=>{
       class="actionsheet-class"
     >
       <view style="margin-bottom: 260rpx;">
-        <view v-for="product in filteredProducts" :key="product.ID" style="margin-bottom: 20rpx;">
+        <view v-for="product in filteredProducts" :key="product.ID" style="margin-bottom: 16rpx">
         <nut-card
           :img-url="product.Img"
           :title="product.Product"
@@ -290,7 +290,9 @@ page {
   width: 60rpx;
   padding: 1rpx;
 }
-
+.nut-card {
+  margin: auto;
+}
 .parent-button-class{
   padding: 0;
   display: flex;
