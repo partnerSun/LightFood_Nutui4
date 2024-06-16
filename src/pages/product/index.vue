@@ -109,7 +109,7 @@ const filterProductQuantities = (items, quantities) => {
 };
 
 const filteredProducts = computed(() => {
-  return filterProductQuantities(data.items, quantities.value);
+  return filterProductQuantities(data.items, quantities);
 });
 
 const showActionSheet=ref(false)
