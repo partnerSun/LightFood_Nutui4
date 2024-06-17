@@ -57,7 +57,7 @@ const tabSwitch = (item, index) => {
     <nut-tabbar 
     v-model="current" 
     bottom 
-    safe-area-inset-bottom="false"
+    safe-area-inset-bottom
     active-color="#63DBD4"
     placeholder
     @tab-switch="tabSwitch"

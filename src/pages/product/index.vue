@@ -41,7 +41,7 @@ useLoad(async () => {
 })
 
 
-const {items,ptypes}=toRefs(data)
+const {ptypes}=toRefs(data)
 
 // 根据 Ptype 获取相应的商品
 const getProductsByType = (ptype) => {
@@ -51,7 +51,7 @@ const getProductsByType = (ptype) => {
 const inputContentPostion=ref('center')
 
 const inputValue=ref('')
-const showDecrementButton=ref('false')
+
 const onChange=(value)=> {
   inputValue.value=value
   console.log('搜索框内容改变value', value)
@@ -90,7 +90,6 @@ const decrementQuantity = (id) => {
   };
 };
 
-let currentProductQuantities=reactive({});
 // 监视 quantities 的变化并同步到 localStorage
 watch(quantities, (newQuantities) => {
   if (newQuantities) {
@@ -116,6 +115,11 @@ const showActionSheet=ref(false)
 const bottomActionSheet=()=>{
   showActionSheet.value = !showActionSheet.value
 }
+
+const pay=()=>{
+  console.log("跳转至结算页面")
+}
+
 </script>
 
 <template>
@@ -165,7 +169,8 @@ const bottomActionSheet=()=>{
   </view>
   <view style="position: relative;">
     <view class="shopping-card-class">
-      <IconFont class="shopping-class"  color="#f0c60f" font-class-name="iconfont"  size="42" class-prefix="icon" name="gouwuche" @click="bottomActionSheet"/>
+      <IconFont class="shopping-class"  color="#eaa51c" font-class-name="iconfont"  size="42" class-prefix="icon" name="gouwuche" @click="bottomActionSheet"/>
+      <view class="pay-class" @click="pay">去结算</view>
     </view>
     <!-- ActionSheet 动作面板 底部 -->
     <nut-action-sheet
@@ -181,7 +186,6 @@ const bottomActionSheet=()=>{
           :price="product.OriginalPrice"
           :vip-price="product.CurrentPrice"
           class="actionsheet-shopping-card-class"
-
         >
           <template #footer> 
             <view style="width: 100%;">
@@ -351,6 +355,24 @@ page {
   // right: 0; 
   bottom: 12rpx;
   z-index: 1001;
+}
+
+// 结算按钮
+.pay-class{
+  // position: fixed;
+  position: absolute;
+  right: 0;
+  // right: 0; 
+  bottom: 0rpx;
+  z-index: 1002;
+  background-color: #eaa51c;
+  height: 64rpx;
+  line-height: 64rpx;
+  width: 128rpx;
+  border-radius: 0 50rpx 50rpx 0;
+  text-align: center;
+  letter-spacing: 2px;
+  font-weight: 500;
 }
 
 // 左侧边最后一个tab距离底部的距离
