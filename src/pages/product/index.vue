@@ -165,8 +165,7 @@ const bottomActionSheet=()=>{
   </view>
   <view style="position: relative;">
     <view class="shopping-card-class">
-      <!-- <Cart color="yellow" size="40" /> -->
-      <IconFont class="shopping-class"  color=#fcde51; font-class-name="iconfont"  size="50" class-prefix="icon" name="gouwuche" @click="bottomActionSheet"/>
+      <IconFont class="shopping-class"  color="#f0c60f" font-class-name="iconfont"  size="42" class-prefix="icon" name="gouwuche" @click="bottomActionSheet"/>
     </view>
     <!-- ActionSheet 动作面板 底部 -->
     <nut-action-sheet
@@ -175,21 +174,18 @@ const bottomActionSheet=()=>{
       class="actionsheet-class"
     >
       <view style="margin-bottom: 260rpx;">
-        <view v-for="product in filteredProducts" :key="product.ID" style="margin-bottom: 16rpx">
+        <view v-for="product in filteredProducts" :key="product.ID" style="margin-bottom: 16rpx;height: 40%;">
         <nut-card
           :img-url="product.Img"
           :title="product.Product"
           :price="product.OriginalPrice"
           :vip-price="product.CurrentPrice"
-          :shop-desc="product.Descr"
-          delivery="自取"
+          class="actionsheet-card-class"
+
         >
           <template #footer> 
             <view style="width: 100%;">
-              <view class="discount-cs">
-                {{ product.Discount }}折
-              </view>
-              <view class="parent-button-class">
+              <view class="parent-button-class2">
                 <view class="minusbutton-class" >
                   <Minus  @click="decrementQuantity(product.ID)" size="16px" />  
                 </view>
@@ -208,7 +204,7 @@ const bottomActionSheet=()=>{
   <TabBar :tabindex="tabIndex"></TabBar>
 </template>
 
-<style scope lang="scss">
+<style  lang="scss">
 
 page {
   --nut-input-font-size: 24rpx;
@@ -225,11 +221,6 @@ page {
   /* margin-bottom: 20rpx; */
 }
 
-// .nut-tabs.vertical>.nut-tabs__titles.scrollable {
-//     overflow-x: hidden;
-//     overflow-y: hidden;
-//     height: 82vh;
-// }
 
 .at-search-bar__action {
     color: black;
@@ -238,11 +229,13 @@ page {
     opacity: 0;
 }
 
-/* 会员价 */
+/* 会员价颜色 */
 .nut-card .nut-card__right .nut-card__right__price .nut-card__right__price__origin.nut-price {
     margin-left: 16rpx;
-    color: #d2a448;
+    color: #eec167;
+    // color:#fa2c19;
 }
+
 
 /* 隐藏商店名样式 */
 .nut-card .nut-card__right .nut-card__right__shop .nut-card__right__shop__name {
@@ -299,6 +292,7 @@ page {
   width: 60%;
   margin-left: 110rpx;
   margin-top: 20rpx;
+}
   /* 商品添加 */
   .minusbutton-class{
     /* margin-left: 210rpx; */
@@ -314,22 +308,21 @@ page {
     cursor: pointer; /* 鼠标样式 */
     transition: transform 0.2s; /* 添加过渡效果 */
   }
+  // 商品增加
   .addbutton-class{
     /* margin-left: 210rpx; */
     padding: 0;
     margin: auto;
     width: 30rpx; /* 按钮宽度 */
     height: 30rpx; /* 按钮高度 */
-    background-color: #fcde51; /* 背景颜色 */
+    background-color: #f4d859; /* 背景颜色 */
     border: none; /* 去掉边框 */
     border-radius: 50%; /* 圆形 */
     cursor: pointer; /* 鼠标样式 */
     transition: transform 0.2s; /* 添加过渡效果 */
   }
-}
-
+  // 底部结算托盘
 .shopping-card-class{
-  
   width: 70%;
   height: 64rpx;
   background-color: rgba(0, 0, 0, 0.885);
@@ -349,12 +342,13 @@ page {
   display: flex;
   justify-content:space-between;
 }
+// 购物车图标
 .shopping-class{
   // position: fixed;
   position: absolute;
-  left: 10rpx;
+  left: 14rpx;
   // right: 0; 
-  bottom: 10rpx;
+  bottom: 12rpx;
   z-index: 1001;
 }
 // 最后一个tab距离底部的距离
@@ -362,6 +356,7 @@ page {
     height: 120rpx;
 }
 
+// 底部动作面板
 .actionsheet-class{
   position: fixed; /* 确保其位置固定 */
   bottom: 100rpx;
@@ -370,8 +365,32 @@ page {
   z-index: 999; 
 }
 
-.nut-action-sheet{
+//购物车 加减按钮的父级
+.parent-button-class2{
+  padding: 0;
+  display: flex;
+  width: 60%;
+  margin-left: 212px;
+  margin-top: 18rpx;
 
-  // bottom: 100rpx;
 }
+
+// 购物车商品卡片
+.actionsheet-card-class{
+  width: 94%;
+}
+
+// 购物车商品左部
+.actionsheet-card-class .nut-card__left {
+  width: 160rpx;
+  height: 160rpx;
+}
+// 购物车原价
+.actionsheet-card-class .nut-price {
+    font-size: 0;
+    display: inline;
+    text-decoration: line-through ; 
+    color:  #6d6767;
+}
+
 </style>
