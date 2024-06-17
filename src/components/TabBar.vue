@@ -57,7 +57,7 @@ const tabSwitch = (item, index) => {
     <nut-tabbar 
     v-model="current" 
     bottom 
-    safe-area-inset-bottom
+    safe-area-inset-bottom="false"
     active-color="#63DBD4"
     placeholder
     @tab-switch="tabSwitch"
@@ -74,4 +74,9 @@ const tabSwitch = (item, index) => {
 
 </template>
 
-  
+<style>
+page {
+  /* 底部tabar的高度 */
+  --nut-tabbar-height: 100px;
+}
+</style>

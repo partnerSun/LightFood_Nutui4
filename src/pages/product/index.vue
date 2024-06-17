@@ -329,7 +329,8 @@ page {
   // background-color: whitesmoke;
   margin: auto;
   position: fixed;
-  bottom: 180rpx;
+  // bottom: 180rpx;
+  bottom: 12%;
   left: 0;
   right: 0; /* 将组件的左右边界置于视口的左右边界 */
   margin-left: auto; /* 自动调整左边距 */
@@ -351,7 +352,8 @@ page {
   bottom: 12rpx;
   z-index: 1001;
 }
-// 最后一个tab距离底部的距离
+
+// 左侧边最后一个tab距离底部的距离
 .nut-tabs.vertical>.nut-tabs__titles.scrollable .nut-tabs__titles-placeholder {
     height: 120rpx;
 }
@@ -387,10 +389,27 @@ page {
 }
 // 购物车原价
 .actionsheet-card-class .nut-price {
-    font-size: 0;
-    display: inline;
-    text-decoration: line-through ; 
     color:  #6d6767;
 }
+
+
+// 原价添加删除线
+.nut-price .nut-price--normal{
+  text-decoration: line-through ; 
+}
+.nut-price .nut-price--decimal-normal{
+  text-decoration: line-through ; 
+  // 小数点与位数的字体大小与前面的一致
+  font-size: 32rpx;
+}
+
+// 原价添加删除线会影响会员价，会员价单独去除删除线
+.nut-card__right__price__origin .nut-price--normal{
+  text-decoration: none; 
+}
+.nut-card__right__price__origin .nut-price--decimal-normal{
+  text-decoration: none; 
+}
+
 
 </style>
