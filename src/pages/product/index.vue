@@ -173,14 +173,14 @@ const bottomActionSheet=()=>{
       title="购物车"
       class="actionsheet-class"
     >
-      <view style="margin-bottom: 260rpx;">
-        <view v-for="product in filteredProducts" :key="product.ID" style="margin-bottom: 16rpx;height: 40%;">
+      <view style="padding-bottom: 260rpx;">
+        <view v-for="product in filteredProducts" :key="product.ID" style="margin-bottom: 10rpx;">
         <nut-card
           :img-url="product.Img"
           :title="product.Product"
           :price="product.OriginalPrice"
           :vip-price="product.CurrentPrice"
-          class="actionsheet-card-class"
+          class="actionsheet-shopping-card-class"
 
         >
           <template #footer> 
@@ -197,7 +197,7 @@ const bottomActionSheet=()=>{
             </view>
           </template>
         </nut-card>
-      </view>
+        </view>
       </view>
     </nut-action-sheet>
   </view>
@@ -361,12 +361,18 @@ page {
 // 底部动作面板
 .actionsheet-class{
   position: fixed; /* 确保其位置固定 */
-  bottom: 100rpx;
+  // bottom: 100rpx;
   left: 0;
   right: 0;
   z-index: 999; 
 }
 
+// .nut-action-sheet{
+//   height: 70vh;
+// }
+// .nut-popup--bottom{
+//   padding-bottom: 100rpx;
+// }
 //购物车 加减按钮的父级
 .parent-button-class2{
   padding: 0;
@@ -377,18 +383,20 @@ page {
 
 }
 
+
+
 // 购物车商品卡片
-.actionsheet-card-class{
-  width: 94%;
+.actionsheet-shopping-card-class{
+  width: 90%;
 }
 
 // 购物车商品左部
-.actionsheet-card-class .nut-card__left {
+.actionsheet-shopping-card-class .nut-card__left {
   width: 160rpx;
   height: 160rpx;
 }
 // 购物车原价
-.actionsheet-card-class .nut-price {
+.actionsheet-shopping-card-class .nut-price {
     color:  #6d6767;
 }
 
