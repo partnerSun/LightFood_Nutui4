@@ -106,7 +106,7 @@ const filterProductQuantities = (items, quantities) => {
   const filteredIds = Object.keys(quantities.value).filter(id => quantities.value[id] > 0);
   return items.filter(item => filteredIds.includes(item.ID));
 };
-
+// 计算并返回商品数量>0的商品
 const filteredProducts = computed(() => {
   return filterProductQuantities(data.items, quantities);
 });
@@ -170,7 +170,7 @@ const pay=()=>{
   <view style="position: relative;">
     <view class="shopping-card-class">
       <IconFont class="shopping-class"  color="#eaa51c" font-class-name="iconfont"  size="42" class-prefix="icon" name="gouwuche" @click="bottomActionSheet"/>
-      <view class="pay-class" @click="pay">去结算</view>
+      <view class="pay-class" @click="pay"><text>去结算</text></view>
     </view>
     <!-- ActionSheet 动作面板 底部 -->
     <nut-action-sheet
