@@ -1,7 +1,8 @@
 <script setup>
 import { reactive, toRefs,ref ,onBeforeMount,onMounted } from 'vue';
 import TabBar from '../../components/TabBar.vue';
-import Taro,{eventCenter,getCurrentInstance}from '@tarojs/taro'
+import Taro,{useLoad}from '@tarojs/taro'
+import {getVipUserInfoApi} from '../../api/user.js'
 
 // 导入本地图片
 import icon_font_solid from '../../assets/images/icon-font-solid-1@2x.png';
@@ -41,14 +42,14 @@ const {userAmount,userInfo}=toRefs(data)
 const imgMode=ref('aspectFill')
 const showGetphone=ref(false)
 
-onMounted(() => {
-  // checkLogin()
-  eventCenter.on(getCurrentInstance().router.onShow, () => {
-    // checkLogin()
-    // getUserInfo()
-    console.log('onShow1')
-  })
-})
+
+useLoad(async ()=>{
+  const userid =Taro.getStorageSync('userId')
+  const userInfo = await getVipUserInfoApi(userid)
+  data.userInfo=userInfo.data.items
+  console.log("data.userInfo",data.userInfo)
+ })
+
 
 // 获取头像
 // const chooseAvatar = async (e) => {
@@ -77,31 +78,7 @@ const getPhoneNumber = async (e) => {
   };
 
 
-// 获取用户头像、昵称
-// const getUserInfo =() => {
-//     // console.log("获取用户信息回调",e.detail);
-//   Taro.getUserProfile({
-//     desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
-//     success: (res) => {
-//       Taro.showToast({
-//         title: '获取成功',
-//         duration:500,
-//         icon: 'success'
-//       })
-//       console.log("getUserInfo res:",res)
-//       showGetphone.value=true
-//     },
-//     fail: (res) => {
-//       Taro.showToast({
-//         title: '取消注册',
-//         duration:500,
-//         icon: 'error'
-//       })
-//       // console.log("getUserInfo res:",res)
-//       showGetphone.value=false
-//     }
-//   })
-// };
+
 
 const denyGetphone=()=>{
     Taro.showToast({
@@ -116,11 +93,6 @@ const jumpLogin=()=>{
   Taro.navigateTo({
       url: '/pages/login/vipLogin'
     })
-
-  // login2({
-  //   "username":"abc",
-  //   "password":"123123"
-  // })
 }
 
 </script>

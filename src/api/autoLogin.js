@@ -18,16 +18,6 @@ const getAppCode = () => {
     })
 }
 
-// useLoad(async () => {
-//     try {
-//         code.value = await getAppCode()
-//         console.log("code", code.value)
-//     } catch (err) {
-//         console.error("Failed to get code", err)
-//     }
-// })
-
-
 const autoLoginApi = (params) => {
     return new Promise(async (resolve, reject) => {
         try {
