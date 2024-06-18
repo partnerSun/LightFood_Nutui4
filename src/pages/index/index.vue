@@ -4,7 +4,14 @@ import TabBar from '../../components/TabBar.vue';
 import Taro  from '@tarojs/taro' 
 import { usePullDownRefresh  } from '@tarojs/taro'
 
-import icon_4_card_active from '../../images/icon-4-card-active@2x.png';
+import icon_4_card_active from '../../assets/images/icon-4-card-active@2x.png';
+import icon_font_solid from '../../assets/images/icon-font-solid@2x.png';
+
+import dianpu1 from '../../assets/images/dianpu-1.jpg';
+import dianpu2 from '../../assets/images/dianpu-2.jpg';
+import dianpu3 from '../../assets/images/dianpu-3.jpg';
+import logo_2x from '../../assets/images/logo@2x.png';
+import logo from '../../assets/images/logo.png';
 
 
 // 解决透传 Attributes
@@ -13,9 +20,9 @@ defineOptions({
 })
 
 const list=ref([
-    'http://light-food.wfzwrjx.cn/images/dp1.jpg',
-    'http://light-food.wfzwrjx.cn/images/dp2.jpg',
-    'http://light-food.wfzwrjx.cn/images/dp3.jpg'
+  dianpu1,
+  dianpu2,
+  dianpu3
 ])
 
 const tabIndex=ref(0)
@@ -87,14 +94,14 @@ const jumpShop=()=>{
 </view>
 
 <view class="shop-list">
-  <image mode='aspectFill' class='shop-logo1' src='http://light-food.wfzwrjx.cn/images/bbb.png'></image>
+  <image mode='aspectFill' class='shop-logo1' :src='logo'></image>
   <view class="shop-logo2">
-    <image :mode="imgMode" class='shop-logo' src='http://light-food.wfzwrjx.cn/images/logo.png' ></image>
+    <image :mode="imgMode" class='shop-logo' :src='logo_2x' ></image>
     <view class="shop-name">店铺名</view>
 
     <view class="distance-bar">
       <view class="distance">99.99km</view>
-      <image :mode="imgMode" class='arrow' src='http://light-food.wfzwrjx.cn/images/font-solid.png' :onTap="jumpShop"></image>
+      <image :mode="imgMode" class='arrow' :src='icon_font_solid' :onTap="jumpShop"></image>
     </view>
   </view>
 </view>

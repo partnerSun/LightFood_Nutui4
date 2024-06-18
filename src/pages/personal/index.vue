@@ -4,17 +4,17 @@ import TabBar from '../../components/TabBar.vue';
 import Taro,{eventCenter,getCurrentInstance}from '@tarojs/taro'
 // import { checkLogin, isLoggedIn } from '../../utils/auth'
 // 导入本地图片
-import icon_font_solid from '../../images/icon-font-solid-1@2x.png';
-import logo from '../../images/logo@2x.png';
-import icon_4_card_normal from '../../images/icon-4-card-normal@2x.png';
-import icon_2_1_shop_cart_normal from '../../images/icon-2-1-shop-cart-normal@2x.png';
-import icon_2_menu_normal from '../../images/icon-2-menu-normal@2x.png';
-import user_icon_login from '../../images/user-icon-login@2x.png';
-import user_icon_edit from '../../images/user-icon-edit@2x.png';
-import user_icon_gift from '../../images/user-icon-gift@2x.png';
-import user_icon_gift_recode from '../../images/user-icon-gift-recode@2x.png';
-import user_icon_about from '../../images/user-icon-about@2x.png';
-import user_icon_contact from '../../images/user-icon-contact@2x.png';
+import icon_font_solid from '../../assets/images/icon-font-solid-1@2x.png';
+import logo from '../../assets/images/logo@2x.png';
+import icon_4_card_normal from '../../assets/images/icon-4-card-normal@2x.png';
+import icon_2_1_shop_cart_normal from '../../assets/images/icon-2-1-shop-cart-normal@2x.png';
+import icon_2_menu_normal from '../../assets/images/icon-2-menu-normal@2x.png';
+import user_icon_login from '../../assets/images/user-icon-login@2x.png';
+import user_icon_edit from '../../assets/images/user-icon-edit@2x.png';
+import user_icon_gift from '../../assets/images/user-icon-gift@2x.png';
+import user_icon_gift_recode from '../../assets/images/user-icon-gift-recode@2x.png';
+import user_icon_about from '../../assets/images/user-icon-about@2x.png';
+import user_icon_contact from '../../assets/images/user-icon-contact@2x.png';
 import {getWxUserInfoApi} from '../../api/login'
 
 

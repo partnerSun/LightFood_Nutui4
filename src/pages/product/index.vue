@@ -101,7 +101,7 @@ watch(quantities, (newQuantities) => {
 }, { deep: true });
 
 
-// 过滤商品数量>0的商品
+// 过滤商品数量>0的商品,返回生成商品id的数组
 const filterProductQuantities = (items, quantities) => {
   const filteredIds = Object.keys(quantities.value).filter(id => quantities.value[id] > 0);
   return items.filter(item => filteredIds.includes(item.ID));
@@ -116,6 +116,18 @@ const bottomActionSheet=()=>{
   showActionSheet.value = !showActionSheet.value
 }
 
+const totalMoney=computed(()=>{
+  let total=0
+  filteredProducts.value.forEach(product=>{
+    total+=product.CurrentPrice*quantities.value[product.ID]
+  })
+  return total.toFixed(2); // 始终保留两位小数并返回字符串
+})
+
+
+const addToCart=()=>{
+  console.log("加入购物车")
+}
 const pay=()=>{
   console.log("跳转至结算页面")
 }
@@ -169,7 +181,11 @@ const pay=()=>{
   </view>
   <view style="position: relative;">
     <view class="shopping-card-class">
+      
       <IconFont class="shopping-class"  color="#eaa51c" font-class-name="iconfont"  size="42" class-prefix="icon" name="gouwuche" @click="bottomActionSheet"/>
+      <view class="total-calss">
+        <text style="color: white;">￥{{ totalMoney }}</text>
+      </view>
       <view class="pay-class" @click="pay"><text>去结算</text></view>
     </view>
     <!-- ActionSheet 动作面板 底部 -->
@@ -356,6 +372,18 @@ page {
   bottom: 12rpx;
   z-index: 1001;
 }
+// 总价
+.total-calss{
+  position: absolute;
+  // z-index: 1001;
+  height: 100%;
+  line-height: 64rpx;
+  left: 102rpx;
+  text-align: center;
+  font-size: 28rpx;
+  // width: 100rpx;
+  // z-index: 1003;
+}
 
 // 结算按钮
 .pay-class{
@@ -364,9 +392,9 @@ page {
   right: 0;
   // right: 0; 
   bottom: 0rpx;
-  z-index: 1002;
+  z-index: 1001;
   background-color: #eaa51c;
-  height: 64rpx;
+  height: 100%;
   line-height: 64rpx;
   width: 128rpx;
   border-radius: 0 50rpx 50rpx 0;
