@@ -148,20 +148,20 @@ const pay=()=>{
   
   <nut-tabs class="nub-tabs-class" v-model="activeTab" direction="vertical" title-scroll  name="productTabs" style="height: 81vh;" >
     <nut-tab-pane v-for="ptype in ptypes" :key="ptype" :title="ptype" :pane-key="ptype">
-      <view v-for="product in getProductsByType(ptype)" :key="product.ID" style="margin-bottom: 20rpx;">
+      <view v-for="product in getProductsByType(ptype)"  :key="product.ID" style="margin-bottom: 20rpx;">
         <nut-card
           :img-url="product.Img"
           :title="product.Product"
           :price="product.OriginalPrice"
           :vip-price="product.CurrentPrice"
           :shop-desc="product.Descr"
-          delivery="自取"
+          :delivery="`${(product.Discount)}折`"
         >
           <template #footer> 
             <view style="width: 100%;">
-              <view class="discount-cs">
+              <!-- <view class="discount-cs">
                 {{ product.Discount }}折
-              </view>
+              </view> -->
               <view class="parent-button-class">
                 <view class="minusbutton-class" >
                   <Minus  @click="decrementQuantity(product.ID)" size="16px" />  
@@ -228,6 +228,7 @@ const pay=()=>{
 
 page {
   --nut-input-font-size: 24rpx;
+  // --nut-card-left-border-radius:30rpx;
   // --nut-tabs-vertical-titles-width: 120rpx;
 }
 
@@ -251,7 +252,7 @@ page {
 
 /* 会员价颜色 */
 .nut-card .nut-card__right .nut-card__right__price .nut-card__right__price__origin.nut-price {
-    margin-left: 16rpx;
+    // margin-left: 16rpx;
     color: #eec167;
     // color:#fa2c19;
 }
@@ -265,6 +266,7 @@ page {
 .nut-card .nut-card__left>.h5-img {
   border-radius: 10rpx;
 }
+
 /* 跳动 动画 */
 @keyframes inflate {
   0% {
@@ -293,16 +295,36 @@ page {
   animation: inflate 2s infinite;
 
 }
+// delivery属性、折扣部分
+.nut-tag--plain{
+  color: gray; 
+  font-style: italic;
+  // margin-top: 10rpx;
+  // margin-left: 16rpx;
+  animation: inflate 2s infinite;
+}
+// shopdesc、delivery部分的字体修改
+.nut-card .nut-card__right .nut-card__right__other .nut-tag {
+  font-size: 22rpx;
+}
 /* shop desc */
 .nut-tag--danger {
   animation: blink-glow 3s infinite;
 }
 
+// 会员价和原价的排列方式
+.nut-card .nut-card__right .nut-card__right__price {
+  margin-top: 18rpx;
+  flex-direction:column-reverse;
+  height: 80rpx;
+  align-items: flex-start;
+}
 
 .nut-input{
   width: 60rpx;
   padding: 1rpx;
 }
+
 .nut-card {
   margin: auto;
 }
@@ -313,6 +335,9 @@ page {
   margin-left: 110rpx;
   margin-top: 20rpx;
 }
+
+
+
   /* 商品添加 */
   .minusbutton-class{
     /* margin-left: 210rpx; */
@@ -429,10 +454,9 @@ page {
   display: flex;
   width: 60%;
   margin-left: 212px;
-  margin-top: 18rpx;
+  margin-top: 1rpx;
 
 }
-
 
 
 // 购物车商品卡片
@@ -446,19 +470,23 @@ page {
   height: 160rpx;
 }
 // 购物车原价
-.actionsheet-shopping-card-class .nut-price {
+.nut-price {
     color:  #6d6767;
+    
 }
-
+// .actionsheet-shopping-card-class .nut-price {
+//   font-size: 14rpx;
+// }
 
 // 原价添加删除线
 .nut-price .nut-price--normal{
   text-decoration: line-through ; 
+  font-size: 30rpx;
 }
 .nut-price .nut-price--decimal-normal{
   text-decoration: line-through ; 
   // 小数点与位数的字体大小与前面的一致
-  font-size: 32rpx;
+  font-size: 30rpx;
 }
 
 // 原价添加删除线会影响会员价，会员价单独去除删除线
@@ -467,7 +495,17 @@ page {
 }
 .nut-card__right__price__origin .nut-price--decimal-normal{
   text-decoration: none; 
+  
 }
-
-
+// 购物车中的字体大小 重新修改
+.actionsheet-shopping-card-class .nut-price .nut-price--normal{
+  font-size: 28rpx;
+}
+.actionsheet-shopping-card-class .nut-price .nut-price--decimal-normal{
+  font-size: 28rpx;
+}
+// 隐藏购物车中的delivery和shop desc属性
+.actionsheet-shopping-card-class  .nut-card__right .nut-card__right__other {
+  display: none;
+}
 </style>
