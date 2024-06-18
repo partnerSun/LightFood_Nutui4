@@ -116,10 +116,17 @@ const bottomActionSheet=()=>{
   showActionSheet.value = !showActionSheet.value
 }
 
-const totalMoney=computed(()=>{
+const vipTotalMoney=computed(()=>{
   let total=0
   filteredProducts.value.forEach(product=>{
     total+=product.CurrentPrice*quantities.value[product.ID]
+  })
+  return total.toFixed(2); // 始终保留两位小数并返回字符串
+})
+const originalTotalMoney=computed(()=>{
+  let total=0
+  filteredProducts.value.forEach(product=>{
+    total+=product.OriginalPrice*quantities.value[product.ID]
   })
   return total.toFixed(2); // 始终保留两位小数并返回字符串
 })
@@ -182,9 +189,11 @@ const pay=()=>{
   <view style="position: relative;">
     <view class="shopping-card-class">
       
-      <IconFont class="shopping-class"  color="#eaa51c" font-class-name="iconfont"  size="42" class-prefix="icon" name="gouwuche" @click="bottomActionSheet"/>
+      <IconFont class="shopping-class"  color="#f7bb44" font-class-name="iconfont"  size="42" class-prefix="icon" name="gouwuche" @click="bottomActionSheet"/>
       <view class="total-calss">
-        <text style="color: white;">￥{{ totalMoney }}</text>
+        <text style="color: white;font-size: small;">￥{{ originalTotalMoney }}</text>
+        <text style="color: #f7bb44;font-size:24rpx"> 优惠后 </text>
+        <text style="color: #f7bb44;">￥{{ vipTotalMoney }}</text>
       </view>
       <view class="pay-class" @click="pay"><text>去结算</text></view>
     </view>
@@ -253,7 +262,7 @@ page {
 /* 会员价颜色 */
 .nut-card .nut-card__right .nut-card__right__price .nut-card__right__price__origin.nut-price {
     // margin-left: 16rpx;
-    color: #eec167;
+    color: #f3b332;
     // color:#fa2c19;
 }
 
@@ -336,9 +345,7 @@ page {
   margin-top: 20rpx;
 }
 
-
-
-  /* 商品添加 */
+/* 商品添加 */
   .minusbutton-class{
     /* margin-left: 210rpx; */
     margin: auto;
@@ -368,7 +375,7 @@ page {
   }
   // 底部结算托盘
 .shopping-card-class{
-  width: 70%;
+  width: 80%;
   height: 64rpx;
   background-color: rgba(0, 0, 0, 0.885);
   // background-color: whitesmoke;
@@ -405,7 +412,7 @@ page {
   line-height: 64rpx;
   left: 102rpx;
   text-align: center;
-  font-size: 28rpx;
+  font-size: 30rpx;
   // width: 100rpx;
   // z-index: 1003;
 }
@@ -418,13 +425,13 @@ page {
   // right: 0; 
   bottom: 0rpx;
   z-index: 1001;
-  background-color: #eaa51c;
+  background-color: #f7bb44;
   height: 100%;
   line-height: 64rpx;
   width: 128rpx;
   border-radius: 0 50rpx 50rpx 0;
   text-align: center;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   font-weight: 500;
 }
 
