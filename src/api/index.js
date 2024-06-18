@@ -65,8 +65,8 @@ axios.interceptors.response.use(async  function (response) {
         Taro.removeStorageSync('Authorization');
         //如果当前页面不是login，那么就跳转到登录页
         const currentroute=getCurrentRoute()
-        console.log("当前路由是:", currentroute)
-        if (currentroute !== 'pages/login/login' && currentroute !== 'pages/login/wxlogin'){
+        // console.log("当前路由是:", currentroute)
+        if (currentroute !== 'pages/login/login' && currentroute !== 'pages/login/vipLogin'){
             Taro.showLoading({
                 title: '加载中',
             })
