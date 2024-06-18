@@ -132,10 +132,8 @@ const originalTotalMoney=computed(()=>{
 })
 
 
-const addToCart=()=>{
-  console.log("加入购物车")
-}
 const pay=()=>{
+  console.log("判断是否已注册会员等其他逻辑")
   console.log("跳转至结算页面")
 }
 

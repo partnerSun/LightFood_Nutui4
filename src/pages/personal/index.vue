@@ -114,7 +114,7 @@ const denyGetphone=()=>{
 
 const jumpLogin=()=>{
   Taro.navigateTo({
-      url: '/pages/login/login'
+      url: '/pages/login/vipLogin'
     })
 
   // login2({
@@ -178,7 +178,7 @@ const jumpLogin=()=>{
   <view class="content-bar">
     <image :mode='imgMode' class='icon' :src="user_icon_login"></image>
     <view class="content">登陆激活会员身份</view>
-    <button open-type="chooseAvatar"></button>
+    <button open-type="getPhoneNumber"></button>
   </view>
   <view class="blank"></view>
 </block>
