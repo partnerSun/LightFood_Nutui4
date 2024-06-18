@@ -2,7 +2,7 @@
 import { reactive, toRefs,ref ,onBeforeMount,onMounted } from 'vue';
 import TabBar from '../../components/TabBar.vue';
 import Taro,{eventCenter,getCurrentInstance}from '@tarojs/taro'
-// import { checkLogin, isLoggedIn } from '../../utils/auth'
+
 // 导入本地图片
 import icon_font_solid from '../../assets/images/icon-font-solid-1@2x.png';
 import logo from '../../assets/images/logo@2x.png';
@@ -15,7 +15,7 @@ import user_icon_gift from '../../assets/images/user-icon-gift@2x.png';
 import user_icon_gift_recode from '../../assets/images/user-icon-gift-recode@2x.png';
 import user_icon_about from '../../assets/images/user-icon-about@2x.png';
 import user_icon_contact from '../../assets/images/user-icon-contact@2x.png';
-import {getWxUserInfoApi} from '../../api/login'
+
 
 
 // import login from '../login/login.vue';

@@ -33,7 +33,6 @@ const autoLoginApi = (params) => {
         try {
             let wxloginRes = await loginApi(params)
             console.log("wxloginRes", wxloginRes)
-
             if (wxloginRes.status === 200) {
                 resolve(wxloginRes.data)
             } else {
@@ -79,8 +78,9 @@ export const autoLogin = async () => {
         let loginRes = await autoLoginApi(params)
         console.log("loginRes.data",loginRes.data)
         // savecache
-        Taro.setStorageSync('isLogin', true)
+        Taro.setStorageSync('autoLogin', true)
         Taro.setStorageSync('Authorization', loginRes.data.token)
+        Taro.setStorageSync('userId', loginRes.data.userId)
         // Taro.navigateBack({
         //     delta: 1
         // });
