@@ -22,7 +22,7 @@ const autoLoginApi = (params) => {
     return new Promise(async (resolve, reject) => {
         try {
             let wxloginRes = await loginApi(params)
-            console.log("wxloginRes", wxloginRes)
+            // console.log("wxloginRes", wxloginRes)
             if (wxloginRes.status === 200) {
                 resolve(wxloginRes.data)
             } else {
@@ -63,7 +63,7 @@ export const autoLogin = async () => {
              code: code.value,
              source: 'MP',
          })
-
+         console.log("autologin data",params)
         // 调用后台接口登录
         let loginRes = await autoLoginApi(params)
         // console.log("loginRes.data",loginRes.data)
