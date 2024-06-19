@@ -66,11 +66,11 @@ export const autoLogin = async () => {
 
         // 调用后台接口登录
         let loginRes = await autoLoginApi(params)
-        console.log("loginRes.data",loginRes.data)
+        // console.log("loginRes.data",loginRes.data)
         // savecache
         Taro.setStorageSync('autoLogin', true)
         Taro.setStorageSync('Authorization', loginRes.data.token)
-        Taro.setStorageSync('userId', loginRes.data.userId)
+        Taro.setStorageSync('userId', String(loginRes.data.userId))
         // Taro.navigateBack({
         //     delta: 1
         // });

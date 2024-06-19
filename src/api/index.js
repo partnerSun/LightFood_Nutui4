@@ -66,7 +66,7 @@ axios.interceptors.response.use(async  function (response) {
         //如果当前页面不是login，那么就跳转到登录页
         const currentroute=getCurrentRoute()
         // console.log("当前路由是:", currentroute)
-        if (currentroute !== 'pages/login/login' && currentroute !== 'pages/login/vipLogin'){
+        if (currentroute !== 'pages/login/login' ){
             Taro.showLoading({
                 title: '加载中',
             })

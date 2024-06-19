@@ -28,29 +28,29 @@ const list=ref([
 const tabIndex=ref(0)
 const imgMode=ref('aspectFill')
 
-const handlePullDownRefresh = async () => {
-  try {
-    console.log('下拉刷新触发');
-    // 跳转到另一个页面
-    await Taro.navigateTo({
-      url: '/pages/vip/index' // 目标页面的路径
-    });
-    console.log('导航成功');
-  } catch (error) {
-    console.error('导航失败:', error);
-  } finally {
-    // 停止下拉刷新
-    console.log('停止下拉刷新');
-    Taro.stopPullDownRefresh();
-  }
-};
+// const handlePullDownRefresh = async () => {
+//   try {
+//     console.log('下拉刷新触发');
+//     // 跳转到另一个页面
+//     await Taro.navigateTo({
+//       url: '/pages/card/index' // 目标页面的路径
+//     });
+//     console.log('导航成功');
+//   } catch (error) {
+//     console.error('导航失败:', error);
+//   } finally {
+//     // 停止下拉刷新
+//     console.log('停止下拉刷新');
+//     Taro.stopPullDownRefresh();
+//   }
+// };
 
 usePullDownRefresh(()=>{
       // 停止下拉刷新
       Taro.stopPullDownRefresh();
       // 跳转到另一个页面
       Taro.navigateTo({
-        url: '/pages/vip/index'  // 目标页面的路径
+        url: '/pages/card/index'  // 目标页面的路径
       });
 
 }) 

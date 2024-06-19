@@ -4,23 +4,23 @@
 import { reactive, toRefs,ref ,onBeforeMount,onMounted } from 'vue';
 import Taro,{useLoad} from '@tarojs/taro'
 import { loginApi,vipSignApi } from '../../api/login'; 
-
+import {getVipUserInfoApi} from '../../api/user.js'
 let code=ref('')
 
 // 获取 临时登录凭证code
-const getAppCode = () => {
-  return new Promise((resolve, reject) => {
-    Taro.login({
-        // provider: 'weixin',
-		success: res => {
-           resolve(res.code)
-        },
-        fail(err) {
-           reject(err)
-        }
-    })
-  })
-}
+// const getAppCode = () => {
+//   return new Promise((resolve, reject) => {
+//     Taro.login({
+//         // provider: 'weixin',
+// 		success: res => {
+//            resolve(res.code)
+//         },
+//         fail(err) {
+//            reject(err)
+//         }
+//     })
+//   })
+// }
 
 // useLoad(async ()=>{
 //   code.value = await getAppCode()
@@ -86,30 +86,31 @@ const onAuthError = () => {
   })
 }
 
-// 获取微信用户信息
+// 获取微信用户信息，前提是必须登录 本地有userId
  const wxgetUserInfo = async()=> {
   try {
       // 微信登录
       let userData = await getwxUserData()
       // 调用后台接口登录
-    //   let loginRes = await appLogin(userData)
-	  console.log("userData",userData)
+      // let loginRes = await appLogin(userData)
 	  let uid=Taro.getStorageSync('userId')
 	  let params = reactive({
 			id:uid,
 			nickName: userData.userInfo.nickName,
             avatarUrl: userData.userInfo.avatarUrl,
          })
-	   console.log("vip注册请求参数",params)
-	   await vipSignApi(params)
-	//   console.log("loginRes.data",loginRes.data)
-      // savecache
-      Taro.setStorageSync('vipSignIn', true)
-	//   const pages = getCurrentPages();
+	//登录激活会员
+	  await vipSignApi(params)
 
+	//查询并保存会员信息至本地缓存
+	  let userInfo = await getVipUserInfoApi(uid)
+	  Taro.setStorageSync('userInfo', userInfo.data.items)
+    
+	//   使用avigateBack不会刷新
       Taro.redirectTo({
       	url: '/pages/personal/index'
       });
+	
       // #endif					
    } catch(err) {
   	 onAuthError()

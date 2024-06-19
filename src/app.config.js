@@ -5,7 +5,8 @@ export default defineAppConfig({
     'pages/product/index',
     'pages/personal/index',
     'pages/detail/index',
-    'pages/vip/index',
+    'pages/card/index',
+    'pages/card-info/index',
     'pages/login/vipLogin',
     'pages/login/wxlogin',
     'pages/pay/pay'

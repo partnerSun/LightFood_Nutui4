@@ -1,4 +1,5 @@
 <script setup>
+import './index.css';
 import { reactive, toRefs,ref ,onBeforeMount,onMounted } from 'vue';
 import TabBar from '../../components/TabBar.vue';
 import Taro,{useLoad}from '@tarojs/taro'
@@ -19,6 +20,7 @@ import user_icon_contact from '../../assets/images/user-icon-contact@2x.png';
 
 
 
+
 // import login from '../login/login.vue';
 // 解决透传 Attributes 
 defineOptions({
@@ -27,27 +29,18 @@ defineOptions({
 
 const tabIndex=ref(3)
 const data=reactive({
-    userAmount: {
-        store: "123"
-    },
-    userInfo: {
-        // avatarUrl:'http://light-food.wfzwrjx.cn/images/touxiang.png',
-        // nick:'测试昵称',
-
-    },
+    userInfo: {},
 });
 
-const {userAmount,userInfo}=toRefs(data)
+const {userInfo}=toRefs(data)
 
 const imgMode=ref('aspectFill')
 const showGetphone=ref(false)
 
 
 useLoad(async ()=>{
-  const userid =Taro.getStorageSync('userId')
-  const userInfo = await getVipUserInfoApi(userid)
-  data.userInfo=userInfo.data.items
-  console.log("data.userInfo",data.userInfo)
+  data.userInfo=Taro.getStorageSync('userInfo')
+  // console.log("data.userInfo",data.userInfo)
  })
 
 
@@ -57,25 +50,6 @@ useLoad(async ()=>{
     
 // };
 
-// 获取手机号
-const getPhoneNumber = async (e) => {
-    console.log("获取手机号回调",e.detail);
-    showGetphone.value=false
-    if (e.detail)  {
-      Taro.showToast({
-        title: '注册成功',
-        icon: 'success'
-      })
-      console.log("手机号获取成功,注册成功")
-    }else{
-      Taro.showToast({
-        title: '注册失败',
-        icon: 'error'
-      })
-      console.log("手机号不同意获取,注册失败")
-    }
-
-  };
 
 
 
@@ -89,17 +63,57 @@ const denyGetphone=()=>{
     showGetphone.value=false
 }
 
-const jumpLogin=()=>{
+const vipSign=()=>{
   Taro.navigateTo({
       url: '/pages/login/vipLogin'
     })
 }
 
+const vipInfoEdit=()=>{
+  Taro.navigateTo({
+      url: '/pages/card-info/index'
+    })
+}
+
+// 获取手机号
+const getPhoneNumber = async (e) => {
+    console.log("获取手机号回调",e.detail);
+    showGetphone.value=false
+    if (e.detail)  {
+      Taro.showToast({
+        title: '注册成功',
+        icon: 'success'
+      })
+    }else{
+      Taro.showToast({
+        title: '注册失败',
+        icon: 'error'
+      })
+    }
+
+ };
+
+const visible=ref(false)
+
+const vipSignInWithPhone=()=>{
+  visible.value=true
+}
+const onCancel=()=>{
+  visible.value=false
+  Taro.showToast({
+    title: '取消注册',
+    icon: 'error'
+  })
+}
+const onOk=(e)=>{
+  visible.value=false
+  getPhoneNumber(e)
+}
 </script>
 
 <template>
 <view class="mycard"></view>
-<view v-if="userInfo && userInfo.avatarUrl" class="card-bar">
+<view v-if="userInfo.isvip && userInfo.avatarUrl" class="card-bar">
   <view class="card-box">
     <image :mode='imgMode' class='my-photo' :src="userInfo.avatarUrl"></image>
     <view class="name">{{userInfo.nick}}</view>
@@ -125,7 +139,7 @@ const jumpLogin=()=>{
 </view>
 
 <view v-else class="card-bar">
-  <view class="log-in">微信登录激活会员卡</view>
+  <view class="log-in" >微信登录激活会员卡</view>
   <view class="logos-bar">
     <image :mode='imgMode' class='logos1' :src="logo"></image>
     <view class="logos-box">
@@ -134,33 +148,29 @@ const jumpLogin=()=>{
       <image :mode='imgMode' class='logos4' :src="icon_2_menu_normal"></image>
     </view>
   </view>
-
-  <!-- <button @click="getUserInfo"></button> -->
-  <button @click="jumpLogin"></button>
-  <!-- <nut-button type="primary" @click="jumpLogin"></nut-button> -->
-
+  <button @click="vipSign"></button>
 </view>
 
 <view class="price-bar">
-  <text>{{ userAmount.score }}</text>p
+  <!-- <text>{{ userAmount.score }}</text>p -->
+  <text>{{userInfo.score}}</text>p
+  
 </view>
 
 
-<block v-if="!userInfo || !userInfo.avatarUrl">
+<block v-if="!userInfo.phone">
   <view class="content-bar">
     <image :mode='imgMode' class='icon' :src="user_icon_login"></image>
-    <view class="content">登陆激活会员身份</view>
-    <button open-type="getPhoneNumber"></button>
+    <view class="content" @click="vipSignInWithPhone">激活会员身份</view>
   </view>
   <view class="blank"></view>
 </block>
 
-<navigator url="/pages/card-info/index" hover-class="none">
-  <view class="content-bar">
-    <image :mode='imgMode' class='icon' :src="user_icon_edit"></image>
-    <view class="content">编辑会员卡信息</view>
-  </view>
-</navigator>
+<view class="content-bar">
+  <image :mode='imgMode' class='icon' :src="user_icon_edit"></image>
+  <view class="content" @click="vipInfoEdit">编辑会员卡信息</view>
+</view>
+
 
 <view class="blank"></view>
 <view class="content-bar">
@@ -192,185 +202,38 @@ const jumpLogin=()=>{
   </view>
 </navigator>
 
-<nut-dialog
-    no-cancel-btn
-    no-ok-btn
-    title="是否同意获取手机号完成注册?"
-    v-model:visible="showGetphone"
-    :close-on-click-overlay="false"
-  >
-    <view  style="display:flex;">
-      <button size="default" type="warn" @click="denyGetphone">拒绝</button>
-      <button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" size="default" type="warn">同意</button>
-    </view>
-  </nut-dialog>
+
+<nut-dialog content="是否同意授权获取您的手机号?" v-model:visible="visible" no-ok-btn no-cancel-btn>
+  <template #footer>
+    <button @click="onCancel" class="btn-cancel" size="default">取消</button>
+    <button open-type="getPhoneNumber" @getphonenumber="onOk" class="btn-ok" size="default">同意</button>
+  </template>
+</nut-dialog>
+
 <!-- 底部导航栏 -->
 <TabBar :tabindex="tabIndex"></TabBar>
 </template>
 
-<style scope>
-.nut-dialog__content {
-  margin-top: 100rpx;
-  margin-bottom: 0;
+<style>
+.nut-dialog{
+  width: 70vw;
+  background-color: whitesmoke;
+  padding: 0;
 }
-page{
-  position: relative;
+.btn-cancel{
+  /* background-color: white; */
+  padding: 0;
+  margin:0;
+  width: 50%;
+  border-color: black;
 }
-.mycard{
-  height: 180rpx;
-  width: 100vw;
-  background-color: #fcde51;
-}
-.card-bar{
-  background: #fff;
-  position: absolute;
-  top:28rpx;
-  left: 78rpx;
-  width: 598rpx;
-  height: 304rpx;
-  border-radius: 24rpx;
-  box-shadow: 0 12rpx 24rpx 0 rgba(0, 0, 0, 0.06), 0 4rpx 8rpx 0 rgba(0, 0, 0, 0.06);
-  background-color: #ffffff;
-}
-.card-bar button {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  opacity: 0;
-  z-index: 99;
-  left: 0;
-  top: 0;
-}
-.card-bar .card-box{
-  display: flex;
-  margin-left: 36rpx;
-  margin-top: 36rpx;
-  align-items: center;
-}
-.card-bar .card-box .my-photo{
-  width: 52rpx;
-  height: 52rpx;
-  border-radius: 50%;
-}
-.card-bar .card-box .name{
-  
-  font-size: 26rpx;
-  font-weight: 600;
-  color: #3d3d3d;
-  margin-left: 16rpx;
-}
-.card-bar .card-title{
-  display: flex;
-  margin-left: 306rpx;
-  margin-top: 52rpx;
-  
-  align-items: center;
-}
-.card-bar .card-title .title{
-  font-size: 26rpx;
-  letter-spacing: 2px;
-  color: #3d3d3d;
-}
-.card-bar .card-title .title text{
-  font-size: 26rpx;
-  letter-spacing: 2px;
-  color: #3d3d3d;
-}
-.card-bar .card-title .go{
-  width: 32rpx;
-  height: 32rpx;
-}
-
-.logos-bar{
-  display: flex;
-  justify-content: space-between;
-  margin: 50rpx 30rpx 22rpx 36rpx;
-  align-items: flex-end;
-}
-.logos-bar .logos1{
-  width: 48rpx;
-  height: 60rpx;
-}
-.logos-bar .logos-box{
-  display: flex;
-  align-items: center;
-}
-.logos-bar .logos-box .logos2{
-  width: 32rpx;
-  height: 24rpx;
-  object-fit: contain;
-}
-.logos-bar .logos-box .logos3{
-  width: 32rpx;
-  height: 32rpx;
-  object-fit: contain;
-  margin-left: 30rpx;
-}
-
-.logos-bar .logos-box .logos4{
-  width: 40rpx;
-  height: 32rpx;
-  object-fit: contain;
-  margin-left: 30rpx;
-}
-
-.price-bar{
-  margin-top: 182rpx;
-  margin-left: 90rpx;
-  margin-bottom: 126rpx;
-  font-size: 28rpx;
-  color: #3d3d3d;
-}
-.price-bar text{
-  font-size: 84rpx;
-  margin-right: 6rpx;
-}
-.content-bar{
-  display: flex;
-  align-items: center;
-  margin-left: 82rpx;
-  margin-top: 36rpx;
-  margin-bottom: 36rpx;
-  position: relative;
-}
-.content-bar button {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  opacity: 0;
-  z-index: 99;
-  left: 0;
-  top: 0;
-}
-.content-bar .icon{
-  width: 64rpx;
-  height: 64rpx;
-  object-fit: contain;
-}
-.content-bar .content{
-  
-  font-size: 30rpx;
-  color: #3c3c3c;
-  margin-left:32rpx ;
-}
-.content-bar .content.hui{
-  color: #8a8a8a;
-}
-.blank{
-  width: 570rpx;
-  height: 2rpx;
-  background-color: #ebebeb;
-  margin-left: 178rpx;
-}
-.card-bar .log-in{
-  
-  font-size: 26rpx;
-  font-weight: 600;
-  text-align: center;
-  color: #3d3d3d;
-  margin-top: 138rpx;
-}
-.bottom {
-  height: 144rpx;
+/* .nut-dialog button{
+  border-color: black;
+} */
+.btn-ok{
+  background-color: whitesmoke;
+  padding: 0;
+  margin:0;
+  width: 50%;
 }
 </style>
