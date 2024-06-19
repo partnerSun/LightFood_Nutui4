@@ -3,7 +3,7 @@ import './index.css';
 import { reactive, toRefs,ref ,onBeforeMount,onMounted } from 'vue';
 import TabBar from '../../components/TabBar.vue';
 import Taro,{useLoad}from '@tarojs/taro'
-import {getVipUserInfoApi} from '../../api/user.js'
+import {updateVipPhoneApi} from '../../api/user.js'
 
 // 导入本地图片
 import icon_font_solid from '../../assets/images/icon-font-solid-1@2x.png';
@@ -52,17 +52,6 @@ useLoad(async ()=>{
 
 
 
-
-
-const denyGetphone=()=>{
-    Taro.showToast({
-      title: '获取手机号失败',
-      icon: 'error'
-    })
-    console.log("拒绝获取手机号")
-    showGetphone.value=false
-}
-
 const vipSign=()=>{
   Taro.navigateTo({
       url: '/pages/login/vipLogin'
@@ -77,9 +66,16 @@ const vipInfoEdit=()=>{
 
 // 获取手机号
 const getPhoneNumber = async (e) => {
-    console.log("获取手机号回调",e.detail);
+    // console.log("获取手机号回调",e.detail);
     showGetphone.value=false
     if (e.detail)  {
+      let data=reactive({
+          encryptedata:e.detail.encryptedData,
+          iv:e.detail.iv,
+          code:e.detail.code,
+      })
+      console.log("更新手机号的加密数据:",data)
+      await updateVipPhoneApi(data)
       Taro.showToast({
         title: '注册成功',
         icon: 'success'
@@ -101,7 +97,7 @@ const vipSignInWithPhone=()=>{
 const onCancel=()=>{
   visible.value=false
   Taro.showToast({
-    title: '取消注册',
+    title: '取消激活',
     icon: 'error'
   })
 }
