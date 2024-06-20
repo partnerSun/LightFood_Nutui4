@@ -11,3 +11,9 @@ export const updateVipPhoneApi = (data) =>{
   // console.log("date",data)
   return request('https://lf.it.novaecs.com/api/user/uvip',data,'post',3000)
 }
+
+
+export const updateVipInfoApi = (data) =>{
+  // console.log("date",data)
+  return request('https://lf.it.novaecs.com/api/user/uvipinfo',data,'post',3000)
+}

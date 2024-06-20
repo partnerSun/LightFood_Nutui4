@@ -1,6 +1,8 @@
 <script setup>
 import { reactive,toRefs ,ref} from 'vue';
 import Taro,{useLoad}from '@tarojs/taro'
+import {processPhonerWorkflow} from '../../utils/decryptPhone.js'
+import {updateVipInfoApi,getVipUserInfoApi} from '../../api/user.js'
 import './index.css';
 import icon_font_solid_1_2x from '../../assets/images/icon-font-solid-1@2x.png';
 
@@ -11,24 +13,27 @@ defineOptions({
 
 const data=reactive({
     userInfo: {},
+    birthday:'',
 });
 
 useLoad(async ()=>{
   data.userInfo=Taro.getStorageSync('userInfo')
-  
  })
 
 const modifyUserInfo=()=>{
-  console.log("save会员信息")
+  // data.userInfo=Taro.getStorageSync('userInfo')
+  console.log("修改的会员信息",'修改会员信息')
+  // updateVipInfoApi(data.userInfo)
 }
 const showBirthday = ref(false)
 
 const min = new Date(1970, 0, 1)
 const max = new Date(2034, 0, 1)
 const val = ref(new Date(2000, 0, 1))
-const confirm = ({ selectedValue }) => {
-  data.userInfo.birthday = selectedValue[0]+"-"+selectedValue[1]+"-"+selectedValue[2];
-  Taro.setStorageSync('userInfo',data.userInfo)
+
+const dateConfirm = ({ selectedValue }) => {
+  data.birthday = selectedValue[0]+"-"+selectedValue[1]+"-"+selectedValue[2];
+  // Taro.setStorageSync('userInfo',data.userInfo)
   showBirthday.value = false
 }
 
@@ -38,8 +43,10 @@ const updatebirthday=()=>{
     showBirthday.value=true
   }
 }
-
-const {userInfo}=toRefs(data)
+const updatePhone=async(e)=>{
+  await processPhonerWorkflow(e)
+}
+const {birthday,userInfo}=toRefs(data)
 </script>
 
 <template>
@@ -67,7 +74,7 @@ const {userInfo}=toRefs(data)
   <view class="title">手机</view>
   <view class="content">
     {{ userInfo.phone }}
-    <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber"></button>
+    <button open-type="getPhoneNumber" @getphonenumber="updatePhone" class="btn-ok" size="default"></button>
   </view>
 </view>
 
@@ -84,7 +91,7 @@ const {userInfo}=toRefs(data)
 
 <view class="message-bar">
   <view class="title">生日</view>
-  <view class="content" @click="updatebirthday"> {{ userInfo.birthday  ? userInfo.birthday : '保存后不可再次修改' }} </view>
+  <view class="content" @click="updatebirthday"> {{ birthday  ? birthday : '保存后不可再次修改' }} </view>
    <!-- <view>
     {{ userInfo.birthday }}
    </view> -->
@@ -100,7 +107,7 @@ const {userInfo}=toRefs(data)
       :min-date="min"
       :max-date="max"
       :three-dimensional="false"
-      @confirm="confirm"
+      @confirm="dateConfirm"
     ></nut-date-picker>
   </nut-popup>
 

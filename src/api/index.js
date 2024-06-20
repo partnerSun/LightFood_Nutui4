@@ -59,9 +59,6 @@ axios.interceptors.response.use(async  function (response) {
     if ( response.data.status == 200 ){
         return Promise.resolve(response)
     }else if (response.data.status == 401){
-        //弹出token失效提醒
-        // onTipWindows('failed')
-        // 说明token失效，删除本地的token
         Taro.removeStorageSync('Authorization');
         //如果当前页面不是login，那么就跳转到登录页
         const currentroute=getCurrentRoute()

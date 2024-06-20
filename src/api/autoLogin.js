@@ -2,22 +2,11 @@ import Taro from '@tarojs/taro'
 import { ref,reactive } from 'vue'
 import {loginApi } from '../api/login.js'
 
+
+
+import getAppCode from '../utils/getCode.js'
+
 let code =ref('')
-
-export const getAppCode = () => {
-    return new Promise((resolve, reject) => {
-        Taro.login({
-            // provider: 'weixin',
-            success: res => {
-                resolve(res.code)
-            },
-            fail(err) {
-                reject(err)
-            }
-        })
-    })
-}
-
 const autoLoginApi = (params) => {
     return new Promise(async (resolve, reject) => {
         try {

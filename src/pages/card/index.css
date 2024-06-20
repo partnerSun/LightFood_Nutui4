@@ -43,20 +43,20 @@
   }
   
   .number-bar .title{
-    
     font-size: 26rpx;
     font-weight: 600;
     text-align: center;
     color: #3d3d3d;
   }
   .number-bar .Bitmap{
-    width: 330rpx;
-    height: 330rpx;
-    margin-top:10rpx;
+    width: 430rpx;
+    height: 430rpx;
+    /* margin-top:0rpx; */
+    /* text-align: center; */
+    /* margin: auto; */
   }
   
   .number-bar .num{
-    
     font-size: 26rpx;
     font-weight: 500;
     letter-spacing: 2rpx;

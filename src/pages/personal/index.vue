@@ -3,8 +3,9 @@ import './index.css';
 import { reactive, toRefs,ref } from 'vue';
 import TabBar from '../../components/TabBar.vue';
 import Taro,{useLoad}from '@tarojs/taro'
-import {updateVipPhoneApi,getVipUserInfoApi} from '../../api/user.js'
-import {getAppCode} from '../../api/autoLogin.js'
+
+import {processPhonerWorkflow} from '../../utils/decryptPhone.js'
+
 
 // 导入本地图片
 import icon_font_solid from '../../assets/images/icon-font-solid-1@2x.png';
@@ -21,7 +22,6 @@ import user_icon_contact from '../../assets/images/user-icon-contact@2x.png';
 
 
 
-
 // import login from '../login/login.vue';
 // 解决透传 Attributes 
 defineOptions({
@@ -31,14 +31,14 @@ defineOptions({
 const visible=ref(false)
 // 底部导航
 const tabIndex=ref(3)
+// 图片填充方式
+const imgMode=ref('aspectFill')
+
 // 
 const data=reactive({
     userInfo: {},
 });
 
-
-
-const imgMode=ref('aspectFill')
 
 useLoad(async ()=>{
   data.userInfo=Taro.getStorageSync('userInfo')
@@ -55,73 +55,27 @@ useLoad(async ()=>{
 
 const vipSign=()=>{
   Taro.navigateTo({
-      url: '/pages/login/vipLogin'
+      url: '/pages/login/vipSignIn'
     })
 }
 
 const vipInfoEdit=()=>{
   Taro.navigateTo({
-      url: '/pages/card-info/index'
-    })
+    url: '/pages/card-info/index'
+  })
 }
 
-// 获取手机号
-const getPhoneNumber = async (e) => {
-    if (e.detail)  {
-      Taro.showToast({
-        title: '手机号获取成功',
-        icon: 'success'
-      })
-      return e.detail
-    }else{
-      Taro.showToast({
-        title: '手机号获取失败',
-        icon: 'error'
-      })
-      return
-    }
 
- };
-
- const processPhonerWorkflow=async(e)=>{
-  // 获取用户手机号的加密数据
-  let returnData = await getPhoneNumber(e)
-
-  // 获取code
-  let code = await getAppCode()
-  // 封装请求参数
-  let data=reactive({
-      encryptedata:returnData.encryptedData,
-      iv:returnData.iv,
-      code:code,
-  })
-
-  let updatePhoneRes=await updateVipPhoneApi(data)
-
-
-  let uid=Taro.getStorageSync('userId')
-	//查询并保存会员信息至本地缓存
-	let userInfo = await getVipUserInfoApi(uid)
-	Taro.setStorageSync('userInfo', userInfo.data.items)
-
-  if (updatePhoneRes.data.status===200 && userInfo.data.status===200 ){
-    Taro.showToast({
-      title: '注册成功',
-      icon: 'success'
-    })
-  }else{
-    Taro.showToast({
-      title: '注册失败',
-      icon: 'error'
-    })
-  }
-  Taro.redirectTo({
-      url: '/pages/personal/index'
-    })
- }
 
 const vipSignInWithPhone=()=>{
-  visible.value=true
+  if (data.userInfo.isvip){
+    visible.value=true
+  }else{
+    Taro.showToast({
+        title: '请微信登录注册会员',
+        icon: 'none'
+      })
+  }
 }
 const onCancel=()=>{
   visible.value=false
@@ -185,7 +139,7 @@ const {userInfo}=toRefs(data)
 </view>
 
 
-<block v-if="!userInfo.phone">
+<block v-if="!userInfo.phone || !userInfo.isvip">
   <view class="content-bar">
     <image :mode='imgMode' class='icon' :src="user_icon_login"></image>
     <view class="content" @click="vipSignInWithPhone">激活会员身份</view>

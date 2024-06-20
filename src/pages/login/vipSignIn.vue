@@ -1,31 +1,10 @@
 <!-- https://blog.csdn.net/weixin_45559449/article/details/129398318? -->
 
 <script setup>
-import { reactive, toRefs,ref ,onBeforeMount,onMounted } from 'vue';
+import { reactive,ref  } from 'vue';
 import Taro,{useLoad} from '@tarojs/taro'
-import { loginApi,vipSignApi } from '../../api/login'; 
+import { vipSignApi } from '../../api/login'; 
 import {getVipUserInfoApi} from '../../api/user.js'
-let code=ref('')
-
-// 获取 临时登录凭证code
-// const getAppCode = () => {
-//   return new Promise((resolve, reject) => {
-//     Taro.login({
-//         // provider: 'weixin',
-// 		success: res => {
-//            resolve(res.code)
-//         },
-//         fail(err) {
-//            reject(err)
-//         }
-//     })
-//   })
-// }
-
-// useLoad(async ()=>{
-//   code.value = await getAppCode()
-//  })
- 
 
 
 // 获取微信用户加密数据
@@ -34,7 +13,7 @@ const getwxUserData = () => {
 		Taro.getUserProfile({
 			desc: '完善用户信息',
 			success: (data) => {
-				console.log("getUserProfile获取的用户信息：", data)
+				console.log("getUserProfile获取的用户信息:", data)
 				resolve(data)
 			},
 			fail: err => {

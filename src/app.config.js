@@ -7,8 +7,7 @@ export default defineAppConfig({
     'pages/detail/index',
     'pages/card/index',
     'pages/card-info/index',
-    'pages/login/vipLogin',
-    'pages/login/wxlogin',
+    'pages/login/vipSignIn',
     'pages/pay/pay'
   ],
   // https://taro-docs.jd.com/docs/vue-page
