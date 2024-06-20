@@ -42,7 +42,7 @@ const modifyUserInfo=async()=>{
     
     //   使用avigateBack不会刷新
     Taro.redirectTo({
-      url: '/pages/card-info/index'
+      url: '/pages/personal/index'
     });
 
     Taro.showToast({
