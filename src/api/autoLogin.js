@@ -4,7 +4,7 @@ import {loginApi } from '../api/login.js'
 
 let code =ref('')
 
-const getAppCode = () => {
+export const getAppCode = () => {
     return new Promise((resolve, reject) => {
         Taro.login({
             // provider: 'weixin',
@@ -63,7 +63,7 @@ export const autoLogin = async () => {
              code: code.value,
              source: 'MP',
          })
-         console.log("autologin data",params)
+        //  console.log("autologin data",params)
         // 调用后台接口登录
         let loginRes = await autoLoginApi(params)
         // console.log("loginRes.data",loginRes.data)

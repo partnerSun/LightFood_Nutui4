@@ -1,9 +1,10 @@
 <script setup>
 import './index.css';
-import { reactive, toRefs,ref ,onBeforeMount,onMounted } from 'vue';
+import { reactive, toRefs,ref } from 'vue';
 import TabBar from '../../components/TabBar.vue';
 import Taro,{useLoad}from '@tarojs/taro'
-import {updateVipPhoneApi} from '../../api/user.js'
+import {updateVipPhoneApi,getVipUserInfoApi} from '../../api/user.js'
+import {getAppCode} from '../../api/autoLogin.js'
 
 // 导入本地图片
 import icon_font_solid from '../../assets/images/icon-font-solid-1@2x.png';
@@ -26,21 +27,21 @@ import user_icon_contact from '../../assets/images/user-icon-contact@2x.png';
 defineOptions({
   inheritAttrs: false
 })
-
+// 手机号认证确认弹窗
+const visible=ref(false)
+// 底部导航
 const tabIndex=ref(3)
+// 
 const data=reactive({
     userInfo: {},
 });
 
-const {userInfo}=toRefs(data)
+
 
 const imgMode=ref('aspectFill')
-const showGetphone=ref(false)
-
 
 useLoad(async ()=>{
   data.userInfo=Taro.getStorageSync('userInfo')
-  // console.log("data.userInfo",data.userInfo)
  })
 
 
@@ -66,30 +67,58 @@ const vipInfoEdit=()=>{
 
 // 获取手机号
 const getPhoneNumber = async (e) => {
-    // console.log("获取手机号回调",e.detail);
-    showGetphone.value=false
     if (e.detail)  {
-      let data=reactive({
-          encryptedata:e.detail.encryptedData,
-          iv:e.detail.iv,
-          code:e.detail.code,
-      })
-      console.log("更新手机号的加密数据:",data)
-      await updateVipPhoneApi(data)
       Taro.showToast({
-        title: '注册成功',
+        title: '手机号获取成功',
         icon: 'success'
       })
+      return e.detail
     }else{
       Taro.showToast({
-        title: '注册失败',
+        title: '手机号获取失败',
         icon: 'error'
       })
+      return
     }
 
  };
 
-const visible=ref(false)
+ const processPhonerWorkflow=async(e)=>{
+  // 获取用户手机号的加密数据
+  let returnData = await getPhoneNumber(e)
+
+  // 获取code
+  let code = await getAppCode()
+  // 封装请求参数
+  let data=reactive({
+      encryptedata:returnData.encryptedData,
+      iv:returnData.iv,
+      code:code,
+  })
+
+  let updatePhoneRes=await updateVipPhoneApi(data)
+
+
+  let uid=Taro.getStorageSync('userId')
+	//查询并保存会员信息至本地缓存
+	let userInfo = await getVipUserInfoApi(uid)
+	Taro.setStorageSync('userInfo', userInfo.data.items)
+
+  if (updatePhoneRes.data.status===200 && userInfo.data.status===200 ){
+    Taro.showToast({
+      title: '注册成功',
+      icon: 'success'
+    })
+  }else{
+    Taro.showToast({
+      title: '注册失败',
+      icon: 'error'
+    })
+  }
+  Taro.redirectTo({
+      url: '/pages/personal/index'
+    })
+ }
 
 const vipSignInWithPhone=()=>{
   visible.value=true
@@ -101,10 +130,12 @@ const onCancel=()=>{
     icon: 'error'
   })
 }
-const onOk=(e)=>{
+const onOk=async(e)=>{
   visible.value=false
-  getPhoneNumber(e)
+  await processPhonerWorkflow(e)
 }
+
+const {userInfo}=toRefs(data)
 </script>
 
 <template>

@@ -34,7 +34,7 @@ const getwxUserData = () => {
 		Taro.getUserProfile({
 			desc: '完善用户信息',
 			success: (data) => {
-				console.log("用户信息：", data)
+				console.log("getUserProfile获取的用户信息：", data)
 				resolve(data)
 			},
 			fail: err => {
@@ -92,7 +92,7 @@ const onAuthError = () => {
       // 微信登录
       let userData = await getwxUserData()
       // 调用后台接口登录
-      // let loginRes = await appLogin(userData)
+    //   let loginRes = await appLogin(userData)
 	  let uid=Taro.getStorageSync('userId')
 	  let params = reactive({
 			id:uid,
