@@ -60,9 +60,17 @@ const vipSign=()=>{
 }
 
 const vipInfoEdit=()=>{
-  Taro.navigateTo({
-    url: '/pages/card-info/index'
-  })
+  if (data.userInfo.isvip){
+    Taro.navigateTo({
+      url: '/pages/card-info/index'
+    })
+  }else{
+    Taro.showToast({
+        title: '请微信登录注册会员',
+        icon: 'none'
+      })
+  }
+
 }
 
 

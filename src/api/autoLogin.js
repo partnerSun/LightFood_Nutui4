@@ -59,7 +59,7 @@ export const autoLogin = async () => {
         // savecache
         Taro.setStorageSync('autoLogin', true)
         Taro.setStorageSync('Authorization', loginRes.data.token)
-        Taro.setStorageSync('userId', String(loginRes.data.userId))
+        Taro.setStorageSync('userId', loginRes.data.userId)
         // Taro.navigateBack({
         //     delta: 1
         // });

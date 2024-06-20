@@ -22,8 +22,11 @@ useLoad(async ()=>{
 
 const modifyUserInfo=()=>{
   // data.userInfo=Taro.getStorageSync('userInfo')
-  console.log("修改的会员信息",'修改会员信息')
-  // updateVipInfoApi(data.userInfo)
+  let tdata=reactive({
+    birthday:data.birthday
+  })
+  // console.log("修改的会员信息",'修改会员信息')
+  updateVipInfoApi(tdata)
 }
 const showBirthday = ref(false)
 
