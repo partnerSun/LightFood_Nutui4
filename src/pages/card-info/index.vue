@@ -18,15 +18,46 @@ const data=reactive({
 
 useLoad(async ()=>{
   data.userInfo=Taro.getStorageSync('userInfo')
+  data.birthday = data.userInfo.birthday
  })
 
-const modifyUserInfo=()=>{
+const modifyUserInfo=async()=>{
   // data.userInfo=Taro.getStorageSync('userInfo')
   let tdata=reactive({
+    id:data.userInfo.id,
     birthday:data.birthday
   })
+  Taro.showLoading({
+      title: '修改中...',
+      mask: true,
+  })
   // console.log("修改的会员信息",'修改会员信息')
-  updateVipInfoApi(tdata)
+  let updateVipInfoRes = await updateVipInfoApi(tdata)
+  console.log("updateVipInfoRes",updateVipInfoRes)
+  if (updateVipInfoRes.data.status==200){
+    	//查询并保存会员信息至本地缓存
+	  let userInfo2 = await getVipUserInfoApi(data.userInfo.id)
+    data.userInfo=userInfo2.data.items
+	  Taro.setStorageSync('userInfo', data.userInfo)
+    
+    //   使用avigateBack不会刷新
+    Taro.redirectTo({
+      url: '/pages/card-info/index'
+    });
+
+    Taro.showToast({
+      title: updateVipInfoRes.data.message,
+      icon:'success',
+    })
+    Taro.hideLoading()
+
+  }else{
+    Taro.hideLoading()
+    Taro.showToast({
+      title: updateVipInfoRes.data.message,
+      icon: 'error',
+    })
+  }
 }
 const showBirthday = ref(false)
 
@@ -42,7 +73,7 @@ const dateConfirm = ({ selectedValue }) => {
 
 
 const updatebirthday=()=>{
-  if (!data.userInfo.birthday){
+  if (!data.userInfo.birthday || data.userInfo.birthday=='0001-01-01'){
     showBirthday.value=true
   }
 }
@@ -94,7 +125,7 @@ const {birthday,userInfo}=toRefs(data)
 
 <view class="message-bar">
   <view class="title">生日</view>
-  <view class="content" @click="updatebirthday"> {{ birthday  ? birthday : '保存后不可再次修改' }} </view>
+  <view class="content" @click="updatebirthday"> {{ birthday ? birthday : '保存后不可再次修改' }} </view>
    <!-- <view>
     {{ userInfo.birthday }}
    </view> -->

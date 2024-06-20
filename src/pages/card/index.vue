@@ -33,9 +33,9 @@ useLoad(async ()=>{
  const {userInfo}=toRefs(data)
 
 const back=()=>{
-    Taro.navigateBack({
-      delta: 1
-    });
+  Taro.redirectTo({
+      url: '/pages/personal/index'
+    })
 }
 const jumpLogin=()=>{
   Taro.navigateTo({
