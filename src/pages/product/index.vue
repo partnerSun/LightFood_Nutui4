@@ -7,6 +7,7 @@ import { Minus,Plus,Cart,IconFont  } from '@nutui/icons-vue-taro'
 import { AtSearchBar } from 'taro-ui-vue3'
 import "taro-ui-vue3/dist/style/components/search-bar.scss";
 import Taro from '@tarojs/taro'
+import { AtIcon } from 'taro-ui-vue3'
 import '../../assets/iconfont/iconfont.css'
 import './index.css'
 
@@ -163,9 +164,14 @@ const pay=()=>{
       res.eventChannel.emit('sendDataToOpenedPage', { productInfo: filteredProducts.value.filteredIds,productNum:quantities.value,productTotalnum:filteredProducts.value.totalQuantity,total:vipTotalMoney.value });
     }
   })
-
 }
 
+// 清空购物车
+const trash=()=>{
+  // Taro.removeStorageSync('productQuantities')
+  // loadQuantities()
+  quantities.value=[]
+}
 </script>
 
 <template>
@@ -198,11 +204,11 @@ const pay=()=>{
               </view> -->
               <view class="parent-button-class">
                 <view class="minusbutton-class" >
-                  <Minus  @click="decrementQuantity(product.ID)" size="16px" />  
+                  <Minus  @click="decrementQuantity(product.ID)" size="14px" />  
                 </view>
                 <nut-input type="number" :readonly="true" :border="false" :input-align="inputContentPostion" v-model="quantities[product.ID]"   />
                 <view class="addbutton-class">
-                  <Plus @click="incrementQuantity(product.ID)" size="16px"/>
+                  <Plus @click="incrementQuantity(product.ID)" size="14px" />
                 </view>
               </view>
             </view>
@@ -234,7 +240,12 @@ const pay=()=>{
       title="购物车"
       class="actionsheet-class"
     >
-      <view style="padding-bottom: 260rpx;">
+      <view style="padding-bottom: 260rpx;padding-top: 10rpx;">
+        <view  hover-class="none" hover-stop-propagation="false"  class="trash-class" @click="trash">  
+          <span style="font-size: 24rpx; font-weight: 350; letter-spacing: 1px;line-height: 50rpx;">清空购物车</span>
+          <AtIcon value='trash' color='black' size="14" style="margin: auto 0;"></AtIcon>
+        </view>
+        <nut-divider style="width: 98%;margin: 20rpx auto 18rpx"/> 
         <view v-for="product in filteredProducts.filteredIds" :key="product.ID" style="margin-bottom: 10rpx;">
         <nut-card
           :img-url="product.Img"
@@ -257,6 +268,7 @@ const pay=()=>{
             </view>
           </template>
         </nut-card>
+        <nut-divider style="width: 90%;margin: 0 auto 18rpx"/>
         </view>
       </view>
     </nut-action-sheet>
@@ -268,6 +280,9 @@ const pay=()=>{
 
 page {
   --nut-input-font-size: 24rpx;
+  --nut-divider-line-height: 0.1rpx;
+  --nut-divider-margin: 15rpx 10rpx;
+
   // --nut-card-left-border-radius:30rpx;
   // --nut-tabs-vertical-titles-width: 120rpx;
 }
