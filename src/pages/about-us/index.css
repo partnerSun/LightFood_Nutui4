@@ -1,0 +1,46 @@
+.content-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:40rpx 38rpx 40rpx 32rpx ;
+  }
+  
+  .content-box .photos{
+    width: 24rpx;
+    height: 48rpx;
+  }
+  .blank{
+    width: 100vw;
+    height: 0.5px;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  .version{
+    font-size: 22rpx;
+    text-align: center;
+    color: #8a8a8a;
+    margin-top: 40rpx;
+  }
+
+
+  .content1 {
+    margin: 20rpx;
+    font-size: 32rpx;
+    font-weight: 300;
+    color: #3c3c3c;
+  }
+
+  .title2 {
+    margin-top: 56rpx;
+    margin-left: 40rpx;
+    height: 56rpx;
+    font-size: 36rpx;
+    font-weight: 600;
+    color: #3c3c3c;
+  }
+  .content2 {
+    margin-left: 40rpx;
+    margin-top: 40rpx;
+    font-size: 30rpx;
+    font-weight: 400;
+    color: #181a18;
+  }

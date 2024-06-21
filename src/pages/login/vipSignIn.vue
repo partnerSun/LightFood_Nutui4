@@ -77,6 +77,7 @@ const onAuthError = () => {
 			id:uid,
 			nickName: userData.userInfo.nickName,
             avatarUrl: userData.userInfo.avatarUrl,
+			gender:userData.userInfo.gender,
          })
 	//登录激活会员
 	  await vipSignApi(params)

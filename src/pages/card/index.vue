@@ -10,6 +10,7 @@ import icon_4_card_active from '../../assets/images/icon-4-card-active@2x.png';
 defineOptions({
   inheritAttrs: false
 })
+
 const canvasRef = ref(null)
 const canvasId = 'qrcode' // 设定canvasId
 const qrText = ref('') // 替换为你的二维码内容

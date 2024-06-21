@@ -26,7 +26,6 @@
   }
   .sync-bar .sync-box .weixin-sync{
     opacity: 0.5;
-    
     font-size: 28rpx;
     text-align: justify;
     color: #000000;
@@ -52,13 +51,13 @@
   .message-bar .title{
     width: 136rpx;
     opacity: 0.9;
-    
-    font-size: 34rpx;
+    font-size: 32rpx;
     color: rgba(0, 0, 0, 0.9);
+    font-weight: 500;
   }
   .message-bar .content{
     
-    font-size: 34rpx;
+    font-size: 28rpx;
     color: #000000;
     margin-left:44rpx ;
     position: relative;

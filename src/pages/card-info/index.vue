@@ -80,6 +80,13 @@ const updatebirthday=()=>{
 const updatePhone=async(e)=>{
   await processPhonerWorkflow(e)
 }
+
+// 同步微信数据
+const vipSign=()=>{
+  Taro.navigateTo({
+      url: '/pages/login/vipSignIn'
+  })
+}
 const {birthday,userInfo}=toRefs(data)
 </script>
 
@@ -89,8 +96,8 @@ const {birthday,userInfo}=toRefs(data)
     <view class="again-sync">再次同步</view>
     <view class="weixin-sync">与微信同步会员信息</view>
   </view>
-  <image mode='aspectFill' class='go' :src='icon_font_solid_1_2x'></image>
-  <button open-type="getUserInfo" bindgetuserinfo="getUserInfo"></button>
+  <image mode='aspectFill' class='go' :src='icon_font_solid_1_2x'>1231231</image>
+  <button @click="vipSign"></button>
 </view>
 
 <view class="blank"></view>

@@ -21,8 +21,6 @@ import user_icon_about from '../../assets/images/user-icon-about@2x.png';
 import user_icon_contact from '../../assets/images/user-icon-contact@2x.png';
 
 
-
-// import login from '../login/login.vue';
 // 解决透传 Attributes 
 defineOptions({
   inheritAttrs: false
@@ -56,7 +54,7 @@ useLoad(async ()=>{
 const vipSign=()=>{
   Taro.navigateTo({
       url: '/pages/login/vipSignIn'
-    })
+  })
 }
 
 const vipInfoEdit=()=>{
@@ -128,16 +126,18 @@ const {userInfo}=toRefs(data)
 </view>
 
 <view v-else class="card-bar">
-  <view class="log-in" >微信登录激活会员卡</view>
-  <view class="logos-bar">
-    <image :mode='imgMode' class='logos1' :src="logo"></image>
-    <view class="logos-box">
-      <image :mode='imgMode' class='logos2' :src="icon_4_card_normal"></image>
-      <image :mode='imgMode' class='logos3' :src="icon_2_1_shop_cart_normal"></image>
-      <image :mode='imgMode' class='logos4' :src="icon_2_menu_normal"></image>
+  <navigator url="/pages/login/vipSignIn" hover-class="none">
+    <view class="log-in" >微信登录激活会员卡</view>
+    <view class="logos-bar">
+      <image :mode='imgMode' class='logos1' :src="logo"></image>
+      <view class="logos-box">
+        <image :mode='imgMode' class='logos2' :src="icon_4_card_normal"></image>
+        <image :mode='imgMode' class='logos3' :src="icon_2_1_shop_cart_normal"></image>
+        <image :mode='imgMode' class='logos4' :src="icon_2_menu_normal"></image>
+      </view>
     </view>
-  </view>
-  <button @click="vipSign"></button>
+  </navigator>
+  <!-- <button @click="vipSign"></button> -->
 </view>
 
 <view class="price-bar">
@@ -179,12 +179,12 @@ const {userInfo}=toRefs(data)
 <navigator url="/pages/about-us/index" hover-class="none">
   <view class="content-bar">
     <image :mode='imgMode' class='icon' :src="user_icon_about"></image>
-    <view class="content">关于xxx产品名</view>
+    <view class="content">关于 xxx产品名</view>
   </view>
 </navigator>
 
 <view class="blank"></view>
-<navigator url="/pages/about-us/detail?key=contact" hover-class="none">
+<navigator url="/pages/contact/index" hover-class="none">
   <view class="content-bar">
     <image :mode='imgMode' class='icon' :src="user_icon_contact"></image>
     <view class="content">联系我们</view>
