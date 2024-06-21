@@ -1,14 +1,42 @@
 <script setup>
-import Taro from '@tarojs/taro'
+import Taro,{useLoad} from '@tarojs/taro'
+import { toRefs ,reactive} from 'vue';
 import './index.css'
 // 解决透传 Attributes 
 defineOptions({
   inheritAttrs: false
 })
+const data=reactive({
+  settleProducts:[],
+  settleProductsNum:[],
+  settleProductsTotalNum:Number,
+  total:String
+})
 
+useLoad(()=>{
+  // 获取 eventChannel 实例
+  const inst =Taro.getCurrentInstance()
+  console.log("inst",inst)
+  const eventChannel = Taro.getCurrentInstance().page.getOpenerEventChannel();
+
+  // 监听数据
+  eventChannel.on('sendDataToOpenedPage', (info)=> {
+    console.log('接收到来自商品页面的数据', info)
+    data.settleProducts=info.productInfo
+    data.settleProductsNum=info.productNum
+    data.settleProductsTotalNum=info.productTotalnum
+    data.total=info.total
+    // 发送数据回 current 页面
+    // eventChannel.emit('sendDataToCurrentPage', { data: '数据从 test 页面发出' });
+  })
+ 
+})
+
+const {settleProducts,settleProductsNum,settleProductsTotalNum,total}=toRefs(data)
 </script>
 
 <template>
+  <!-- 通知 -->
 <!-- <van-notice-bar
   wx:if="{{purchaseNotes}}"
   custom-class="notice-bar"
@@ -49,21 +77,23 @@ defineOptions({
   </view>
 </navigator>
 <view class="blank1"></view>
-<!-- <view wx:for="{{shippingCarInfo.items}}" wx:key="key" class="orderdetails-bar">
-  <image mode='aspectFill' class='photos' src='{{item.pic}}'></image>
+<!-- 商品信息 -->
+<view v-for="item in settleProducts" :key="item.ID" class="orderdetails-bar">
+  <image mode='aspectFill' class='photos' :src="`https:${item.Img}`"></image>
   <view class="titles-bar">
     <view class="titles-box1">
-      <view class="titles">123123123</view>
+      <view class="titles">{{ item.Product }}</view>
       <view class="price">
-      <text>¥</text>12312313
+        <text>¥</text>{{ item.CurrentPrice }}
       </view>
     </view>
     <view class="titles-box2">
-      <view class="titles"> </view>
-      <view class="num">×{{ item.number }}</view>
+      <view class="titles">{{ item.Discount }}<text> 折</text></view>
+      <!-- <view class="num">{{ item.Product }}</view> -->
+      <view class="num"><text>x </text>{{ settleProductsNum[item.ID] }}</view>
     </view>
   </view>
-</view> -->
+</view>
 
 <view class="blank2"></view>
 
@@ -73,15 +103,15 @@ defineOptions({
       <view class="content">
         <view class="titles">备注信息</view>
       </view>
-      <view class="text">12312312</view>
+      <view class="text">不加香菜</view>
     </view>
     <!-- <van-icon name="arrow"/> -->
   </view>
 </navigator>
 <view class="num-bar">
-  <view class="num">共 xxx 件商品，小计</view>
+  <view class="num">共 {{ settleProductsTotalNum }} 件商品，小计</view>
   <view class="price">
-    <text>¥</text>xxx
+    <text>¥</text>{{ total }}
   </view>
 </view>
 <view class="blank1"></view>

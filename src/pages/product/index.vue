@@ -103,42 +103,65 @@ watch(quantities, (newQuantities) => {
 }, { deep: true });
 
 
-// 过滤商品数量>0的商品,返回生成商品id的数组
+// 过滤商品数量>0的商品
+// 返回 1. 由商品id组成的数组 2. 结算商品总数量
 const filterProductQuantities = (items, quantities) => {
   const filteredIds = Object.keys(quantities.value).filter(id => quantities.value[id] > 0);
-  return items.filter(item => filteredIds.includes(item.ID));
+  const filteredItems =items.filter(item => filteredIds.includes(item.ID));
+  const totalQuantity = filteredIds.reduce((total, id) => total + parseInt(quantities.value[id], 10), 0);
+  return {
+    filteredIds: filteredItems,
+    totalQuantity: totalQuantity
+  };
 };
-// 计算并返回商品数量>0的商品
+
+// 计算并返回商品数量>0的商品和商品总数量,用于购物车显示
 const filteredProducts = computed(() => {
-  return filterProductQuantities(data.items, quantities);
+  const  { filteredIds, totalQuantity } = filterProductQuantities(data.items, quantities);
+  return {
+    filteredIds: filteredIds, //商品ID的数组
+    totalQuantity: totalQuantity //结算商品的总数量
+  };
 });
+
 
 const showActionSheet=ref(false)
 const bottomActionSheet=()=>{
   showActionSheet.value = !showActionSheet.value
 }
-
+// 优惠后总价
 const vipTotalMoney=computed(()=>{
   let total=0
-  filteredProducts.value.forEach(product=>{
+  filteredProducts.value.filteredIds.forEach(product=>{
     total+=product.CurrentPrice*quantities.value[product.ID]
   })
   return total.toFixed(2); // 始终保留两位小数并返回字符串
 })
+// 原总价
 const originalTotalMoney=computed(()=>{
   let total=0
-  filteredProducts.value.forEach(product=>{
+  filteredProducts.value.filteredIds.forEach(product=>{
     total+=product.OriginalPrice*quantities.value[product.ID]
   })
   return total.toFixed(2); // 始终保留两位小数并返回字符串
 })
 
-
+// 支付
 const pay=()=>{
   // console.log("判断是否已注册会员等其他逻辑")
   console.log("跳转至结算页面")
   Taro.navigateTo({
-      url: '/pages/pay/index'
+    url: '/pages/pay/index',
+    events: {
+      // 监听来自 结算 页面的数据
+      sendDataToCurrentPage(data) {
+        console.log('接收到来自结算页面的数据:', data);
+      }
+    },
+    success: function (res) {
+      // 发送数据到 结算 页面
+      res.eventChannel.emit('sendDataToOpenedPage', { productInfo: filteredProducts.value.filteredIds,productNum:quantities.value,productTotalnum:filteredProducts.value.totalQuantity,total:vipTotalMoney.value });
+    }
   })
 
 }
@@ -147,7 +170,7 @@ const pay=()=>{
 
 <template>
 <!-- <view style="display: flex;flex-direction: column;justify-content:space-between;"> -->
-  
+  <!-- 搜索框+商品信息 -->
   <view>
     <AtSearchBar
     actionName='搜索'
@@ -190,15 +213,19 @@ const pay=()=>{
   </nut-tabs>  
 
   </view>
+  <!-- 悬浮按钮+购物车actionsheet内容 -->
   <view style="position: relative;">
     <view class="shopping-card-class">
-      
+      <!-- 购物车按钮 -->
+      <view class="shopping-num-class"><text>{{ filteredProducts.totalQuantity }}</text></view>
       <IconFont class="shopping-class"  color="#f7bb44" font-class-name="iconfont"  size="42" class-prefix="icon" name="gouwuche" @click="bottomActionSheet"/>
+      <!-- 悬浮按钮内容 -->
       <view class="total-calss">
         <text style="color: white;font-size: small;">￥{{ originalTotalMoney }}</text>
         <text style="color: #f7bb44;font-size:24rpx"> 优惠后 </text>
         <text style="color: #f7bb44;">￥{{ vipTotalMoney }}</text>
       </view>
+      <!-- 结算按钮 -->
       <view class="pay-class" @click="pay"><text>去结算</text></view>
     </view>
     <!-- ActionSheet 动作面板 底部 -->
@@ -208,7 +235,7 @@ const pay=()=>{
       class="actionsheet-class"
     >
       <view style="padding-bottom: 260rpx;">
-        <view v-for="product in filteredProducts" :key="product.ID" style="margin-bottom: 10rpx;">
+        <view v-for="product in filteredProducts.filteredIds" :key="product.ID" style="margin-bottom: 10rpx;">
         <nut-card
           :img-url="product.Img"
           :title="product.Product"

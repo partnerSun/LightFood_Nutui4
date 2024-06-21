@@ -34,14 +34,23 @@ useLoad(async ()=>{
  const {userInfo}=toRefs(data)
 
 const back=()=>{
-  Taro.redirectTo({
-      url: '/pages/personal/index'
+  let pageLength=Taro.getCurrentPages().length
+  if( pageLength>1){
+    Taro.navigateBack({
+      delta: 1
     })
+  }else{
+    Taro.redirectTo({
+      url: '/pages/index/index'
+    })
+  }
+
 }
+
 const jumpLogin=()=>{
   Taro.navigateTo({
-      url: '/pages/login/vipLogin'
-    })
+    url: '/pages/login/vipLogin'
+  })
 }
 </script>
 
