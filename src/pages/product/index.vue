@@ -150,20 +150,24 @@ const originalTotalMoney=computed(()=>{
 // 支付
 const pay=()=>{
   // console.log("判断是否已注册会员等其他逻辑")
-  console.log("跳转至结算页面")
-  Taro.navigateTo({
-    url: '/pages/pay/index',
-    events: {
-      // 监听来自 结算 页面的数据
-      sendDataToCurrentPage(data) {
-        console.log('接收到来自结算页面的数据:', data);
+  if (filteredProducts.value.totalQuantity){
+    console.log("跳转至结算页面")
+    Taro.navigateTo({
+      url: '/pages/pay/index',
+      events: {
+        // 监听来自 结算 页面的数据
+        sendDataToCurrentPage(data) {
+          console.log('接收到来自结算页面的数据:', data);
+        }
+      },
+      success: function (res) {
+        // 发送数据到 结算 页面
+        res.eventChannel.emit('sendDataToOpenedPage', { productInfo: filteredProducts.value.filteredIds,productNum:quantities.value,productTotalnum:filteredProducts.value.totalQuantity,total:vipTotalMoney.value });
       }
-    },
-    success: function (res) {
-      // 发送数据到 结算 页面
-      res.eventChannel.emit('sendDataToOpenedPage', { productInfo: filteredProducts.value.filteredIds,productNum:quantities.value,productTotalnum:filteredProducts.value.totalQuantity,total:vipTotalMoney.value });
-    }
-  })
+    })
+ }else{
+  console.log("无结算商品")
+ }
 }
 
 // 清空购物车
@@ -227,12 +231,12 @@ const trash=()=>{
       <IconFont class="shopping-class"  color="#f7bb44" font-class-name="iconfont"  size="42" class-prefix="icon" name="gouwuche" @click="bottomActionSheet"/>
       <!-- 悬浮按钮内容 -->
       <view class="total-calss">
-        <text style="color: white;font-size: small;">￥{{ originalTotalMoney }}</text>
+        <text style="color: white;font-size: 18rpx;">￥{{ originalTotalMoney }}</text>
         <text style="color: #f7bb44;font-size:24rpx"> 优惠后 </text>
         <text style="color: #f7bb44;">￥{{ vipTotalMoney }}</text>
       </view>
       <!-- 结算按钮 -->
-      <view class="pay-class" @click="pay"><text>去结算</text></view>
+      <view class="pay-class" @click="pay">去结算</view>
     </view>
     <!-- ActionSheet 动作面板 底部 -->
     <nut-action-sheet
