@@ -1,0 +1,276 @@
+.nut-tabs.vertical>.nut-tabs__titles {
+    padding: 0;
+  }
+  
+  .nut-tab-pane {
+    padding: 10rpx;
+    margin-left: 10rpx;
+    /* margin-bottom: 20rpx; */
+  }
+  
+  
+  .at-search-bar__action {
+      color: black;
+      font-size: 14PX;
+      background-color: white;
+      opacity: 0;
+  }
+  
+  /* 会员价颜色 */
+  .nut-card .nut-card__right .nut-card__right__price .nut-card__right__price__origin.nut-price {
+      /* margin-left: 16rpx; */
+      color: #f3b332;
+      /* color:#fa2c19; */
+  }
+  
+  
+  /* 隐藏商店名样式 */
+  .nut-card .nut-card__right .nut-card__right__shop .nut-card__right__shop__name {
+    display: none; 
+  }
+  /* 商品图片 */
+  .nut-card .nut-card__left>.h5-img {
+    border-radius: 10rpx;
+  }
+  
+  /* 跳动 动画 */
+  @keyframes inflate {
+    0% {
+      transform: scale(1); /* 初始大小 */
+    }
+    50% {
+      transform: scale(1.2); /* 变大到 1.2 倍 */
+    }
+    100% {
+      transform: scale(1); /* 还原到初始大小 */
+    }
+  }
+  /* 发光动画 */
+  @keyframes blink-glow {
+    0% { box-shadow: 0 0 10px rgba(226, 15, 103, 0.7); }
+    50% { box-shadow: 0 0 20px rgba(226, 15, 103, 0.7); }
+    100% { box-shadow: 0 0 10px rgba(226, 15, 103, 0.7); }
+  }
+  /* 折扣 */
+  .discount-cs{
+    font-size: 24rpx;
+    color: gray; 
+    font-style: italic;
+    margin-top: 10rpx;
+    margin-left: 16rpx;
+    animation: inflate 2s infinite;
+  
+  }
+  /* delivery属性、折扣部分 */
+  .nut-tag--plain{
+    color: gray; 
+    font-style: italic;
+    /* margin-top: 10rpx; */
+    /* margin-left: 16rpx; */
+    animation: inflate 2s infinite;
+  }
+  /* shopdesc、delivery部分的字体修改 */
+  .nut-card .nut-card__right .nut-card__right__other .nut-tag {
+    font-size: 22rpx;
+  }
+  /* shop desc */
+  .nut-tag--danger {
+    animation: blink-glow 3s infinite;
+  }
+  
+  /* 会员价和原价的排列方式 */
+  .nut-card .nut-card__right .nut-card__right__price {
+    margin-top: 18rpx;
+    flex-direction:column-reverse;
+    height: 80rpx;
+    align-items: flex-start;
+  }
+  
+.nut-input{
+  width: 60rpx;
+  padding: 1rpx;
+}
+
+.nut-card {
+  margin: auto;
+}
+.parent-button-class{
+  padding: 0;
+  display: flex;
+  width: 60%;
+  margin-left: 110rpx;
+  margin-top: 20rpx;
+}
+
+  /* 商品减少 */
+.minusbutton-class{
+  /* margin-left: 210rpx; */
+  margin: auto;
+  display: flex;
+  justify-content:center;
+  align-items:center;
+  width: 30rpx; /* 按钮宽度 */
+  height: 30rpx; /* 按钮高度 */
+  border: 1rpx solid #f4d859; /* 去掉边框 */
+  box-sizing: border-box; /* 包含边框在内的总宽度 */
+  border-radius: 50%; /* 圆形 */
+  cursor: pointer; /* 鼠标样式 */
+  transition: transform 0.2s; /* 添加过渡效果 */
+}
+
+/* 商品增加 */
+.addbutton-class{
+  /* margin-left: 210rpx; */
+  padding: 0;
+  margin: auto;
+  width: 30rpx; /* 按钮宽度 */
+  height: 30rpx; /* 按钮高度 */
+  background-color: #f4d859; /* 背景颜色 */
+  border: none; /* 去掉边框 */
+  border-radius: 50%; /* 圆形 */
+  cursor: pointer; /* 鼠标样式 */
+  transition: transform 0.2s; /* 添加过渡效果 */
+}
+    /* 底部结算托盘 */
+  .shopping-card-class{
+    width: 80%;
+    height: 64rpx;
+    background-color: rgba(0, 0, 0, 0.885);
+    /* background-color: whitesmoke; */
+    margin: auto;
+    position: fixed;
+    /* bottom: 180rpx; */
+    bottom: 12%;
+    left: 0;
+    right: 0; /* 将组件的左右边界置于视口的左右边界 */
+    margin-left: auto; /* 自动调整左边距 */
+    margin-right: auto; /* 自动调整右边距 */
+    text-align: center;
+    border: none; /* 去掉边框 */
+    border-radius: 50rpx; /* 圆形 */
+    padding: 0px;
+    z-index: 1000;
+    display: flex;
+    justify-content:space-between;
+  }
+  /* 购物车图标 */
+  .shopping-class{
+    /* position: fixed; */
+    position: absolute;
+    left: 14rpx;
+    /* right: 0;  */
+    bottom: 12rpx;
+    z-index: 1001;
+  }
+  /*  总价 */
+  .total-calss{
+    position: absolute;
+    /* z-index: 1001; */
+    height: 100%;
+    line-height: 64rpx;
+    left: 102rpx;
+    text-align: center;
+    font-size: 30rpx;
+    /* width: 100rpx; */
+    /* z-index: 1003; */
+  }
+  
+  /*  结算按钮 */
+  .pay-class{
+    /* position: fixed; */
+    position: absolute;
+    right: 0;
+    /* right: 0;  */
+    bottom: 0rpx;
+    z-index: 1001;
+    background-color: #f7bb44;
+    height: 100%;
+    line-height: 64rpx;
+    width: 128rpx;
+    border-radius: 0 50rpx 50rpx 0;
+    text-align: center;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+  
+  /* 左侧边最后一个tab距离底部的距离 */
+  .nut-tabs.vertical>.nut-tabs__titles.scrollable .nut-tabs__titles-placeholder {
+      height: 120rpx;
+  }
+  
+  /* 底部动作面板 */
+  .actionsheet-class{
+    position: fixed; /* 确保其位置固定 */
+    /* bottom: 100rpx; */
+    left: 0;
+    right: 0;
+    z-index: 999; 
+  }
+  
+  /* .nut-action-sheet{
+    height: 70vh;
+  }
+  .nut-popup--bottom{
+    padding-bottom: 100rpx;
+  } */
+
+  /* //购物车 加减按钮的父级 */
+  .parent-button-class2{
+    padding: 0;
+    display: flex;
+    width: 50%;
+    margin-left: 212px;
+    margin-top: 0;
+  }
+  
+  
+  /* 购物车商品卡片 */
+  .actionsheet-shopping-card-class{
+    width: 90%;
+  }
+  
+  /* 购物车商品左部 */
+  .actionsheet-shopping-card-class .nut-card__left {
+    width: 160rpx;
+    height: 160rpx;
+    margin-right: 10rpx;
+  }
+  /* 购物车原价 */
+  .nut-price {
+      color:  #6d6767;
+
+  }
+  /* .actionsheet-shopping-card-class .nut-price {
+    font-size: 14rpx;
+  }
+   */
+  /* 原价添加删除线 */
+  .nut-price .nut-price--normal{
+    text-decoration: line-through ; 
+    font-size: 30rpx;
+  }
+  .nut-price .nut-price--decimal-normal{
+    text-decoration: line-through ; 
+    /* 小数点与位数的字体大小与前面的一致 */
+    font-size: 30rpx;
+  }
+  
+  /* 原价添加删除线会影响会员价，会员价单独去除删除线 */
+  .nut-card__right__price__origin .nut-price--normal{
+    text-decoration: none; 
+  }
+  .nut-card__right__price__origin .nut-price--decimal-normal{
+    text-decoration: none; 
+    
+  }
+  /* 购物车中的字体大小 重新修改 */
+  .actionsheet-shopping-card-class .nut-price .nut-price--normal{
+    font-size: 28rpx;
+  }
+  .actionsheet-shopping-card-class .nut-price .nut-price--decimal-normal{
+    font-size: 28rpx;
+  }
+  /* 隐藏购物车中的delivery和shop desc属性 */
+  .actionsheet-shopping-card-class  .nut-card__right .nut-card__right__other {
+    display: none;
+  }

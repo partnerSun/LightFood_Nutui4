@@ -8,7 +8,7 @@ export default defineAppConfig({
     'pages/card/index',
     'pages/card-info/index',
     'pages/login/vipSignIn',
-    'pages/pay/pay',
+    'pages/pay/index',
     'pages/contact/index',
     'pages/user-record/index',
     'pages/about-us/index',

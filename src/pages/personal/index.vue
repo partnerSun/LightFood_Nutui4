@@ -51,11 +51,11 @@ useLoad(async ()=>{
 
 
 
-const vipSign=()=>{
-  Taro.navigateTo({
-      url: '/pages/login/vipSignIn'
-  })
-}
+// const vipSign=()=>{
+//   Taro.navigateTo({
+//       url: '/pages/login/vipSignIn'
+//   })
+// }
 
 const vipInfoEdit=()=>{
   if (data.userInfo.isvip){
