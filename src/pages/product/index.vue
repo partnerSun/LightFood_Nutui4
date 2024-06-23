@@ -161,15 +161,31 @@ const pay=()=>{
   // console.log("判断是否已注册会员等其他逻辑")
   if (filteredProducts.value.totalQuantity){
     console.log("跳转至结算页面")
+
     Taro.navigateTo({
       url: '/pages/pay/index',
       events: {
         // 监听来自 结算 页面的数据
         sendDataToCurrentPage(data) {
-          console.log('接收到来自结算页面的数据:', data);
+          // console.log('接收到来自结算页面的数据:', data);
+          if (data){
+            console.log('接收到来自结算页面的数据:', data);
+          }else{
+            console.log('接收到来自结算页面的数据:', data);
+            // Taro.navigateTo({
+            //   url: '/pages/product/index',
+            // })
+          }
         }
       },
       success: function (res) {
+        Taro.showLoading({
+          title: '加载中...',
+          mask: false,
+        })
+        setTimeout(function () {
+          Taro.hideLoading()
+        }, 1000)
         // 发送数据到 结算 页面
         res.eventChannel.emit('sendDataToOpenedPage', { productInfo: filteredProducts.value.filteredIds,productNum:quantities.value,productTotalnum:filteredProducts.value.totalQuantity,total:vipTotalMoney.value });
       }

@@ -14,22 +14,36 @@ const data=reactive({
 })
 
 useLoad(()=>{
+  Taro.showLoading({
+      title: '加载中...',
+      mask: false,
+    })
+    setTimeout(function () {
+      Taro.hideLoading()
+    }, 1000)
   // 获取 eventChannel 实例
   const inst =Taro.getCurrentInstance()
   console.log("inst",inst)
-  const eventChannel = Taro.getCurrentInstance().page.getOpenerEventChannel();
-
+  const eventChannel = inst.page ? inst.page.getOpenerEventChannel() : null;
+  if (eventChannel) {
   // 监听数据
   eventChannel.on('sendDataToOpenedPage', (info)=> {
-    console.log('接收到来自商品页面的数据', info)
-    data.settleProducts=info.productInfo
-    data.settleProductsNum=info.productNum
-    data.settleProductsTotalNum=info.productTotalnum
-    data.total=info.total
-    // 发送数据回 current 页面
-    // eventChannel.emit('sendDataToCurrentPage', { data: '数据从 test 页面发出' });
-  })
- 
+    // console.log('接收到来自商品页面的数据', info)
+    try {
+        data.settleProducts=info.productInfo
+        data.settleProductsNum=info.productNum
+        data.settleProductsTotalNum=info.productTotalnum
+        data.total=info.total
+        eventChannel.emit('sendDataToCurrentPage', { data: true });
+      } catch (error) {
+        console.error('数据处理出错:', error);
+        eventChannel.emit('sendDataToCurrentPage', { data: false });
+      }
+    })
+  }
+  // Taro.hideLoading()
+
+
 })
 
 const {settleProducts,settleProductsNum,settleProductsTotalNum,total}=toRefs(data)
