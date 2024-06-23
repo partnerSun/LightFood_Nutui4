@@ -221,7 +221,24 @@
     font-size: 28rpx;
     font-weight: 500;
   }
-  
+  .none-pay-class{
+    /* position: fixed; */
+    position: absolute;
+    right: 0;
+    /* right: 0;  */
+    bottom: 0rpx;
+    z-index: 1001;
+    background-color: #b19d74;
+    height: 100%;
+    line-height: 62rpx;
+    width: 128rpx;
+    border-radius: 0 50rpx 50rpx 0;
+    /* border-right: 13rpx solid #f7bb44; */
+    text-align: center;
+    letter-spacing: 1px;
+    font-size: 28rpx;
+    font-weight: 500;
+  }
   /* 左侧边最后一个tab距离底部的距离 */
   .nut-tabs.vertical>.nut-tabs__titles.scrollable .nut-tabs__titles-placeholder {
       height: 120rpx;
@@ -269,7 +286,7 @@
   }
 
   /* 购物车原价 */
-   .actionsheet-shopping-card-class .nut-price {
+.nut-price {
       color:  #6d6767;
   }
   /* .actionsheet-shopping-card-class .nut-price {

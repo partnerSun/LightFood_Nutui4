@@ -129,7 +129,7 @@ const {settleProducts,settleProductsNum,settleProductsTotalNum,total}=toRefs(dat
   <view class="pay-box">
     <view class="title">总价</view>
     <view class="price">
-      <text>¥</text>总价
+      <text>¥</text>{{ total }}
     </view>
   </view>
   <view class="pay-byn" bindtap="createorder">结算</view>

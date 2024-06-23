@@ -23,6 +23,26 @@ const data = reactive({
 })
 const tabIndex=ref(2)
 const activeTab = ref('')
+
+// 从本地缓存中加载商品数量
+const loadQuantities = () => {
+  const savedQuantities = Taro.getStorageSync('productQuantities');
+  // console.log("savedQuantities ",savedQuantities )
+  return savedQuantities ? JSON.parse(savedQuantities) : {};
+};
+// 
+const quantities = ref(loadQuantities());
+// 初始化商品列表，未选择的商品初始数量设为0
+const initQuantitiesValue=()=>{
+  data.items.forEach(product => {
+  if (!(product.ID in quantities.value)) {
+    quantities.value[product.ID] = 0;
+  }
+});
+}
+
+
+
 useLoad(async () => {
   try {
     const info = await productCheck()
@@ -32,8 +52,9 @@ useLoad(async () => {
       data.items = items
       data.ptypes = [...new Set(items.map(item => item.Ptype))]
       activeTab.value = items[0].Ptype
-      console.log("商品信息获取成功", data.items)
-      console.log("商品类型获取成功", data.ptypes)
+      // console.log("商品信息获取成功", data.items)
+      // console.log("商品类型获取成功", data.ptypes)
+      initQuantitiesValue()
     } else {
       console.log("token过期或没有商品信息")
     }
@@ -65,20 +86,8 @@ const onActionClick=() =>{
   console.log('点击了搜索按钮')
 }
 
-// 从本地缓存中加载商品数量
-const loadQuantities = () => {
-  const savedQuantities = Taro.getStorageSync('productQuantities');
-  console.log("savedQuantities ",savedQuantities )
-  return savedQuantities ? JSON.parse(savedQuantities) : {};
-};
-// 
-const quantities = ref(loadQuantities());
 
-data.items.forEach(product => {
-  if (!(product.ID in quantities.value)) {
-    quantities.value[product.ID] = 0;
-  }
-});
+
 
 // 增加商品数量
 const incrementQuantity = (id) => {
@@ -98,8 +107,8 @@ watch(quantities, (newQuantities) => {
   if (newQuantities) {
     // console.log("quantities", quantities.value);
     Taro.setStorageSync('productQuantities', JSON.stringify(newQuantities));
-    // currentProductQuantities.value = newQuantities;
-    // console.log("商品数量变化", currentProductQuantities.value);
+    let currentProductQuantities = newQuantities;
+    console.log("商品数量变化", currentProductQuantities);
   }
 }, { deep: true });
 
@@ -172,9 +181,11 @@ const pay=()=>{
 
 // 清空购物车
 const trash=()=>{
-  // Taro.removeStorageSync('productQuantities')
+  Taro.removeStorage('productQuantities')
   // loadQuantities()
-  quantities.value=[]
+  quantities.value={}
+  initQuantitiesValue()
+  
 }
 </script>
 
@@ -236,7 +247,8 @@ const trash=()=>{
         <text style="color: #f7bb44;">￥{{ vipTotalMoney }}</text>
       </view>
       <!-- 结算按钮 -->
-      <view class="pay-class" @click="pay">去结算</view>
+      <view v-if="filteredProducts.totalQuantity" class="pay-class" @click="pay">去结算</view>
+      <view v-else="filteredProducts.totalQuantity" class="none-pay-class" >无商品</view>
     </view>
     <!-- ActionSheet 动作面板 底部 -->
     <nut-action-sheet
