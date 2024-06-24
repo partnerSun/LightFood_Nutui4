@@ -75,10 +75,10 @@ const lower = (e) => {
   <TabBar :tabindex="tabIndex"></TabBar>
 </template>
 
-<style scope>
+<style>
 .parent_grid_view{
   display: grid;
-  grid-template-columns: 48% 49.5%; 
+  grid-template-columns: 49% 49.5%; 
   gap: 15px;
   /* margin-left: 10px; */
 }
@@ -96,7 +96,7 @@ const lower = (e) => {
   margin-top: 5rpx;
   width: 100%; 
   height: 32vh; 
-  border-radius: 10rpx;
+  border-radius: 8rpx;
   border: 1rpx solid rgb(231, 221, 221); 
 }
 
@@ -109,7 +109,7 @@ const lower = (e) => {
   text-align: left;
   /* font-family: "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif; */
   font-weight: 600;
-  font-size: 30rpx;
+  font-size: 28rpx;
   line-height: 120%;
 }
 

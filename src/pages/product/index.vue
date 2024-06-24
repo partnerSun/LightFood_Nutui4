@@ -300,12 +300,12 @@ const trash=()=>{
         <view  hover-class="none" hover-stop-propagation="false"  class="trash-class" >  
           <!-- 删除 -->
           <view style="display: flex;margin-left: 16rpx;" @click="trash">
-            <text style="font-size: 24rpx; font-weight: 400; letter-spacing: 1rpx;line-height: 48rpx;">清空购物车</text>
-            <AtIcon value='trash' color='black' size="14" style="margin: auto 2rpx;"></AtIcon>
+            <text style="font-size: 14px; font-weight: 350; letter-spacing: 0px;line-height: 16px;margin: auto 1px;">清空购物车</text>
+            <AtIcon value='trash' color='black' size="14" style="margin: auto 1px;"></AtIcon>
           </view>
           <!-- 关闭 -->
           <view @click="bottomActionSheet" style="margin-right: 16rpx;">
-            <IconFont name="close" color='black' size="14" style="margin: auto 0;"></IconFont>
+            <IconFont name="close" color='black' size="12px" style="margin: auto 1px;"></IconFont>
           </view>
         </view>
         <nut-divider style="width: 98%;margin: 20rpx auto 18rpx"/> 
