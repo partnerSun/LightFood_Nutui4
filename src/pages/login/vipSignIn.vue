@@ -86,7 +86,7 @@ const onAuthError = () => {
 	  let userInfo = await getVipUserInfoApi(uid)
 	  Taro.setStorageSync('userInfo', userInfo.data.items)
     
-	//   使用avigateBack不会刷新
+	//   使用navigateBack不会刷新
       Taro.redirectTo({
       	url: '/pages/personal/index'
       });

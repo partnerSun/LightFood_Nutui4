@@ -158,41 +158,61 @@ const originalTotalMoney=computed(()=>{
 
 // 支付
 const pay=()=>{
-  // console.log("判断是否已注册会员等其他逻辑")
-  if (filteredProducts.value.totalQuantity){
-    console.log("跳转至结算页面")
-
-    Taro.navigateTo({
-      url: '/pages/pay/index',
-      events: {
-        // 监听来自 结算 页面的数据
-        sendDataToCurrentPage(data) {
-          // console.log('接收到来自结算页面的数据:', data);
-          if (data){
-            console.log('接收到来自结算页面的数据:', data);
-          }else{
-            console.log('接收到来自结算页面的数据:', data);
-            // Taro.navigateTo({
-            //   url: '/pages/product/index',
-            // })
+ 
+  let uinfo =Taro.getStorageSync('userInfo')
+   // 判断是否已注册会员
+  if (uinfo){
+    // 判断是否存在结算商品
+    if (filteredProducts.value.totalQuantity){
+      console.log("跳转至结算页面")
+      Taro.navigateTo({
+        url: '/pages/pay/index',
+        events: {
+          // 监听来自 结算 页面的数据
+          sendDataToCurrentPage(data) {
+            // console.log('接收到来自结算页面的数据:', data);
+            if (data){
+              console.log('接收到来自结算页面的数据:', data);
+            }else{
+              console.log('接收到来自结算页面的数据:', data);
+              // Taro.navigateTo({
+              //   url: '/pages/product/index',
+              // })
+            }
           }
+        },
+        success:  (res) =>{
+          Taro.showLoading({
+            title: '加载中...',
+            mask: false,
+          })
+          setTimeout(function () {
+            Taro.hideLoading()
+          }, 1000)
+          // 发送数据到 结算 页面
+          res.eventChannel.emit('sendDataToOpenedPage', { productInfo: filteredProducts.value.filteredIds,productNum:quantities.value,productTotalnum:filteredProducts.value.totalQuantity,total:vipTotalMoney.value });
         }
-      },
-      success: function (res) {
-        Taro.showLoading({
-          title: '加载中...',
-          mask: false,
-        })
-        setTimeout(function () {
-          Taro.hideLoading()
-        }, 1000)
-        // 发送数据到 结算 页面
-        res.eventChannel.emit('sendDataToOpenedPage', { productInfo: filteredProducts.value.filteredIds,productNum:quantities.value,productTotalnum:filteredProducts.value.totalQuantity,total:vipTotalMoney.value });
-      }
+      })
+    }else{
+      console.log("无结算商品")
+    }
+  }else{
+    Taro.showToast({
+      title: "请先完成注册登录",
+      icon: 'none',
+      duration: 2000,
+      // success:  (res) =>{
+      //   console.log("res",res)
+
+      // }
     })
- }else{
-  console.log("无结算商品")
- }
+    setTimeout(function () {
+      Taro.navigateTo({
+        url: '/pages/personal/index',
+      })
+      }, 2000)
+    }
+
 }
 
 // 清空购物车

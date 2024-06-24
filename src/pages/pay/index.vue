@@ -111,6 +111,7 @@ const {settleProducts,settleProductsNum,settleProductsTotalNum,total}=toRefs(dat
 
 
 const createorder= async()=>{
+
   let uid=Taro.getStorageSync('userId')
   let productStr=Taro.getStorageSync('productQuantities')
   let params=reactive({
@@ -132,6 +133,8 @@ const createorder= async()=>{
       duration: 2000
     })
   }
+
+
 }
 </script>
 
