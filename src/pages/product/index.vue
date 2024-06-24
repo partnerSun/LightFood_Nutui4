@@ -3,7 +3,7 @@ import TabBar from '../../components/TabBar.vue';
 import { reactive, toRefs,watch ,computed,  ref } from 'vue';
 import { useLoad } from '@tarojs/taro'
 import {productCheck} from '../../api/product.js'
-import { Minus,Plus,Cart,IconFont  } from '@nutui/icons-vue-taro'
+import { Minus,Plus,IconFont  } from '@nutui/icons-vue-taro'
 import { AtSearchBar } from 'taro-ui-vue3'
 import "taro-ui-vue3/dist/style/components/search-bar.scss";
 import Taro from '@tarojs/taro'
@@ -107,8 +107,8 @@ watch(quantities, (newQuantities) => {
   if (newQuantities) {
     // console.log("quantities", quantities.value);
     Taro.setStorageSync('productQuantities', JSON.stringify(newQuantities));
-    let currentProductQuantities = newQuantities;
-    console.log("商品数量变化", currentProductQuantities);
+    // let currentProductQuantities = newQuantities;
+    // console.log("商品数量变化", currentProductQuantities);
   }
 }, { deep: true });
 
@@ -267,15 +267,26 @@ const trash=()=>{
       <view v-else="filteredProducts.totalQuantity" class="none-pay-class" >无商品</view>
     </view>
     <!-- ActionSheet 动作面板 底部 -->
-    <nut-action-sheet
+    <!-- pop-class="actionsheet-class" -->
+    <nut-popup
       v-model:visible="showActionSheet"
-      title="购物车"
-      class="actionsheet-class"
+      position="bottom"
+      z-index="900"
+      round
+      safe-area-inset-bottom
+      pop-class="actionsheet-class"
     >
       <view style="padding-bottom: 260rpx;padding-top: 10rpx;">
-        <view  hover-class="none" hover-stop-propagation="false"  class="trash-class" @click="trash">  
-          <span style="font-size: 24rpx; font-weight: 350; letter-spacing: 1px;line-height: 50rpx;">清空购物车</span>
-          <AtIcon value='trash' color='black' size="14" style="margin: auto 0;"></AtIcon>
+        <view  hover-class="none" hover-stop-propagation="false"  class="trash-class" >  
+          <!-- 删除 -->
+          <view style="display: flex;margin-left: 16rpx;" @click="trash">
+            <text style="font-size: 24rpx; font-weight: 400; letter-spacing: 1rpx;line-height: 48rpx;">清空购物车</text>
+            <AtIcon value='trash' color='black' size="14" style="margin: auto 2rpx;"></AtIcon>
+          </view>
+          <!-- 关闭 -->
+          <view @click="bottomActionSheet" style="margin-right: 16rpx;">
+            <IconFont name="close" color='black' size="14" style="margin: auto 0;"></IconFont>
+          </view>
         </view>
         <nut-divider style="width: 98%;margin: 20rpx auto 18rpx"/> 
         <view v-for="product in filteredProducts.filteredIds" :key="product.ID" style="margin-bottom: 10rpx;">
@@ -303,7 +314,7 @@ const trash=()=>{
         <nut-divider style="width: 90%;margin: 0 auto 18rpx"/>
         </view>
       </view>
-    </nut-action-sheet>
+    </nut-popup>
   </view>
   <TabBar :tabindex="tabIndex"></TabBar>
 </template>

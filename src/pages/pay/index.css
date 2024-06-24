@@ -242,3 +242,8 @@ page{
   .blank-bottom {
     height: 140rpx;
   }
+
+  .text .nut-input {
+    width: 100%;
+    padding: 10rpx 30rpx;
+}

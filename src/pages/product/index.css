@@ -239,6 +239,7 @@
     font-size: 28rpx;
     font-weight: 500;
   }
+
   /* 左侧边最后一个tab距离底部的距离 */
   .nut-tabs.vertical>.nut-tabs__titles.scrollable .nut-tabs__titles-placeholder {
       height: 120rpx;
@@ -246,22 +247,25 @@
   
   /* 底部动作面板 */
   .actionsheet-class{
-    position: fixed; /* 确保其位置固定 */
-    /* bottom: 100rpx; */
+    /* position: fixed; 
     left: 0;
     right: 0;
-    z-index: 999; 
+    z-index: 999;  */
+    height: 60%;
+    padding-top: 15rpx;
+
   }
   
 
 /* 清空购物车 */
   .trash-class{
-    width: 96%;
+    width: 94%;
     /* height: 40rpx; */
     /* padding: 5rpx; */
+    margin: auto;
     height: 50rpx;
     display: flex;
-    flex-direction: row-reverse;
+    justify-content:space-between;
   }
   /* 购物车 加减按钮的父级 */
   .parent-button-class2{
