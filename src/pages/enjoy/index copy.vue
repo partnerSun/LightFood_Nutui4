@@ -1,6 +1,5 @@
 <script setup>
 import {ref,reactive,onMounted,toRefs} from 'vue';
-import { Row, Col } from '@nutui/nutui-taro'
 // import TabBar from '../../components/TabBar.vue';
 // import { Dongdong } from '@nutui/icons-vue-taro';
 import Taro from '@tarojs/taro' 
@@ -47,79 +46,71 @@ const lower = (e) => {
 
 <template>
   <!-- 搜索框 -->
-  <view hover-class="none" hover-stop-propagation="false">
+  <view class="" hover-class="none" hover-stop-propagation="false">
     <nut-searchbar v-model="val" @search="search" style="width: 80%;margin: auto;"></nut-searchbar>
   </view>
   <!-- 发布分享页 -->
-  <view style="background-color: whitesmoke;">
+  <view >
     <scroll-view 
-    scrollY
+    :scroll-y="true" 
+    style="height: 80vh;" 
     @scrolltoupper="upper"
     @scrolltolower="lower" 
     :enhanced="enhanced"
     :showScrollbar="showScrollbar"
     >
-      <!-- <view  class="parent_grid_view" >
+      <view  class="parent_grid_view" >
         <view v-for="(item,index) in contentData" :key="index" @click="showDetail(item.id)" class="grid_content_view">
             <img :mode="imgMode" :src="item.image[0]" class="img-content"/>
+            <!-- <view class="title">{{ item.title }}</view> -->
             <view class="title">
               <nut-ellipsis :content="item.title" direction="end" rows="2" >
               </nut-ellipsis>
             </view>
         </view>
-      </view> -->
-      <nut-row :gutter="4">
-        <nut-col :span="12" v-for="(item,index) in contentData" :key="index" @click="showDetail(item.id)" >
-          <view class="block_content_view">
-            <img :mode="imgMode" :src="item.image[0]" class="img-content"/>
-            <view class="title">
-              <nut-ellipsis :content="item.title" direction="end" rows="2" >
-              </nut-ellipsis>
-            </view>
-          </view>
-        </nut-col>
-      </nut-row>
+      </view>
     </scroll-view>
   </view>
 
   <TabBar :tabindex="tabIndex"></TabBar>
 </template>
 
-<style lang="less">
+<style>
 .parent_grid_view{
   display: grid;
   grid-template-columns: 49% 49.5%; 
   gap: 15px;
   /* margin-left: 10px; */
 }
+/* .nut-grid-item__content {
+  position: relative;
+  padding-left: 5rpx;
+  padding-right: 5rpx;
+  padding-top: 5rpx;
+  padding-bottom: 5rpx;
+  width: 48vw;
+} */
 
-.block_content_view{
-  background-color: #FFFFFF;
-  border-radius: 10rpx;
-  /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
-  overflow: hidden;
-  margin-bottom: 15rpx;
-  .img-content{
-    /* margin-top: 0rpx; */
-    width: 100%; 
-    height: 32vh; 
-    border-radius: 8rpx 8rpx 0 0;
-    /* border: 1rpx solid rgb(231, 221, 221);  */
-  }
-  .title{
-    margin-top: 8rpx;
-    margin-left: 10rpx;
-    margin-bottom: 8rpx;
-    /* height: 40rpx; */
-    /* max-height: 80rpx; */
-    text-align: left;
-    /* font-family: "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif; */
-    font-weight: 500;
-    font-size: 28rpx;
-    line-height: 120%;
-  }
+
+.img-content{
+  margin-top: 5rpx;
+  width: 100%; 
+  height: 32vh; 
+  border-radius: 8rpx;
+  border: 1rpx solid rgb(231, 221, 221); 
 }
 
-
+.title{
+  margin-top: 8rpx;
+  margin-left: 17rpx;
+  margin-bottom: 8rpx;
+  /* height: 40rpx; */
+  /* max-height: 80rpx; */
+  text-align: left;
+  /* font-family: "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif; */
+  font-weight: 600;
+  font-size: 28rpx;
+  line-height: 120%;
+}
 
 </style>

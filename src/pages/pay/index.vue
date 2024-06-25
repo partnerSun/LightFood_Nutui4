@@ -2,6 +2,7 @@
 import Taro,{useLoad} from '@tarojs/taro'
 import { toRefs ,reactive,ref} from 'vue';
 import {payApi} from '../../api/pay.js'
+import {getOrderInfoApi} from '../../api/order.js'
 import './index.css'
 
 // 解决透传 Attributes 
@@ -28,7 +29,7 @@ useLoad(()=>{
     }, 1000)
   // 获取 eventChannel 实例
   const inst =Taro.getCurrentInstance()
-  console.log("inst",inst)
+  // console.log("inst",inst)
   const eventChannel = inst.page ? inst.page.getOpenerEventChannel() : null;
   if (eventChannel) {
   // 监听数据
@@ -39,7 +40,7 @@ useLoad(()=>{
         data.settleProductsNum=info.productNum
         data.settleProductsTotalNum=info.productTotalnum
         data.total=info.total
-        console.log("data",data)
+        // console.log("data",data)
         eventChannel.emit('sendDataToCurrentPage', { data: true });
       } catch (error) {
         console.error('数据处理出错:', error);
@@ -62,27 +63,58 @@ const day = now.getDate();        // 日
 const hours = now.getHours();     // 时
 const minutes = now.getMinutes(); // 分
 
-const preday = now.getDate()+3; 
-const min = new Date(year, month, day,hours,minutes)
-const max = new Date(year, month, preday,23,59)
+// 用于时间选择器的最大时间范围，延迟1年1月7天
+let dateLater = new Date(now);
+dateLater.setFullYear(now.getFullYear() + 1);
+dateLater.setMonth(now.getMonth() + 1);
+dateLater.setDate(now.getDate() + 7);
+const yearLater = dateLater.getFullYear();
+const monthLater = dateLater.getMonth()+1; 
+const dayLater = dateLater.getDate(); 
 
+// 构造默认自提时间各部分，延迟35分钟
+const defaultTimeLater= new Date(now);
+defaultTimeLater.setMinutes(now.getMinutes() + 35);
+const defaultyearLater = defaultTimeLater.getFullYear(); 
+const defaultmonthLater = defaultTimeLater.getMonth()+1;
+const defaultdayLater = defaultTimeLater.getDate();
+const defaulthourLater = defaultTimeLater.getHours();
+const defaultminLater = defaultTimeLater.getMinutes(); 
+
+// 用于时间选择器的时间范围限制
+const min = new Date(year, month, day,hours,minutes)
+const max = new Date(yearLater, monthLater-1, dayLater,23,59)
+// 
 const comment=ref('添加备注')
-const initDate=ref(now)
-const sendDate=ref('选择配送时间')
-const show=ref(false)
+
+// 时间选择器的默认值
+const initDate=ref(defaultTimeLater)
+
+
+// 自提时间的默认值
+let selfGetDate = ref(
+    defaultyearLater + "-" +
+    (defaultmonthLater < 10 ? '0' + defaultmonthLater : defaultmonthLater) + "-" + // 修正：格式化为两位数
+    (defaultdayLater < 10 ? '0' + defaultdayLater : defaultdayLater) + " " +       // 修正：格式化为两位数
+    (defaulthourLater < 10 ? '0' + defaulthourLater : defaulthourLater) + ":" +   // 修正：格式化为两位数
+    (defaultminLater < 10 ? '0' + defaultminLater : defaultminLater) + ":00"       // 修正：格式化为两位数
+);
+
+const showDateSelecter=ref(false)
+
 const confirm = ({ selectedValue }) => {
-  console.log(selectedValue)
+  // console.log(selectedValue)
   let y=selectedValue[0]
   let m=selectedValue[1]
   let d=selectedValue[2]
   let h=selectedValue[3]
   let min=selectedValue[4]
-  sendDate.value=y+"-"+m+"-"+d+"-"+h
-  console.log(sendDate.value)
-  show.value = false
+  selfGetDate.value=y+"-"+m+"-"+d+" "+h+":"+min+":00"
+  // console.log(selfGetDate.value)
+  showDateSelecter.value = false
 }
 const showDateSelect=()=>{
-  show.value=true
+  showDateSelecter.value=true
 }
 
 const formatter = (type, option) => {
@@ -117,21 +149,38 @@ const createorder= async()=>{
   let params=reactive({
     userid:uid,
     origin_settle_products:JSON.parse(productStr),
+    phone:inputNumber.value,
+    getdate:selfGetDate.value,
+    comment:comment.value,
   })
-  console.log("params",params)
-  let payRest = await payApi(params)
-  console.log("payRest",payRest)
-  if(payRest.data.status==200){
+  // console.log("params",params)
+
+  // 发送结算信息给后端（更新订单、积分、结算价格）
+  let payRes = await payApi(params)
+  console.log("支付接口返回数据",payRes)
+  if(payRes.data.status==200){
+    let totalP = payRes.data.data.total
+    console.log('支付总价',totalP)
     // Taro.navigateTo({
     //   url: '/pages/pay/index',
     // })
-    console.log("支付界面")
+    // 后端计算返回商品总价
+    console.log("付款")
+
   }else{
     Taro.showToast({
-      title: payRest.data.message,
+      title: payRes.data.message,
       icon: 'none',
       duration: 2000
     })
+  }
+  // console.log("更新获取订单信息")
+  // 付款后 自动更新获取该用户的所有订单信息，以后虚增加查询限制    
+  let orderUpdateRes = await getOrderInfoApi(params)
+  if (orderUpdateRes.data.status == 200) {
+    let orderInfo=orderUpdateRes.data.data.items
+    console.log("订单信息",orderInfo)
+    Taro.setStorageSync('orderInfo',orderInfo)
   }
 
 
@@ -178,7 +227,7 @@ const createorder= async()=>{
           <text>自取时间</text>
         </view>
       </view>
-      <view class="text" style="padding: 10rpx 30rpx;">{{ sendDate }}</view>
+      <view class="text" style="padding: 10rpx 30rpx;">{{ selfGetDate }}</view>
     </view>
     <!-- <van-icon name="arrow"/> -->
   </view>
@@ -245,10 +294,10 @@ const createorder= async()=>{
 </view>
 
 <!-- 配送时间 -->
-<nut-popup v-model:visible="show" position="bottom" >
+<nut-popup v-model:visible="showDateSelecter" position="bottom" >
   <nut-date-picker
     v-model="initDate"
-    type="datehour"
+    type="datetime"
     :min-date="min"
     :max-date="max"
     :three-dimensional="false"
