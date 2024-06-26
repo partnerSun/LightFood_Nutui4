@@ -32,7 +32,8 @@ export default defineAppConfig({
       "scope.writePhotosAlbum": {
         "desc": "你的相册"
       },
-    }
+    },
+  lazyCodeLoading: 'requiredComponents',
   
   
 })
