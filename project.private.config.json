@@ -3,5 +3,6 @@
   "projectname": "lightFood",
   "setting": {
     "compileHotReLoad": true
-  }
+  },
+  "libVersion": "3.4.7"
 }

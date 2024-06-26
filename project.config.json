@@ -2,14 +2,14 @@
   "miniprogramRoot": "dist/",
   "projectname": "lightFood",
   "description": "轻食小应用",
-  "appid": "wxbd02c0715c656656",
+  "appid": "wx36d1205f2473e8ad",
   "setting": {
     "urlCheck": true,
     "es6": true,
     "enhance": true,
     "compileHotReLoad": false,
     "postcss": false,
-    "minified": false,
+    "minified": true,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],

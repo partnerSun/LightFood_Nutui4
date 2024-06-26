@@ -71,15 +71,6 @@ const {sharesInfo}=toRefs(data)
     :enhanced="enhanced"
     :showScrollbar="showScrollbar"
     >
-      <!-- <view  class="parent_grid_view" >
-        <view v-for="(item,index) in contentData" :key="index" @click="showDetail(item.id)" class="grid_content_view">
-            <img :mode="imgMode" :src="item.image[0]" class="img-content"/>
-            <view class="title">
-              <nut-ellipsis :content="item.title" direction="end" rows="2" >
-              </nut-ellipsis>
-            </view>
-        </view>
-      </view> -->
       <nut-row :gutter="4">
         <nut-col :span="12" v-for="(item,index) in sharesInfo" :key="index" @click="showDetail(item.id)" >
           <view class="block_content_view">
@@ -97,12 +88,6 @@ const {sharesInfo}=toRefs(data)
 </template>
 
 <style lang="less">
-.parent_grid_view{
-  display: grid;
-  grid-template-columns: 49% 49.5%; 
-  gap: 15px;
-  /* margin-left: 10px; */
-}
 
 .block_content_view{
   background-color: #FFFFFF;

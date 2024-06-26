@@ -1,8 +1,7 @@
 <script setup>
-import { ref, reactive,toRefs} from 'vue'
+import { ref, reactive,toRefs,onBeforeMount} from 'vue'
 // import contentData from '../../components/info.js'
 import Taro, { useLoad } from '@tarojs/taro' 
-import { Ellipsis } from '@nutui/nutui-taro'
 import { IconFont } from '@nutui/icons-vue-taro'
 import { Share, Star,Follow } from '@nutui/icons-vue-taro'
 import {sharesCheck} from '../../api/shares.js'
@@ -24,13 +23,13 @@ let CollectUnActiveColor = ref('black')
 let starActiveStatus=ref(false)
 let collectActiveStatus=ref(false)
 
-const data =reactive({
+const data = reactive({
     result:{},
-    
+    content:'',
 })
 
-const content=ref('')
-useLoad(async ()=>{
+
+onBeforeMount(async()=>{
   // 获取所有的分享信息
   let sharesCheckRes=await sharesCheck()
   let sharesInfo=sharesCheckRes.data.data.items
@@ -39,8 +38,10 @@ useLoad(async ()=>{
   id.value = Number(params.id); // 确保 id 是数字类型  
   // 过滤出当前id对应的分享信息
   data.result= sharesInfo.find(item => item.id === id.value);
-  content.value=data.result.content
+  data.content=data.result.content
+})
 
+useLoad(()=>{
   // 显示分享菜单
   Taro.showShareMenu({
     withShareTicket: true,
@@ -54,7 +55,7 @@ useLoad(async ()=>{
   })
 })
 
-const {result,} = toRefs(data)
+const {result,content} = toRefs(data)
 
 
 const CheckedCached=(btype)=>{
@@ -99,6 +100,8 @@ const share = () => {
   //     }
   //   });
 }
+
+
 </script>
 
 <template>
@@ -131,9 +134,9 @@ const share = () => {
         <view class="bottom_title">
           {{ result.title }}
         </view>
+        
         <view class="bottom_content">
-          <nut-ellipsis :content="content" direction="end" :rows="6" expand-text="展开" collapse-text="收起">
-          </nut-ellipsis>
+          <nut-ellipsis direction="start" :content="content" rows="3"></nut-ellipsis>
         </view>
         <view style="height: 300rpx;"></view>
       </view>
