@@ -85,8 +85,7 @@ const {sharesInfo}=toRefs(data)
           <view class="block_content_view">
             <img :mode="imgMode" :src="item.img[0]" class="img-content"/>
             <view class="title">
-              <nut-ellipsis :content="item.title" direction="end" rows="2" >
-              </nut-ellipsis>
+              <text class="title-content">{{ item.title }}</text>
             </view>
           </view>
         </nut-col>
@@ -121,20 +120,21 @@ const {sharesInfo}=toRefs(data)
     /* border: 1rpx solid rgb(231, 221, 221);  */
   }
   .title{
-    display: flex;
-    padding: 0px 20rpx;
-    justify-content: center;
-    align-items: center;
+    // display: flex;
     color: #000;
+    font-family: "PingFang SC";
+    padding: 0px 20rpx;
+    margin-bottom: 5rpx;
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-weight: 520;
+    font-size: 26rpx;
+    line-height: normal;
+    font-style: normal;
+    letter-spacing: 2rpx;
     }
 }
-// 标题的字体设置
-.nut-ellipsis__wordbreak{
-  font-family: "PingFang SC";
-    font-size: 26rpx;
-    font-weight: 550;
-    letter-spacing: 2rpx;
-}
-
-
 </style>

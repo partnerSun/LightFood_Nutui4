@@ -1,7 +1,8 @@
 <script setup>
-import { h,ref, reactive,toRefs,onMounted} from 'vue'
+import { ref, reactive,toRefs} from 'vue'
 // import contentData from '../../components/info.js'
 import Taro, { useLoad } from '@tarojs/taro' 
+import { Ellipsis } from '@nutui/nutui-taro'
 import { IconFont } from '@nutui/icons-vue-taro'
 import { Share, Star,Follow } from '@nutui/icons-vue-taro'
 import {sharesCheck} from '../../api/shares.js'
@@ -25,23 +26,22 @@ let collectActiveStatus=ref(false)
 
 const data =reactive({
     result:{},
-    content:''
+    
 })
 
-// onBeforeMount(()=>{
-//     const params = Taro.getCurrentInstance().router.params;
-//     id.value = Number(params.id); // 确保 id 是数字类型
-//     data.result = contentData.find(item => item.id === id.value);
-//     data.content=data.result.info
-// })
-
+const content=ref('')
 useLoad(async ()=>{
+  // 获取所有的分享信息
   let sharesCheckRes=await sharesCheck()
+  let sharesInfo=sharesCheckRes.data.data.items
+  // 获取父组件传过来的参数
   const params = Taro.getCurrentInstance().router.params;
   id.value = Number(params.id); // 确保 id 是数字类型  
-  let sharesInfo=sharesCheckRes.data.data.items
+  // 过滤出当前id对应的分享信息
   data.result= sharesInfo.find(item => item.id === id.value);
+  content.value=data.result.content
 
+  // 显示分享菜单
   Taro.showShareMenu({
     withShareTicket: true,
     showShareItems:['shareAppMessage', 'shareTimeline'],
@@ -54,7 +54,7 @@ useLoad(async ()=>{
   })
 })
 
-const {result,content} = toRefs(data)
+const {result,} = toRefs(data)
 
 
 const CheckedCached=(btype)=>{
@@ -68,19 +68,6 @@ const CheckedCached=(btype)=>{
 }
 
 
-
-onMounted(() => {
-  Taro.showShareMenu({
-  withShareTicket: true,
-  showShareItems:['shareAppMessage', 'shareTimeline'],
-  success: function (res) {
-    console.log('显示分享菜单成功', res);
-  },
-  fail: function (err) {
-    console.log('显示分享菜单失败', err);
-  },
-})
-})
 
 const share = () => {
   console.log('分享')
@@ -142,14 +129,12 @@ const share = () => {
       <!-- 标题和文字内容 -->
       <view>
         <view class="bottom_title">
-         {{ result.title }}
+          {{ result.title }}
         </view>
-        
         <view class="bottom_content">
-          <nut-ellipsis :content="result.content" direction="end" rows="11" expand-text="展开" collapse-text="收起">
+          <nut-ellipsis :content="content" direction="end" :rows="6" expand-text="展开" collapse-text="收起">
           </nut-ellipsis>
         </view>
-        
         <view style="height: 300rpx;"></view>
       </view>
     </scroll-view>
