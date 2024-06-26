@@ -2,6 +2,7 @@
 import { reactive,toRefs,ref } from 'vue';
 import Taro,{useLoad}from '@tarojs/taro'
 import wxbarcode from 'wxbarcode'
+import {encryptedStoreData,decodeRetrieveData} from '../../utils/localDataProcess.js'
 import './index.css';
 import icon_4_card_active from '../../assets/images/icon-4-card-active@2x.png';
 
@@ -21,7 +22,8 @@ const data=reactive({
 });
 
 useLoad(async ()=>{
-  data.userInfo=Taro.getStorageSync('userInfo')
+  // data.userInfo=Taro.getStorageSync('userInfo')
+  data.userInfo = await decodeRetrieveData('userInfo')
   qrText.value=data.userInfo.phone
   // console.log("data.userInfo",data.userInfo)
   if (qrText.value.length>0){

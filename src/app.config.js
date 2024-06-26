@@ -4,7 +4,7 @@ export default defineAppConfig({
     'pages/enjoy/index',
     'pages/product/index',
     'pages/personal/index',
-    'pages/detail/index',
+    'pages/enjoy-detail/index',
     'pages/card/index',
     'pages/card-info/index',
     'pages/login/vipSignIn',

@@ -5,7 +5,7 @@ import { reactive,ref  } from 'vue';
 import Taro,{useLoad} from '@tarojs/taro'
 import { vipSignApi } from '../../api/login'; 
 import {getVipUserInfoApi} from '../../api/user.js'
-
+import {encryptedStoreData} from '../../utils/localDataProcess.js'
 
 // 获取微信用户加密数据
 const getwxUserData = () => {
@@ -13,7 +13,7 @@ const getwxUserData = () => {
 		Taro.getUserProfile({
 			desc: '完善用户信息',
 			success: (data) => {
-				console.log("getUserProfile获取的用户信息:", data)
+				// console.log("getUserProfile获取的用户信息:", data)
 				resolve(data)
 			},
 			fail: err => {
@@ -25,36 +25,7 @@ const getwxUserData = () => {
 
 
 
-// 用户登录
-// const appLogin = () => {
-//   return new Promise(async(resolve, reject) => {
-//       try {
-// 		  code.value = await getAppCode()
-//           // 微信登录
-//           let params = reactive({
-//               code: code.value,
-//               source: 'MP',
-//             //   encryptedata: detail.encryptedData,
-//             //   iv: detail.iv
-//           })
-// 		  let wxloginRes=await loginApi(params)
-// 		  console.log("wxloginRes",wxloginRes)
-//         //   let wxloginRes = await loginByWx(params)
-//           if(wxloginRes.status == 200) {
-// 			// console.log("applogin 登录成功")
-//               resolve(wxloginRes.data)
-//           } else {
-// 			// console.log("applogin 登录失败")
-//               reject(wxloginRes)
-//           }
-  
-//           // #endif
-//       } 
-// 	  catch(err) {
-//           reject(err)
-//       }
-//   });
-// }
+
 
 // 授权失败
 const onAuthError = () => {
@@ -84,8 +55,9 @@ const onAuthError = () => {
 
 	//查询并保存会员信息至本地缓存
 	  let userInfo = await getVipUserInfoApi(uid)
-	  Taro.setStorageSync('userInfo', userInfo.data.items)
-    
+	  // Taro.setStorageSync('userInfo', userInfo.data.items)
+	  // 加密存储用户信息
+      await encryptedStoreData('userInfo',userInfo.data.items)
 	//   使用navigateBack不会刷新
       Taro.redirectTo({
       	url: '/pages/personal/index'
@@ -93,6 +65,7 @@ const onAuthError = () => {
 	
       // #endif					
    } catch(err) {
+	 console('微信登录获取信息报错:',err)
   	 onAuthError()
   }
 }

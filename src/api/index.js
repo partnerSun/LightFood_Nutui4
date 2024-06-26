@@ -2,7 +2,7 @@ import axios from 'axios'
 // import {CONFIG} from '../config/index.js'
 import Taro from '@tarojs/taro'
 import { autoLogin } from './autoLogin.js'
-import {retrieveToken} from '../utils/tokenSafe.js'
+import {decodeRetrieveToken} from '../utils/localDataProcess.js'
 
 
 axios.interceptors.request.use(
@@ -26,7 +26,7 @@ axios.interceptors.request.use(
         try {
             // tokenValue = window.localStorage.getItem('Authorization')
             // 获取加密的token，并解密
-            tokenValue = await retrieveToken()
+            tokenValue = await decodeRetrieveToken('encryptedToken')
         } catch (error) {
              tokenValue = ""
         }

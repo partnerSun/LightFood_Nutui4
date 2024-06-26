@@ -5,7 +5,7 @@ import TabBar from '../../components/TabBar.vue';
 import Taro,{useLoad}from '@tarojs/taro'
 
 import {processPhonerWorkflow} from '../../utils/decryptPhone.js'
-
+import {decodeRetrieveData} from '../../utils/localDataProcess.js'
 
 // 导入本地图片
 import icon_font_solid from '../../assets/images/icon-font-solid-1@2x.png';
@@ -39,7 +39,8 @@ const data=reactive({
 
 
 useLoad(async ()=>{
-  data.userInfo=Taro.getStorageSync('userInfo')
+  // data.userInfo=Taro.getStorageSync('userInfo')
+  data.userInfo= await decodeRetrieveData('userInfo')
  })
 
 
@@ -58,15 +59,16 @@ useLoad(async ()=>{
 // }
 
 const vipInfoEdit=()=>{
-  if (data.userInfo.isvip){
-    Taro.navigateTo({
-      url: '/pages/card-info/index'
-    })
-  }else{
+  if (!data.userInfo || !data.userInfo.isvip){
+
     Taro.showToast({
         title: '请微信登录注册会员',
         icon: 'none'
       })
+  }else{
+    Taro.navigateTo({
+      url: '/pages/card-info/index'
+    })
   }
 
 }
@@ -74,15 +76,17 @@ const vipInfoEdit=()=>{
 
 
 const vipSignInWithPhone=()=>{
-  if (data.userInfo.isvip){
-    visible.value=true
-  }else{
+  if (!data.userInfo||!data.userInfo.isvip){
     Taro.showToast({
-        title: '请微信登录注册会员',
+        title: '请微信登录激活会员',
         icon: 'none'
-      })
+      }) 
+  }else{
+    visible.value=true
+
   }
 }
+
 const onCancel=()=>{
   visible.value=false
   Taro.showToast({
@@ -100,7 +104,7 @@ const {userInfo}=toRefs(data)
 
 <template>
 <view class="mycard"></view>
-<view v-if="userInfo.isvip && userInfo.avatarUrl" class="card-bar">
+<view v-if="userInfo && userInfo.isvip" class="card-bar">
   <view class="card-box">
     <image :mode='imgMode' class='my-photo' :src="userInfo.avatarUrl"></image>
     <view class="name">{{userInfo.nick}}</view>
@@ -140,14 +144,14 @@ const {userInfo}=toRefs(data)
   <!-- <button @click="vipSign"></button> -->
 </view>
 
-<view class="price-bar">
+<view class="price-bar" >
   <!-- <text>{{ userAmount.score }}</text>p -->
-  <text>{{userInfo.score}}</text>p
+  <text v-if="userInfo">{{userInfo.score}}</text>p
   
 </view>
 
 
-<block v-if="!userInfo.phone || !userInfo.isvip">
+<block v-if="!userInfo ||!userInfo.phone || !userInfo.isvip">
   <view class="content-bar">
     <image :mode='imgMode' class='icon' :src="user_icon_login"></image>
     <view class="content" @click="vipSignInWithPhone">激活会员身份</view>

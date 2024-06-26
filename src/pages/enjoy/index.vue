@@ -1,10 +1,11 @@
 <script setup>
-import {ref,reactive,onMounted,toRefs} from 'vue';
-import { Row, Col } from '@nutui/nutui-taro'
+import {ref,reactive,toRefs} from 'vue';
+// import { Row, Col } from '@nutui/nutui-taro'
 // import TabBar from '../../components/TabBar.vue';
 // import { Dongdong } from '@nutui/icons-vue-taro';
-import Taro from '@tarojs/taro' 
+import Taro,{useLoad} from '@tarojs/taro' 
 import contentData from '../../components/info.js'
+import {sharesCheck} from '../../api/shares.js'
 
 
 // 解决透传 Attributes
@@ -12,6 +13,14 @@ defineOptions({
   inheritAttrs: false
 })
 
+const data=reactive({
+  sharesInfo:{}
+})
+useLoad(async()=>{
+  let sharesCheckRes=await sharesCheck()
+  data.sharesInfo=sharesCheckRes.data.data.items
+  console.log("分享内容：",data.sharesInfo)
+})
 const imgMode=ref('scaleToFit')
 // 启用 scroll-view 增强特性
 const enhanced=ref(true)
@@ -28,10 +37,12 @@ const search = (text) => {
 
 
 const showDetail = (id) => {
-  console.log('showDetail', id)
+  // console.log('showDetail', id)
+  Taro.preload({
+    sharesInfo: data.sharesInfo
+  });
   Taro.navigateTo({
-    url: '/pages/detail/index?id='+id,
-
+    url: '/pages/enjoy-detail/index?id='+id,
   })
 }
 
@@ -43,6 +54,7 @@ const lower = (e) => {
   console.log('lower:', e)
 }
 
+const {sharesInfo}=toRefs(data)
 </script>
 
 <template>
@@ -69,9 +81,9 @@ const lower = (e) => {
         </view>
       </view> -->
       <nut-row :gutter="4">
-        <nut-col :span="12" v-for="(item,index) in contentData" :key="index" @click="showDetail(item.id)" >
+        <nut-col :span="12" v-for="(item,index) in sharesInfo" :key="index" @click="showDetail(item.id)" >
           <view class="block_content_view">
-            <img :mode="imgMode" :src="item.image[0]" class="img-content"/>
+            <img :mode="imgMode" :src="item.img[0]" class="img-content"/>
             <view class="title">
               <nut-ellipsis :content="item.title" direction="end" rows="2" >
               </nut-ellipsis>
@@ -95,31 +107,34 @@ const lower = (e) => {
 
 .block_content_view{
   background-color: #FFFFFF;
-  border-radius: 10rpx;
+  border-radius: 8rpx;
   /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
-  overflow: hidden;
-  margin-bottom: 15rpx;
+  // overflow: hidden;
+  // margin-left: 5rpx;
+  margin-top: 10rpx;
+  padding-bottom: 16rpx;
   .img-content{
     /* margin-top: 0rpx; */
     width: 100%; 
-    height: 32vh; 
+    height: 480rpx; 
     border-radius: 8rpx 8rpx 0 0;
     /* border: 1rpx solid rgb(231, 221, 221);  */
   }
   .title{
-    margin-top: 8rpx;
-    margin-left: 10rpx;
-    margin-bottom: 8rpx;
-    /* height: 40rpx; */
-    /* max-height: 80rpx; */
-    text-align: left;
-    /* font-family: "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif; */
-    font-weight: 500;
-    font-size: 28rpx;
-    line-height: 120%;
-  }
+    display: flex;
+    padding: 0px 20rpx;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+    }
 }
-
+// 标题的字体设置
+.nut-ellipsis__wordbreak{
+  font-family: "PingFang SC";
+    font-size: 26rpx;
+    font-weight: 550;
+    letter-spacing: 2rpx;
+}
 
 
 </style>

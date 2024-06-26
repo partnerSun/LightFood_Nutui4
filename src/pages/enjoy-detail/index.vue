@@ -1,9 +1,10 @@
 <script setup>
-import { h,ref, reactive,toRefs,onBeforeMount,onMounted} from 'vue'
-import contentData from '../../components/info.js'
-import Taro from '@tarojs/taro' 
+import { h,ref, reactive,toRefs,onMounted} from 'vue'
+// import contentData from '../../components/info.js'
+import Taro, { useLoad } from '@tarojs/taro' 
 import { IconFont } from '@nutui/icons-vue-taro'
 import { Share, Star,Follow } from '@nutui/icons-vue-taro'
+import {sharesCheck} from '../../api/shares.js'
 
 
 
@@ -27,13 +28,31 @@ const data =reactive({
     content:''
 })
 
-onBeforeMount(()=>{
-    const params = Taro.getCurrentInstance().router.params;
-    id.value = Number(params.id); // 确保 id 是数字类型
-    data.result = contentData.find(item => item.id === id.value);
-    data.content=data.result.info
-})
+// onBeforeMount(()=>{
+//     const params = Taro.getCurrentInstance().router.params;
+//     id.value = Number(params.id); // 确保 id 是数字类型
+//     data.result = contentData.find(item => item.id === id.value);
+//     data.content=data.result.info
+// })
 
+useLoad(async ()=>{
+  let sharesCheckRes=await sharesCheck()
+  const params = Taro.getCurrentInstance().router.params;
+  id.value = Number(params.id); // 确保 id 是数字类型  
+  let sharesInfo=sharesCheckRes.data.data.items
+  data.result= sharesInfo.find(item => item.id === id.value);
+
+  Taro.showShareMenu({
+    withShareTicket: true,
+    showShareItems:['shareAppMessage', 'shareTimeline'],
+    success: function (res) {
+      console.log('显示分享菜单成功', res);
+    },
+    fail: function (err) {
+      console.log('显示分享菜单失败', err);
+    },
+  })
+})
 
 const {result,content} = toRefs(data)
 
@@ -115,7 +134,7 @@ const share = () => {
         pagination-unselected-color="#808080"
         style="width: 100vw;margin: auto;"
       >
-        <nut-swiper-item v-for="(item, index) in result.image" :key="index" style="height: 60vh;">
+        <nut-swiper-item v-for="(item, index) in result.img" :key="index" style="height: 60vh;">
           <image :mode='imgMode' style="height: 100%; width: 100%" :src="item" draggable="false" ></image>
         </nut-swiper-item>
       </nut-swiper>
@@ -127,7 +146,7 @@ const share = () => {
         </view>
         
         <view class="bottom_content">
-          <nut-ellipsis :content="content" direction="end" rows="11" expand-text="展开" collapse-text="收起">
+          <nut-ellipsis :content="result.content" direction="end" rows="11" expand-text="展开" collapse-text="收起">
           </nut-ellipsis>
         </view>
         

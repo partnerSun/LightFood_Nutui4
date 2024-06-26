@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro'
 import getAppCode from './getCode.js'
 import {updateVipPhoneApi,getVipUserInfoApi} from '../api/user.js'
+import {encryptedStoreData} from './localDataProcess.js'
 
 // 获取当前路由
 const getCurrentRoute = () => {
@@ -47,7 +48,7 @@ const getPhoneNumber = async (e) => {
   let uid=Taro.getStorageSync('userId')
 	//查询并保存会员信息至本地缓存
 	let userInfo = await getVipUserInfoApi(uid)
-	Taro.setStorageSync('userInfo', userInfo.data.items)
+	await encryptedStoreData('userInfo', userInfo.data.items)
 
   if (updatePhoneRes.data.status===200 && userInfo.data.status===200 ){
     Taro.showToast({

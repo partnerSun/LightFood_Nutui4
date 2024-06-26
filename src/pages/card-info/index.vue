@@ -4,6 +4,7 @@ import Taro,{useLoad}from '@tarojs/taro'
 import {processPhonerWorkflow} from '../../utils/decryptPhone.js'
 import {updateVipInfoApi,getVipUserInfoApi} from '../../api/user.js'
 import './index.css';
+import {encryptedStoreData,decodeRetrieveData} from '../../utils/localDataProcess.js'
 import icon_font_solid_1_2x from '../../assets/images/icon-font-solid-1@2x.png';
 
 // 解决透传 Attributes 
@@ -17,7 +18,8 @@ const data=reactive({
 });
 
 useLoad(async ()=>{
-  data.userInfo=Taro.getStorageSync('userInfo')
+  // data.userInfo=Taro.getStorageSync('userInfo')
+  data.userInfo = await decodeRetrieveData('userInfo')
   data.birthday = data.userInfo.birthday
  })
 
@@ -33,12 +35,13 @@ const modifyUserInfo=async()=>{
   })
   // console.log("修改的会员信息",'修改会员信息')
   let updateVipInfoRes = await updateVipInfoApi(tdata)
-  console.log("updateVipInfoRes",updateVipInfoRes)
+  // console.log("updateVipInfoRes",updateVipInfoRes)
   if (updateVipInfoRes.data.status==200){
     	//查询并保存会员信息至本地缓存
-	  let userInfo2 = await getVipUserInfoApi(data.userInfo.id)
-    data.userInfo=userInfo2.data.items
-	  Taro.setStorageSync('userInfo', data.userInfo)
+	  let newUserInfo = await getVipUserInfoApi(data.userInfo.id)
+    data.userInfo=newUserInfo.data.items
+	  // Taro.setStorageSync('userInfo', data.userInfo)
+    await encryptedStoreData('userInfo', data.userInfo)
     
     //   使用avigateBack不会刷新
     Taro.redirectTo({

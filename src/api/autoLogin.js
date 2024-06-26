@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import { ref,reactive } from 'vue'
 import {loginApi } from '../api/login.js'
-import {storeToken} from '../utils/tokenSafe.js'
+import {encryptedStoreToken} from '../utils/localDataProcess.js'
 
 
 import getAppCode from '../utils/getCode.js'
@@ -60,7 +60,7 @@ export const autoLogin = async () => {
         // Taro.setStorageSync('autoLogin', true)
         // Taro.setStorageSync('Authorization', loginRes.data.token)
         // 加密存储token
-        await storeToken(loginRes.data.token)
+        await encryptedStoreToken('encryptedToken',loginRes.data.token)
         
         // Taro.navigateBack({
         //     delta: 1

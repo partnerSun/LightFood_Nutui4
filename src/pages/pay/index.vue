@@ -3,6 +3,7 @@ import Taro,{useLoad} from '@tarojs/taro'
 import { toRefs ,reactive,ref} from 'vue';
 import {payApi} from '../../api/pay.js'
 import {getOrderInfo} from '../../utils/getOrder.js'
+import {decodeRetrieveData} from '../../utils/localDataProcess.js'
 import './index.css'
 
 // 解决透传 Attributes 
@@ -19,7 +20,8 @@ const data=reactive({
 
 const inputNumber=ref('')
 
-useLoad(()=>{
+useLoad(async()=>{
+  let userinfo = await decodeRetrieveData('userInfo')
   Taro.showLoading({
       title: '加载中...',
       mask: false,
@@ -49,7 +51,8 @@ useLoad(()=>{
     })
   }
   // Taro.hideLoading()
-  let userinfo =Taro.getStorageSync('userInfo')
+  
+  // console.log("userinfo",userinfo)
   inputNumber.value=userinfo.phone
 
 })
@@ -176,7 +179,7 @@ const createorder= async()=>{
   }
   // console.log("更新获取订单信息")
   // 付款后 自动更新获取该用户的所有订单信息，以后虚增加查询限制    
-  await getOrderInfo()
+  // await getOrderInfo()
 
 }
 </script>
