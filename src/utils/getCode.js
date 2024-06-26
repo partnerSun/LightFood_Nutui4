@@ -1,3 +1,4 @@
+// 获取微信临时code
 import Taro from '@tarojs/taro'
 const getAppCode = () => {
     return new Promise((resolve, reject) => {

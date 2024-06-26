@@ -55,6 +55,7 @@
     "@tarojs/shared": "3.6.30",
     "@tarojs/taro": "3.6.30",
     "axios": "^1.7.2",
+    "crypto-js": "^4.2.0",
     "taro-ui-vue3": "^1.0.0-alpha.21",
     "vue": "^3.2.40",
     "vue-router": "^4.3.2",

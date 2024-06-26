@@ -2,7 +2,7 @@
 import Taro,{useLoad} from '@tarojs/taro'
 import { toRefs ,reactive,ref} from 'vue';
 import {payApi} from '../../api/pay.js'
-import {getOrderInfoApi} from '../../api/order.js'
+import {getOrderInfo} from '../../utils/getOrder.js'
 import './index.css'
 
 // 解决透传 Attributes 
@@ -176,13 +176,7 @@ const createorder= async()=>{
   }
   // console.log("更新获取订单信息")
   // 付款后 自动更新获取该用户的所有订单信息，以后虚增加查询限制    
-  let orderUpdateRes = await getOrderInfoApi(params)
-  if (orderUpdateRes.data.status == 200) {
-    let orderInfo=orderUpdateRes.data.data.items
-    console.log("订单信息",orderInfo)
-    Taro.setStorageSync('orderInfo',orderInfo)
-  }
-
+  await getOrderInfo()
 
 }
 </script>

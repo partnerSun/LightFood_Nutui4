@@ -13,7 +13,7 @@ const App = createApp({
   onLaunch() {
     console.log('小程序启动');
     let uid=Taro.getStorageSync('userId')
-    let tokenValue=Taro.getStorageSync('Authorization');
+    let tokenValue=Taro.getStorageSync('encryptedToken');
     if (!uid || !tokenValue){
       autoLogin() 
     }

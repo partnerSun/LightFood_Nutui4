@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import { ref,reactive } from 'vue'
 import {loginApi } from '../api/login.js'
-
+import {storeToken} from '../utils/tokenSafe.js'
 
 
 import getAppCode from '../utils/getCode.js'
@@ -52,19 +52,22 @@ export const autoLogin = async () => {
              code: code.value,
              source: 'MP',
          })
-        //  console.log("autologin data",params)
         // 调用后台接口登录
         let loginRes = await autoLoginApi(params)
-        // console.log("loginRes.data",loginRes.data)
-        // savecache
-        Taro.setStorageSync('autoLogin', true)
-        Taro.setStorageSync('Authorization', loginRes.data.token)
         Taro.setStorageSync('userId', loginRes.data.userId)
+        // #ifdef MP
+        // savecache
+        // Taro.setStorageSync('autoLogin', true)
+        // Taro.setStorageSync('Authorization', loginRes.data.token)
+        // 加密存储token
+        await storeToken(loginRes.data.token)
+        
         // Taro.navigateBack({
         //     delta: 1
         // });
         // #endif			
      } catch(err) {
+        console.log("err",err)
         onTipWindows('failed')
     }
   } 

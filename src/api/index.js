@@ -2,11 +2,11 @@ import axios from 'axios'
 // import {CONFIG} from '../config/index.js'
 import Taro from '@tarojs/taro'
 import { autoLogin } from './autoLogin.js'
-
+import {retrieveToken} from '../utils/tokenSafe.js'
 
 
 axios.interceptors.request.use(
-    function (config) {
+    async function (config) {
         //在request时添加时间戳，解决缓存问题
         if (config.method=="get"){
             let timeStamp = (new Date()).getTime()
@@ -25,22 +25,20 @@ axios.interceptors.request.use(
         let tokenValue = ""
         try {
             // tokenValue = window.localStorage.getItem('Authorization')
-            tokenValue=Taro.getStorageSync('Authorization');
+            // 获取加密的token，并解密
+            tokenValue = await retrieveToken()
         } catch (error) {
              tokenValue = ""
         }
-        // 
+        // 将token添加到请求头中
         if ( tokenValue == "" || tokenValue == null ) {
             config.headers['Authorization'] = ""
         }else {
             config.headers['Authorization'] = tokenValue
         }
-
-        // 在发送请求之前做些什么
         return config;
   }, function (error) {
     console.log("error:",error.message)
-    // 对请求错误做些什么
     return Promise.reject(error);
   });
 
@@ -59,8 +57,8 @@ axios.interceptors.response.use(async  function (response) {
     if ( response.data.status == 200 ){
         return Promise.resolve(response)
     }else if (response.data.status == 401){
-        Taro.removeStorageSync('Authorization');
-        //如果当前页面不是login，那么就跳转到登录页
+        // Taro.removeStorageSync('Authorization');
+  
         const currentroute=getCurrentRoute()
         // console.log("当前路由是:", currentroute)
         if (currentroute !== 'pages/login/login' ){
