@@ -2,7 +2,7 @@
 import { reactive,toRefs,ref } from 'vue';
 import Taro,{useLoad}from '@tarojs/taro'
 import wxbarcode from 'wxbarcode'
-import {encryptedStoreData,decodeRetrieveData} from '../../utils/localDataProcess.js'
+import {decodeRetrieveData} from '../../utils/localDataProcess.js'
 import './index.css';
 import icon_4_card_active from '../../assets/images/icon-4-card-active@2x.png';
 

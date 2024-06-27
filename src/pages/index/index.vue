@@ -50,7 +50,7 @@ usePullDownRefresh(()=>{
       Taro.stopPullDownRefresh();
       // 跳转到另一个页面
       Taro.navigateTo({
-        url: '/pages/card/index'  // 目标页面的路径
+        url: '/pagesB/card/index'  // 目标页面的路径
       });
 
 }) 

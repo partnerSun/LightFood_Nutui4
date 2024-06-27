@@ -216,7 +216,7 @@ const createorder= async()=>{
     <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber"></button>
   </view> -->
 </view>
-<navigator url="/pages/select-time/index" hover-class="none">
+<!-- <navigator url="/pages/select-time/index" hover-class="none"> -->
   <view class="shops-bar">
     <view class="shops-box"  @click="showDateSelect">
       <view class="content">
@@ -228,7 +228,7 @@ const createorder= async()=>{
     </view>
     <!-- <van-icon name="arrow"/> -->
   </view>
-</navigator>
+<!-- </navigator> -->
 <view class="blank1"></view>
 <!-- 商品信息 -->
 <view v-for="item in settleProducts" :key="item.ID" class="orderdetails-bar">
@@ -250,7 +250,7 @@ const createorder= async()=>{
 
 <view class="blank2"></view>
 
-<navigator url="/pages/add-note/index" hover-class="none">
+<!-- <navigator url="/pages/add-note/index" hover-class="none"> -->
   <view class="shops-bar1">
     <view class="shops-box">
       <view class="content">
@@ -262,7 +262,7 @@ const createorder= async()=>{
     </view>
     <!-- <van-icon name="arrow"/> -->
   </view>
-</navigator>
+<!-- </navigator> -->
 <view class="num-bar">
   <view class="num">共 {{ settleProductsTotalNum }} 件商品，小计</view>
   <view class="price">

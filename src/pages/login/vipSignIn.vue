@@ -60,7 +60,7 @@ const onAuthError = () => {
       await encryptedStoreData('userInfo',userInfo.data.items)
 	//   使用navigateBack不会刷新
       Taro.redirectTo({
-      	url: '/pages/personal/index'
+      	url: '/pagesB/personal/index'
       });
 	
       // #endif					

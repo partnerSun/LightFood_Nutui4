@@ -165,7 +165,7 @@ const pay=()=>{
     })
     setTimeout(function () {
       Taro.navigateTo({
-        url: '/pages/personal/index',
+        url: '/pagesB/personal/index',
       })
       }, 2000)
     }

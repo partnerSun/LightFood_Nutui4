@@ -1,7 +1,12 @@
 import ComponentsPlugin  from 'unplugin-vue-components/webpack';
 // import Components  from 'unplugin-vue-components/webpack';
 import NutUIResolver from '@nutui/auto-import-resolver';
+const path = require('path');
 
+// 定义 taroBaseReg 变量
+const taroBaseReg = new RegExp(
+  path.resolve(__dirname, '../../node_modules/@tarojs/taro').replace(/\\/g, '\\\\')
+);
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const config = {
   projectName: 'lightFood',
@@ -22,7 +27,8 @@ const config = {
   outputRoot: 'dist',
   plugins: [
     '@tarojs/plugin-html',
-    '@tarojs/plugin-http'
+    '@tarojs/plugin-http',
+    
   ]
   ,
   defineConstants: {
@@ -50,7 +56,34 @@ const config = {
             taro: true
           })
         ]
-      }))
+      })),
+      chain.merge({
+        optimization: {
+          splitChunks: {
+            chunks: 'all',
+            maxInitialRequests: Infinity,
+            minSize: 0,
+            cacheGroups: {
+              common: {
+                name: config => (config.isBuildPlugin ? 'plugin/common' : 'common'),
+                minChunks: 2,
+                priority: 1
+              },
+              vendors: {
+                name: config => (config.isBuildPlugin ? 'plugin/vendors' : 'vendors'),
+                minChunks: 2,
+                test: module => /[\\/]node_modules[\\/]/.test(module.resource),
+                priority: 10
+              },
+              taro: {
+                name: config => (config.isBuildPlugin ? 'plugin/taro' : 'taro'),
+                test: module => taroBaseReg.test(module.context),
+                priority: 100
+              }
+            }
+          }
+        }
+      });
     },
     enableExtract:true,
     miniCssExtractPluginOption: {
@@ -77,7 +110,12 @@ const config = {
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }
-    }
+    },
+    // https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/basic.html
+    // 智能分包https://taro-docs.jd.com/docs/mini-split-chunks-plugin
+    optimizeMainPackage: {
+      enable: true,
+    },
   },
   h5: {
     webpackChain(chain) {

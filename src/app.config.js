@@ -4,17 +4,17 @@ export default defineAppConfig({
     'pages/enjoy/index',
     'pages/product/index',
     'pages/product/searchFilterPage',
-    'pages/personal/index',
+    'pagesB/personal/index',
     'pages/enjoy-detail/index',
-    'pages/card/index',
-    'pages/card-info/index',
+    'pagesB/card/index',
+    'pagesB/card-info/index',
     'pages/login/vipSignIn',
     'pages/pay/index',
-    'pages/contact/index',
-    'pages/user-record/index',
-    'pages/about-us/index',
-    'pages/about-us/privacy-policy',
-    'pages/about-us/qa'
+    'pagesB/contact/index',
+    'pagesB/user-record/index',
+    'pagesB/about-us/index',
+    'pagesB/about-us/privacy-policy',
+    'pagesB/about-us/qa'
   ],
   // https://taro-docs.jd.com/docs/vue-page
   window: {

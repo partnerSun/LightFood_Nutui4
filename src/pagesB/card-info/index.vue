@@ -45,7 +45,7 @@ const modifyUserInfo=async()=>{
     
     //   使用avigateBack不会刷新
     Taro.redirectTo({
-      url: '/pages/personal/index'
+      url: '/pagesB/personal/index'
     });
 
     Taro.showToast({

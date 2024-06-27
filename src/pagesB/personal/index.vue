@@ -67,7 +67,7 @@ const vipInfoEdit=()=>{
       })
   }else{
     Taro.navigateTo({
-      url: '/pages/card-info/index'
+      url: '/pagesB/card-info/index'
     })
   }
 
@@ -110,7 +110,7 @@ const {userInfo}=toRefs(data)
     <view class="name">{{userInfo.nick}}</view>
   </view>
 
-  <navigator url="/pages/card/index" hover-class="none">
+  <navigator url="/pagesB/card/index" hover-class="none">
   <view class="card-title">
     <view class="title">
       <text>xxx 店铺名 </text>会员卡
@@ -172,7 +172,7 @@ const {userInfo}=toRefs(data)
 </view>
 
 <view class="blank"></view>
-<navigator url="/pages/user-record/index" hover-class="none">
+<navigator url="/pagesB/user-record/index" hover-class="none">
   <view class="content-bar">
     <image :mode='imgMode' class='icon' :src="user_icon_gift_recode"></image>
     <view class="content">积分记录</view>
@@ -180,7 +180,7 @@ const {userInfo}=toRefs(data)
 </navigator>
 
 <view class="blank"></view>
-<navigator url="/pages/about-us/index" hover-class="none">
+<navigator url="/pagesB/about-us/index" hover-class="none">
   <view class="content-bar">
     <image :mode='imgMode' class='icon' :src="user_icon_about"></image>
     <view class="content">关于 xxx产品名</view>
@@ -188,7 +188,7 @@ const {userInfo}=toRefs(data)
 </navigator>
 
 <view class="blank"></view>
-<navigator url="/pages/contact/index" hover-class="none">
+<navigator url="/pagesB/contact/index" hover-class="none">
   <view class="content-bar">
     <image :mode='imgMode' class='icon' :src="user_icon_contact"></image>
     <view class="content">联系我们</view>
