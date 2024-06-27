@@ -3,6 +3,7 @@ export default defineAppConfig({
     'pages/index/index',
     'pages/enjoy/index',
     'pages/product/index',
+    'pages/product/searchFilterPage',
     'pages/personal/index',
     'pages/enjoy-detail/index',
     'pages/card/index',

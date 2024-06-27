@@ -9,5 +9,5 @@ npm run dev:weapp
 
 * 生产打包
 ```
-
+set NODE_ENV=production && taro build --type weapp --watch
 ```

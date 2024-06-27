@@ -91,7 +91,7 @@ const searchFilterContent = () => {
     :value="inputValue"
     @action-click="searchFilterContent"
     @change="onChange"
-    style="width: 90%;margin: 0 auto;"
+    style="width: 80%;margin: 0 auto;"
   />
   <!-- 发布分享页 -->
   <view style="background-color: whitesmoke;">
@@ -133,7 +133,7 @@ const searchFilterContent = () => {
   /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
   // overflow: hidden;
   // margin-left: 5rpx;
-  margin-top: 4rpx;
+  margin-bottom: 0rpx;
   padding-bottom: 16rpx;
   .img-content{
     /* margin-top: 0rpx; */

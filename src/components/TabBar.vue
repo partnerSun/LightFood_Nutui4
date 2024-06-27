@@ -17,7 +17,7 @@ const List = reactive([
     path: '/pages/enjoy/index'
   },
   {
-    title: '点单',
+    title: '商品',
     icon: h(Shop3),
     path: '/pages/product/index',
   },

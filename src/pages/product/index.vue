@@ -1,15 +1,13 @@
 <script setup>
 import TabBar from '../../components/TabBar.vue';
 import { reactive, toRefs,watch ,computed,  ref } from 'vue';
-import { useLoad } from '@tarojs/taro'
-import {productCheck} from '../../api/product.js'
-import { Minus,Plus,IconFont  } from '@nutui/icons-vue-taro'
-import { AtSearchBar } from 'taro-ui-vue3'
+import Taro,{ useLoad } from '@tarojs/taro'
+import { Minus,Plus,IconFont,Left ,Search2 ,Photograph ,Message   } from '@nutui/icons-vue-taro'
+import { AtIcon,AtSearchBar } from 'taro-ui-vue3'
 import "taro-ui-vue3/dist/style/components/search-bar.scss";
-import Taro from '@tarojs/taro'
-import { AtIcon } from 'taro-ui-vue3'
 import '../../assets/iconfont/iconfont.css'
 import './index.css'
+import {productCheck} from '../../api/product.js'
 
 // 解决透传 Attributes
 defineOptions({
@@ -75,15 +73,14 @@ const getProductsByType = (ptype) => {
 const inputContentPostion=ref('center')
 
 const inputValue=ref('')
-
-const onChange=(value)=> {
-  inputValue.value=value
-  console.log('搜索框内容改变value', value)
-}
-
-const onActionClick=() =>{
-  console.log('搜索框内容改变', inputValue.value)
-  console.log('点击了搜索按钮')
+// 跳转到搜索过滤页面，使用preload预加载传输数据
+const jumpFilterPage=()=> {
+  Taro.preload({
+    productInfo: data.items
+  });
+  Taro.navigateTo({
+    url: '/pages/product/searchFilterPage',
+  })
 }
 
 
@@ -232,11 +229,20 @@ const trash=()=>{
     <AtSearchBar
     actionName='搜索'
     :value="inputValue"
-    @action-click="onActionClick"
-    @change="onChange"
-    style="width: 90%;margin: 20rpx auto;"
+    @focus="jumpFilterPage"
+    style="width: 80%;margin: 20rpx auto;"
   />
-  
+  <!-- <nut-searchbar 
+  v-model="inputValue"
+  @focus="jumpFilterPage"
+  >
+      <template #leftin>
+        <Search2 />
+      </template>
+      <template #rightout>
+        <Message />
+      </template>
+  </nut-searchbar> -->
   <nut-tabs class="nub-tabs-class" v-model="activeTab" direction="vertical" title-scroll  name="productTabs" style="height: 81vh;" >
     <nut-tab-pane v-for="ptype in ptypes" :key="ptype" :title="ptype" :pane-key="ptype">
       <view v-for="product in getProductsByType(ptype)"  :key="product.ID" style="margin-bottom: 20rpx;">
@@ -255,11 +261,11 @@ const trash=()=>{
               </view> -->
               <view class="parent-button-class">
                 <view class="minusbutton-class" >
-                  <Minus  @click="decrementQuantity(product.ID)" size="14px" />  
+                  <Minus  @click="decrementQuantity(product.ID)" size="20px" />  
                 </view>
                 <nut-input type="number" :readonly="true" :border="false" :input-align="inputContentPostion" v-model="quantities[product.ID]"   />
                 <view class="addbutton-class">
-                  <Plus @click="incrementQuantity(product.ID)" size="14px" />
+                  <Plus @click="incrementQuantity(product.ID)" size="20px" />
                 </view>
               </view>
             </view>
@@ -321,11 +327,11 @@ const trash=()=>{
             <view style="width: 100%;">
               <view class="parent-button-class2">
                 <view class="minusbutton-class" >
-                  <Minus  @click="decrementQuantity(product.ID)" size="16px" />  
+                  <Minus  @click="decrementQuantity(product.ID)" size="18px" />  
                 </view>
                 <nut-input type="number" :readonly="true" :border="false" :input-align="inputContentPostion" v-model="quantities[product.ID]"   />
                 <view class="addbutton-class">
-                  <Plus @click="incrementQuantity(product.ID)" size="16px"/>
+                  <Plus @click="incrementQuantity(product.ID)" size="20px"/>
                 </view>
               </view>
             </view>
@@ -342,7 +348,7 @@ const trash=()=>{
 <style  lang="scss">
 
 page {
-  --nut-input-font-size: 24rpx;
+  --nut-input-font-size: 26rpx;
   --nut-divider-line-height: 0.1rpx;
   --nut-divider-margin: 15rpx 10rpx;
 
