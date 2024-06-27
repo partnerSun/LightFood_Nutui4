@@ -24,7 +24,7 @@ const List = reactive([
   {
     title: '我的',
     icon: h(My),
-    path: '/pages/personal/index',
+    path: '/pagesB/personal/index',
   },])
 
 
