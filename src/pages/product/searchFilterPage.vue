@@ -7,12 +7,16 @@ import { AtIcon,AtSearchBar } from 'taro-ui-vue3'
 import "taro-ui-vue3/dist/style/components/search-bar.scss";
 import '../../assets/iconfont/iconfont.css'
 import './search.css'
-
+import { useProductStore } from '../../store/index.js';
+import { storeToRefs } from 'pinia'
 
 // 解决透传 Attributes
 defineOptions({
   inheritAttrs: false
 })
+const productStore = useProductStore();
+const { quantities,allProductInfo } = storeToRefs(productStore)
+const { incrementQuantity,decrementQuantity } = productStore
 
 
 const data = reactive({
@@ -27,53 +31,23 @@ const inputValue=ref('')
 
 const filteredProductsInfo = ref([]);
 
-// 从本地缓存中加载商品数量
-const loadQuantities = () => {
-  const savedQuantities = Taro.getStorageSync('productQuantities');
-  // console.log("savedQuantities ",savedQuantities )
-  return savedQuantities ? JSON.parse(savedQuantities) : {};
-};
-// 
-const quantities = ref(loadQuantities());
-// 初始化商品列表，未选择的商品初始数量设为0
-const initQuantitiesValue=()=>{
-  data.items.forEach(product => {
-  if (!(product.ID in quantities.value)) {
-    quantities.value[product.ID] = 0;
-  }
-});
-}
-
-useLoad(async () => {
-  try {
-    const items = Taro.getCurrentInstance().preloadData.productInfo;
-    console.log('预加载的数据:', items);
-    if (items && items.length > 0) {
-      data.items = items
-      // data.ptypes = [...new Set(items.map(item => item.Ptype))]
-      // console.log("商品信息获取成功", data.items)
-      // console.log("商品类型获取成功", data.ptypes)
-      // filteredProductsInfo.value = data.items
-      initQuantitiesValue()
-    } else {
-      console.log("token过期或没有商品信息")
-    }
-  } 
-  catch (err) {
-    console.error("商品信息获取失败", err)
-  }
-})
 
 
-
-
+// useLoad(async () => {
+//   try {
+//     data.items = allProductInfo.value
+//   } 
+//   catch (err) {
+//     console.error("商品信息获取失败", err)
+//   }
+// })
 
 
 const onChange=(value)=> {
   inputValue.value=value
   // console.log('搜索框内容改变value', value)
   let searchString = inputValue.value;
-  filteredProductsInfo.value= data.items.filter(item => 
+  filteredProductsInfo.value= allProductInfo.value.filter(item => 
     (item.Product && item.Product.includes(searchString)) || 
     (item.Ptype && item.Ptype.includes(searchString))
   );
@@ -84,7 +58,7 @@ const onChange=(value)=> {
 const searchFilterContent = () => {
   let searchString = inputValue.value;
   // console.log('过滤条件', inputValue.value)
-  filteredProductsInfo.value= data.items.filter(item => 
+  filteredProductsInfo.value= allProductInfo.value.filter(item => 
     (item.Product && item.Product.includes(searchString)) || 
     (item.Ptype && item.Ptype.includes(searchString))
   );
@@ -93,52 +67,12 @@ const searchFilterContent = () => {
 
 
 
-
-// 增加商品数量
-const incrementQuantity = (id) => {
-  quantities.value[id]++;
-};
-
-// 减少商品数量
-const decrementQuantity = (id) => {
-  if (quantities.value[id] > 0){
-    quantities.value[id]--
-  }else {
-  };
-};
-
 // 监视 quantities 的变化并同步到 localStorage
 watch(quantities, (newQuantities) => {
   if (newQuantities) {
-    // console.log("quantities", quantities.value);
     Taro.setStorageSync('productQuantities', JSON.stringify(newQuantities));
-    // let currentProductQuantities = newQuantities;
-    // console.log("商品数量变化", currentProductQuantities);
   }
 }, { deep: true });
-
-
-// 过滤商品数量>0的商品
-// 返回 1. 由商品id组成的数组 2. 结算商品总数量
-const filterProductQuantities = (items, quantities) => {
-  const filteredIds = Object.keys(quantities.value).filter(id => quantities.value[id] > 0);
-  const filteredItems =items.filter(item => filteredIds.includes(item.ID));
-  const totalQuantity = filteredIds.reduce((total, id) => total + parseInt(quantities.value[id], 10), 0);
-  return {
-    filteredIds: filteredItems,
-    totalQuantity: totalQuantity
-  };
-};
-
-// 计算并返回商品数量>0的商品和商品总数量,用于购物车显示
-const filteredProducts = computed(() => {
-  const  { filteredIds, totalQuantity } = filterProductQuantities(filteredProductsInfo.value, quantities);
-  return {
-    filteredIds: filteredIds, //商品ID的数组
-    totalQuantity: totalQuantity //结算商品的总数量
-  };
-});
-
 
 
 </script>

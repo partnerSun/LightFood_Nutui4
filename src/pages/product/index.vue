@@ -8,11 +8,16 @@ import "taro-ui-vue3/dist/style/components/search-bar.scss";
 import '../../assets/iconfont/iconfont.css'
 import './index.css'
 import {productCheck} from '../../api/product.js'
+import { useProductStore } from '../../store/index.js';
+import { storeToRefs } from 'pinia'
 
 // 解决透传 Attributes
 defineOptions({
   inheritAttrs: false
 })
+const productStore = useProductStore();
+const { quantities,allProductInfo,filteredProducts } = storeToRefs(productStore)
+const { initQuantitiesValue,incrementQuantity,decrementQuantity } = productStore
 
 
 const data = reactive({
@@ -22,42 +27,33 @@ const data = reactive({
 const tabIndex=ref(2)
 const activeTab = ref('')
 
-// 从本地缓存中加载商品数量
-const loadQuantities = () => {
-  const savedQuantities = Taro.getStorageSync('productQuantities');
-  // console.log("savedQuantities ",savedQuantities )
-  return savedQuantities ? JSON.parse(savedQuantities) : {};
-};
-// 
-const quantities = ref(loadQuantities());
-// 初始化商品列表，未选择的商品初始数量设为0
-const initQuantitiesValue=()=>{
-  data.items.forEach(product => {
-  if (!(product.ID in quantities.value)) {
-    quantities.value[product.ID] = 0;
-  }
-});
-}
-
 
 
 useLoad(async () => {
   try {
     const info = await productCheck()
     const { items } = info.data.data || {}
-
     if (items && items.length > 0) {
       data.items = items
       data.ptypes = [...new Set(items.map(item => item.Ptype))]
       activeTab.value = items[0].Ptype
-      // console.log("商品信息获取成功", data.items)
-      // console.log("商品类型获取成功", data.ptypes)
+      allProductInfo.value=items
       initQuantitiesValue()
     } else {
-      console.log("token过期或没有商品信息")
+      Taro.showToast({
+        title: "获取商品失败",
+        icon: 'error',
+        duration: 2000,
+      })
+      console.log("获取商品信息失败")
     }
   } 
   catch (err) {
+    Taro.showToast({
+      title: String(err),
+      icon: 'none',
+      duration: 2000,
+    })
     console.error("商品信息获取失败", err)
   }
 })
@@ -84,21 +80,6 @@ const jumpFilterPage=()=> {
 }
 
 
-
-
-// 增加商品数量
-const incrementQuantity = (id) => {
-  quantities.value[id]++;
-};
-
-// 减少商品数量
-const decrementQuantity = (id) => {
-  if (quantities.value[id] > 0){
-    quantities.value[id]--
-  }else {
-  };
-};
-
 // 监视 quantities 的变化并同步到 localStorage
 watch(quantities, (newQuantities) => {
   if (newQuantities) {
@@ -112,24 +93,24 @@ watch(quantities, (newQuantities) => {
 
 // 过滤商品数量>0的商品
 // 返回 1. 由商品id组成的数组 2. 结算商品总数量
-const filterProductQuantities = (items, quantities) => {
-  const filteredIds = Object.keys(quantities.value).filter(id => quantities.value[id] > 0);
-  const filteredItems =items.filter(item => filteredIds.includes(item.ID));
-  const totalQuantity = filteredIds.reduce((total, id) => total + parseInt(quantities.value[id], 10), 0);
-  return {
-    filteredIds: filteredItems,
-    totalQuantity: totalQuantity
-  };
-};
+// const filterProductQuantities = (items, quantities) => {
+//   const filteredIds = Object.keys(quantities.value).filter(id => quantities.value[id] > 0);
+//   const filteredItems =items.filter(item => filteredIds.includes(item.ID));
+//   const totalQuantity = filteredIds.reduce((total, id) => total + parseInt(quantities.value[id], 10), 0);
+//   return {
+//     filteredIds: filteredItems,
+//     totalQuantity: totalQuantity
+//   };
+// };
 
-// 计算并返回商品数量>0的商品和商品总数量,用于购物车显示
-const filteredProducts = computed(() => {
-  const  { filteredIds, totalQuantity } = filterProductQuantities(data.items, quantities);
-  return {
-    filteredIds: filteredIds, //商品ID的数组
-    totalQuantity: totalQuantity //结算商品的总数量
-  };
-});
+// // 计算并返回商品数量>0的商品和商品总数量,用于购物车显示
+// const filteredProducts = computed(() => {
+//   const  { filteredIds, totalQuantity } = filterProductQuantities(data.items, quantities);
+//   return {
+//     filteredIds: filteredIds, //商品ID的数组
+//     totalQuantity: totalQuantity //结算商品的总数量
+//   };
+// });
 
 
 const showActionSheet=ref(false)
@@ -139,7 +120,7 @@ const bottomActionSheet=()=>{
 // 优惠后总价
 const vipTotalMoney=computed(()=>{
   let total=0
-  filteredProducts.value.filteredIds.forEach(product=>{
+  filteredProducts.value.filteredItems.forEach(product=>{
     total+=product.CurrentPrice*quantities.value[product.ID]
   })
   return total.toFixed(2); // 始终保留两位小数并返回字符串
@@ -147,7 +128,7 @@ const vipTotalMoney=computed(()=>{
 // 原总价
 const originalTotalMoney=computed(()=>{
   let total=0
-  filteredProducts.value.filteredIds.forEach(product=>{
+  filteredProducts.value.filteredItems.forEach(product=>{
     total+=product.OriginalPrice*quantities.value[product.ID]
   })
   return total.toFixed(2); // 始终保留两位小数并返回字符串
@@ -187,7 +168,13 @@ const pay=()=>{
             Taro.hideLoading()
           }, 1000)
           // 发送数据到 结算 页面
-          res.eventChannel.emit('sendDataToOpenedPage', { productInfo: filteredProducts.value.filteredIds,productNum:quantities.value,productTotalnum:filteredProducts.value.totalQuantity,total:vipTotalMoney.value });
+          res.eventChannel.emit('sendDataToOpenedPage', 
+          { 
+            productInfo: filteredProducts.value.filteredItems,
+            productNum:  quantities.value,
+            productTotalnum: filteredProducts.value.totalQuantity,
+            total:vipTotalMoney.value 
+          });
         }
       })
     }else{
@@ -198,10 +185,6 @@ const pay=()=>{
       title: "请先完成注册登录",
       icon: 'none',
       duration: 2000,
-      // success:  (res) =>{
-      //   console.log("res",res)
-
-      // }
     })
     setTimeout(function () {
       Taro.navigateTo({
@@ -315,7 +298,7 @@ const trash=()=>{
           </view>
         </view>
         <nut-divider style="width: 98%;margin: 20rpx auto 18rpx"/> 
-        <view v-for="product in filteredProducts.filteredIds" :key="product.ID" style="margin-bottom: 10rpx;">
+        <view v-for="product in filteredProducts.filteredItems" :key="product.ID" style="margin-bottom: 10rpx;">
         <nut-card
           :img-url="product.Img"
           :title="product.Product"
@@ -351,7 +334,6 @@ page {
   --nut-input-font-size: 26rpx;
   --nut-divider-line-height: 0.1rpx;
   --nut-divider-margin: 15rpx 10rpx;
-
   // --nut-card-left-border-radius:30rpx;
   // --nut-tabs-vertical-titles-width: 120rpx;
 }
