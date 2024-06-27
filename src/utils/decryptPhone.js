@@ -12,6 +12,7 @@ const getCurrentRoute = () => {
 
 // 获取加密手机号数据
 const getPhoneNumber = async (e) => {
+  console.log('获取手机加密数据',e)
     if (e.detail)  {
       Taro.showToast({
         title: '手机号获取成功',
@@ -30,7 +31,7 @@ const getPhoneNumber = async (e) => {
 
 //  解密、更新
  export const processPhonerWorkflow=async(e)=>{
-  // 获取用户手机号的加密数据
+  // 获取用户手机号的加密数据，企业认证的小程序才有权限获取此信息
   let returnData = await getPhoneNumber(e)
 
   // 获取code

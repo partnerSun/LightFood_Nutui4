@@ -10,7 +10,7 @@
     /* margin-bottom: 20rpx; */
   }
   
-  
+  /* 搜索 */
   .at-search-bar__action {
       color: black;
       font-size: 14PX;
@@ -102,6 +102,7 @@
   width: 60%;
   margin-left: 110rpx;
   margin-top: 18rpx;
+
 }
 
   /* 商品减少 */

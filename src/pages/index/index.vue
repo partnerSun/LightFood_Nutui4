@@ -8,8 +8,8 @@ import icon_4_card_active from '../../assets/images/icon-4-card-active@2x.png';
 import icon_font_solid from '../../assets/images/icon-font-solid@2x.png';
 
 import dianpu1 from '../../assets/images/dianpu-1.jpg';
-import dianpu2 from '../../assets/images/dianpu-2.jpg';
-import dianpu3 from '../../assets/images/dianpu-3.jpg';
+// import dianpu2 from '../../assets/images/dianpu-2.jpg';
+// import dianpu3 from '../../assets/images/dianpu-3.jpg';
 import logo_2x from '../../assets/images/logo@2x.png';
 import logo from '../../assets/images/logo.png';
 
@@ -21,8 +21,8 @@ defineOptions({
 
 const list=ref([
   dianpu1,
-  dianpu2,
-  dianpu3
+  'https://light-food.wfzwrjx.cn/images/dianpu-2.jpg',
+  'https://light-food.wfzwrjx.cn/images/dianpu-3.jpg'
 ])
 
 const tabIndex=ref(0)

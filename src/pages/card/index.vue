@@ -51,7 +51,7 @@ const back=()=>{
 
 const jumpLogin=()=>{
   Taro.navigateTo({
-    url: '/pages/login/vipLogin'
+    url: '/pages/login/vipSignIn'
   })
 }
 </script>

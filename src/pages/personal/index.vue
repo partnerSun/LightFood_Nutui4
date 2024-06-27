@@ -62,7 +62,7 @@ const vipInfoEdit=()=>{
   if (!data.userInfo || !data.userInfo.isvip){
 
     Taro.showToast({
-        title: '请微信登录注册会员',
+        title: '请微信登录激活会员',
         icon: 'none'
       })
   }else{
@@ -195,7 +195,7 @@ const {userInfo}=toRefs(data)
   </view>
 </navigator>
 
-
+<!-- 企业认证才可以获取手机号 -->
 <nut-dialog content="是否同意授权获取您的手机号?" v-model:visible="visible" no-ok-btn no-cancel-btn>
   <template #footer>
     <button @click="onCancel" class="btn-cancel" size="default">取消</button>
