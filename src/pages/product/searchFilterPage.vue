@@ -88,15 +88,6 @@ watch(quantities, (newQuantities) => {
     @change="onChange"
     style="width: 80%;margin: 20rpx auto;"
   />
-  <!-- <nut-searchbar v-model="inputValue">
-      <template #leftin>
-        <Search2 />
-      </template>
-      <template #rightout>
-        <text>搜索</text>
-      </template>
-  </nut-searchbar> -->
-  <!-- <view v-for="product in filteredProducts.filteredIds" :key="product.ID" style="margin-bottom: 10rpx;"> -->
     <view v-for="product in filteredProductsInfo" :key="product.ID" style="margin-bottom: 10rpx;">
         <nut-card
           :img-url="product.Img"

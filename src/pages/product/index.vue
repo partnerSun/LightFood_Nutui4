@@ -85,32 +85,9 @@ watch(quantities, (newQuantities) => {
   if (newQuantities) {
     // console.log("quantities", quantities.value);
     Taro.setStorageSync('productQuantities', JSON.stringify(newQuantities));
-    // let currentProductQuantities = newQuantities;
-    // console.log("商品数量变化", currentProductQuantities);
   }
 }, { deep: true });
 
-
-// 过滤商品数量>0的商品
-// 返回 1. 由商品id组成的数组 2. 结算商品总数量
-// const filterProductQuantities = (items, quantities) => {
-//   const filteredIds = Object.keys(quantities.value).filter(id => quantities.value[id] > 0);
-//   const filteredItems =items.filter(item => filteredIds.includes(item.ID));
-//   const totalQuantity = filteredIds.reduce((total, id) => total + parseInt(quantities.value[id], 10), 0);
-//   return {
-//     filteredIds: filteredItems,
-//     totalQuantity: totalQuantity
-//   };
-// };
-
-// // 计算并返回商品数量>0的商品和商品总数量,用于购物车显示
-// const filteredProducts = computed(() => {
-//   const  { filteredIds, totalQuantity } = filterProductQuantities(data.items, quantities);
-//   return {
-//     filteredIds: filteredIds, //商品ID的数组
-//     totalQuantity: totalQuantity //结算商品的总数量
-//   };
-// });
 
 
 const showActionSheet=ref(false)

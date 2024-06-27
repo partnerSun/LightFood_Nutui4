@@ -37,10 +37,6 @@ const tabIndex=ref(1)
 
 
 const showDetail = (id) => {
-  // console.log('showDetail', id)
-  // Taro.preload({
-  //   sharesInfo: data.sharesInfo
-  // });
   Taro.navigateTo({
     url: '/pages/enjoy-detail/index?id='+id,
   })
