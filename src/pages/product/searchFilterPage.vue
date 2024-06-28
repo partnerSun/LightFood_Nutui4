@@ -96,7 +96,7 @@ watch(quantities, (newQuantities) => {
       :focus="true" 
       class="custom-search"
       confirmType="search"
-      holdKeyboard="true"
+      :holdKeyboard="true"
       @confirm="searchFilterContent"
       @input="onChange"
       >
@@ -113,13 +113,13 @@ watch(quantities, (newQuantities) => {
       >
         <template #footer> 
           <view style="width: 100%;">
-            <view class="parent-button-class2">
+            <view class="parent-button-class">
               <view class="minusbutton-class" >
-                <Minus  @click="decrementQuantity(product.ID)" size="18px" />  
+                <Minus  @click="decrementQuantity(product.ID)" size="22px" />  
               </view>
               <nut-input type="number" :readonly="true" :border="false" :input-align="inputContentPostion" v-model="quantities[product.ID]"   />
               <view class="addbutton-class">
-                <Plus @click="incrementQuantity(product.ID)" size="20px"/>
+                <Plus @click="incrementQuantity(product.ID)" size="22px"/>
               </view>
             </view>
           </view>

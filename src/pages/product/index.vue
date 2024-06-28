@@ -212,11 +212,11 @@ const jumpFilterPage=()=> {
               </view> -->
               <view class="parent-button-class">
                 <view class="minusbutton-class" >
-                  <Minus  @click="decrementQuantity(product.ID)" size="20px" />  
+                  <Minus  @click="decrementQuantity(product.ID)" size="21px" />  
                 </view>
                 <nut-input type="number" :readonly="true" :border="false" :input-align="inputContentPostion" v-model="quantities[product.ID]"   />
                 <view class="addbutton-class">
-                  <Plus @click="incrementQuantity(product.ID)" size="20px" />
+                  <Plus @click="incrementQuantity(product.ID)" size="22px" />
                 </view>
               </view>
             </view>
@@ -278,7 +278,7 @@ const jumpFilterPage=()=> {
             <view style="width: 100%;">
               <view class="parent-button-class2">
                 <view class="minusbutton-class" >
-                  <Minus  @click="decrementQuantity(product.ID)" size="18px" />  
+                  <Minus  @click="decrementQuantity(product.ID)" size="20px" />  
                 </view>
                 <nut-input type="number" :readonly="true" :border="false" :input-align="inputContentPostion" v-model="quantities[product.ID]"   />
                 <view class="addbutton-class">

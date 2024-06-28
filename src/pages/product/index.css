@@ -97,6 +97,7 @@
 .nut-card {
   margin: auto;
 }
+/* 加减按钮父级 */
 .parent-button-class{
   padding: 0;
   display: flex;
@@ -105,7 +106,6 @@
   margin-top: 18rpx;
 
 }
-
   /* 商品减少 */
 .minusbutton-class{
   /* margin-left: 210rpx; */
