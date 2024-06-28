@@ -87,10 +87,11 @@ const searchFilterContent = () => {
     :value="inputValue"
     @action-click="searchFilterContent"
     @change="onChange"
-    style="width: 80%;margin: 0 auto;"
+    
+    style="width: 85%;margin: auto;"
   />
   <!-- 发布分享页 -->
-  <view style="background-color: whitesmoke;">
+  <view style="background-color: whitesmoke;margin-top: 50px;">
     <scroll-view 
       scrollY
       @scrolltoupper="upper"

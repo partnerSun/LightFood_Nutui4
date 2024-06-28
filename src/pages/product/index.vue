@@ -16,7 +16,7 @@ defineOptions({
   inheritAttrs: false
 })
 const productStore = useProductStore();
-const { quantities,allProductInfo,filteredProducts } = storeToRefs(productStore)
+const { quantities,allProductInfo,filteredProducts,vipTotalMoney,originalTotalMoney } = storeToRefs(productStore)
 const { initQuantitiesValue,incrementQuantity,decrementQuantity } = productStore
 
 
@@ -69,15 +69,7 @@ const getProductsByType = (ptype) => {
 const inputContentPostion=ref('center')
 
 const inputValue=ref('')
-// 跳转到搜索过滤页面，使用preload预加载传输数据
-const jumpFilterPage=()=> {
-  Taro.preload({
-    productInfo: data.items
-  });
-  Taro.navigateTo({
-    url: '/pages/product/searchFilterPage',
-  })
-}
+
 
 
 // 监视 quantities 的变化并同步到 localStorage
@@ -94,26 +86,25 @@ const showActionSheet=ref(false)
 const bottomActionSheet=()=>{
   showActionSheet.value = !showActionSheet.value
 }
-// 优惠后总价
-const vipTotalMoney=computed(()=>{
-  let total=0
-  filteredProducts.value.filteredItems.forEach(product=>{
-    total+=product.CurrentPrice*quantities.value[product.ID]
-  })
-  return total.toFixed(2); // 始终保留两位小数并返回字符串
-})
-// 原总价
-const originalTotalMoney=computed(()=>{
-  let total=0
-  filteredProducts.value.filteredItems.forEach(product=>{
-    total+=product.OriginalPrice*quantities.value[product.ID]
-  })
-  return total.toFixed(2); // 始终保留两位小数并返回字符串
-})
+// // 优惠后总价
+// const vipTotalMoney=computed(()=>{
+//   let total=0
+//   filteredProducts.value.filteredItems.forEach(product=>{
+//     total+=product.CurrentPrice*quantities.value[product.ID]
+//   })
+//   return total.toFixed(2); // 始终保留两位小数并返回字符串
+// })
+// // 原总价
+// const originalTotalMoney=computed(()=>{
+//   let total=0
+//   filteredProducts.value.filteredItems.forEach(product=>{
+//     total+=product.OriginalPrice*quantities.value[product.ID]
+//   })
+//   return total.toFixed(2); // 始终保留两位小数并返回字符串
+// })
 
 // 支付
 const pay=()=>{
- 
   let uinfo =Taro.getStorageSync('userInfo')
    // 判断是否已注册会员
   if (uinfo){
@@ -122,20 +113,16 @@ const pay=()=>{
       console.log("跳转至结算页面")
       Taro.navigateTo({
         url: '/pages/pay/index',
-        events: {
-          // 监听来自 结算 页面的数据
-          sendDataToCurrentPage(data) {
-            // console.log('接收到来自结算页面的数据:', data);
-            if (data){
-              console.log('接收到来自结算页面的数据:', data);
-            }else{
-              console.log('接收到来自结算页面的数据:', data);
-              // Taro.navigateTo({
-              //   url: '/pages/product/index',
-              // })
-            }
-          }
-        },
+        // events: {
+        //   // 监听来自 结算 页面的数据
+        //   sendDataToCurrentPage(data) {
+        //     if (data){
+        //       console.log('接收到来自结算页面的数据:', data);
+        //     }else{
+        //       console.log('接收到来自结算页面的数据:', data);
+        //     }
+        //   }
+        // },
         success:  (res) =>{
           Taro.showLoading({
             title: '加载中...',
@@ -144,14 +131,14 @@ const pay=()=>{
           setTimeout(function () {
             Taro.hideLoading()
           }, 1000)
-          // 发送数据到 结算 页面
-          res.eventChannel.emit('sendDataToOpenedPage', 
-          { 
-            productInfo: filteredProducts.value.filteredItems,
-            productNum:  quantities.value,
-            productTotalnum: filteredProducts.value.totalQuantity,
-            total:vipTotalMoney.value 
-          });
+          // 使用eventChannel发送数据到 结算 页面
+          // res.eventChannel.emit('sendDataToOpenedPage', 
+          // { 
+          //   productInfo: filteredProducts.value.filteredItems,
+          //   productNum:  quantities.value,
+          //   productTotalnum: filteredProducts.value.totalQuantity,
+          //   total:vipTotalMoney.value 
+          // });
         }
       })
     }else{
@@ -180,29 +167,33 @@ const trash=()=>{
   initQuantitiesValue()
   
 }
+// 
+
+
+const onBlur=()=>{
+  console.log("失去焦点")
+  // showSearchBar.value = false
+}
+
+
+// 跳转到搜索过滤页面
+const jumpFilterPage=()=> {
+  Taro.navigateTo({
+    url: '/pages/product/searchFilterPage',
+  })
+}
 </script>
 
 <template>
 <!-- <view style="display: flex;flex-direction: column;justify-content:space-between;"> -->
   <!-- 搜索框+商品信息 -->
   <view>
-    <AtSearchBar
-    actionName='搜索'
-    :value="inputValue"
-    @focus="jumpFilterPage"
-    style="width: 80%;margin: 20rpx auto;"
-  />
-  <!-- <nut-searchbar 
-  v-model="inputValue"
-  @focus="jumpFilterPage"
-  >
-      <template #leftin>
-        <Search2 />
-      </template>
-      <template #rightout>
-        <Message />
-      </template>
-  </nut-searchbar> -->
+  <nut-searchbar v-model="inputValue" @click-input="jumpFilterPage" @blur="onBlur"  style="width: 90%;margin: 20rpx auto;">
+    <!-- <template #rightout> 搜索 </template> -->
+    <template #leftin>
+      <Search2 size="14px"/>
+    </template>
+  </nut-searchbar>
   <nut-tabs class="nub-tabs-class" v-model="activeTab" direction="vertical" title-scroll  name="productTabs" style="height: 81vh;" >
     <nut-tab-pane v-for="ptype in ptypes" :key="ptype" :title="ptype" :pane-key="ptype">
       <view v-for="product in getProductsByType(ptype)"  :key="product.ID" style="margin-bottom: 20rpx;">

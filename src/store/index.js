@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import Taro from '@tarojs/taro';  // 假设使用 Taro 框架
 
 export const useProductStore = defineStore('productStore', () => {
-    // 所有的商品信息，通过传值赋值
+    // 服务端所有的商品信息，通过传值赋值
     let allProductInfo = ref([]);
 
     // 从本地缓存中加载商品数量
@@ -47,12 +47,28 @@ export const useProductStore = defineStore('productStore', () => {
     
     // 减少商品数量
     const decrementQuantity = (id) => {
-        if (quantities.value[id] > 0){
+      if (quantities.value[id] > 0){
         quantities.value[id]--
-        }else {
-        };
+      }else {
+        quantities.value[id]=0
+      };
     };
-
+    // 优惠后总价
+    const vipTotalMoney=computed(()=>{
+      let total=0
+      filteredProducts.value.filteredItems.forEach(product=>{
+        total+=product.CurrentPrice*quantities.value[product.ID]
+      })
+      return total.toFixed(2); // 始终保留两位小数并返回字符串
+    })
+    // 原总价
+    const originalTotalMoney=computed(()=>{
+      let total=0
+      filteredProducts.value.filteredItems.forEach(product=>{
+        total+=product.OriginalPrice*quantities.value[product.ID]
+      })
+      return total.toFixed(2); // 始终保留两位小数并返回字符串
+    })
   return {
     allProductInfo,
     quantities,
@@ -60,5 +76,7 @@ export const useProductStore = defineStore('productStore', () => {
     incrementQuantity,
     decrementQuantity,
     filteredProducts,
+    vipTotalMoney,
+    originalTotalMoney
   };
 });

@@ -2,8 +2,9 @@
 import Taro,{useLoad} from '@tarojs/taro'
 import { toRefs ,reactive,ref} from 'vue';
 import {payApi} from '../../api/pay.js'
-import {getOrderInfo} from '../../utils/getOrder.js'
 import {decodeRetrieveData} from '../../utils/localDataProcess.js'
+import { useProductStore } from '../../store/index.js';
+import { storeToRefs } from 'pinia'
 import './index.css'
 
 // 解决透传 Attributes 
@@ -18,6 +19,10 @@ const data=reactive({
   total:String
 })
 
+const productStore = useProductStore();
+const { quantities,vipTotalMoney,filteredProducts } = storeToRefs(productStore)
+const { initQuantitiesValue,} = productStore
+
 const inputNumber=ref('')
 
 useLoad(async()=>{
@@ -29,31 +34,33 @@ useLoad(async()=>{
     setTimeout(function () {
       Taro.hideLoading()
     }, 1000)
-  // 获取 eventChannel 实例
-  const inst =Taro.getCurrentInstance()
-  // console.log("inst",inst)
-  const eventChannel = inst.page ? inst.page.getOpenerEventChannel() : null;
-  if (eventChannel) {
-  // 监听数据
-  eventChannel.on('sendDataToOpenedPage', (info)=> {
-    // console.log('接收到来自商品页面的数据', info)
-    try {
-        data.settleProducts=info.productInfo
-        data.settleProductsNum=info.productNum
-        data.settleProductsTotalNum=info.productTotalnum
-        data.total=info.total
-        // console.log("data",data)
-        eventChannel.emit('sendDataToCurrentPage', { data: true });
-      } catch (error) {
-        console.error('数据处理出错:', error);
-        eventChannel.emit('sendDataToCurrentPage', { data: false });
-      }
-    })
-  }
-  // Taro.hideLoading()
+      // 获取 eventChannel 实例
+  // const inst =Taro.getCurrentInstance()
+  // const eventChannel = inst.page ? inst.page.getOpenerEventChannel() : null;
+  // if (eventChannel) {
+  // // 监听数据
+  // eventChannel.on('sendDataToOpenedPage', (info)=> {
+  //   try {
+  //       data.settleProducts=info.productInfo
+  //       data.settleProductsNum=info.productNum
+  //       data.settleProductsTotalNum=info.productTotalnum
+  //       data.total=info.total
+  //       eventChannel.emit('sendDataToCurrentPage', { data: true });
+  //     } catch (error) {
+  //       console.error('数据处理出错:', error);
+  //       eventChannel.emit('sendDataToCurrentPage', { data: false });
+  //     }
+  //   })
+  // }
+    // 通过pinia传值
+    data.settleProducts=filteredProducts.value.filteredItems
+    data.settleProductsNum=quantities.value
+    data.settleProductsTotalNum=filteredProducts.value.totalQuantity
+    data.total=vipTotalMoney.value 
   
+    console.log("结算数据",data)
   // console.log("userinfo",userinfo)
-  inputNumber.value=userinfo.phone
+    inputNumber.value=userinfo.phone
 
 })
 
@@ -144,19 +151,28 @@ const formatter = (type, option) => {
 }
 const {settleProducts,settleProductsNum,settleProductsTotalNum,total}=toRefs(data)
 
-
+// 清空购物车
+const trash=()=>{
+  Taro.removeStorage('productQuantities')
+  // loadQuantities()
+  quantities.value={}
+  initQuantitiesValue()
+  
+}
 const createorder= async()=>{
-
   let uid=Taro.getStorageSync('userId')
-  let productStr=Taro.getStorageSync('productQuantities')
+  // let productStr=Taro.getStorageSync('productQuantities')
+  // let productStr=quantities.value
+  // console.log("productStr",productStr)
   let params=reactive({
     userid:uid,
-    origin_settle_products:JSON.parse(productStr),
+    // origin_settle_products:JSON.parse(productStr),
+    origin_settle_products:quantities.value,
     phone:inputNumber.value,
     getdate:selfGetDate.value,
     comment:comment.value,
   })
-  // console.log("params",params)
+  console.log("params",params)
 
   // 发送结算信息给后端（更新订单、积分、结算价格）
   let payRes = await payApi(params)
@@ -167,8 +183,11 @@ const createorder= async()=>{
     // Taro.navigateTo({
     //   url: '/pages/pay/index',
     // })
+
     // 后端计算返回商品总价
-    console.log("付款")
+    console.log("跳转到微信付款")
+    // 删除本地的商品添加信息
+    trash()
 
   }else{
     Taro.showToast({
