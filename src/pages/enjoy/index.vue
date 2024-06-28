@@ -88,10 +88,10 @@ const searchFilterContent = () => {
     @action-click="searchFilterContent"
     @change="onChange"
     fixed
-    style="width: 85%;margin: auto;"
+    style="width: 100%;margin: auto;"
   />
   <!-- 发布分享页 -->
-  <view style="background-color: whitesmoke;">
+  <view style="background-color: whitesmoke;margin-top: 42px;">
     <scroll-view 
       scrollY
       @scrolltoupper="upper"
@@ -118,7 +118,7 @@ const searchFilterContent = () => {
 <style lang="less">
 // 搜索栏
 .at-search-bar__action {
-  color: black;
+  color: rgb(25, 245, 227);
   font-size: 14PX;
   background-color: white;
   opacity: 0;
