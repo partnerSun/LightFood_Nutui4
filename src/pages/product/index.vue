@@ -63,7 +63,9 @@ const {ptypes}=toRefs(data)
 
 // 根据 Ptype 获取相应的商品
 const getProductsByType = (ptype) => {
-  return data.items.filter(product => product.Ptype === ptype)
+  let tmpProduct = data.items.filter(product => product.Ptype === ptype)
+  // console.log(tmpProduct)
+  return tmpProduct
 }
 
 const inputContentPostion=ref('center')
@@ -182,6 +184,12 @@ const jumpFilterPage=()=> {
     url: '/pages/product/searchFilterPage',
   })
 }
+
+const showDetail = (id) => {
+  Taro.navigateTo({
+    url: '/pages/enjoy-detail/index?id='+id,
+  })
+}
 </script>
 
 <template>
@@ -204,6 +212,7 @@ const jumpFilterPage=()=> {
           :vip-price="product.CurrentPrice"
           :shop-desc="product.Descr"
           :delivery="`${(product.Discount)}折`"
+          @click="showDetail(product.Shareid)"
         >
           <template #footer> 
             <view style="width: 100%;">
