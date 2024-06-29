@@ -114,7 +114,7 @@ const pay=()=>{
     if (filteredProducts.value.totalQuantity){
       console.log("跳转至结算页面")
       Taro.navigateTo({
-        url: '/pages/pay/index',
+        url: '/pagesC/pay/index',
         // events: {
         //   // 监听来自 结算 页面的数据
         //   sendDataToCurrentPage(data) {
@@ -181,13 +181,13 @@ const onBlur=()=>{
 // 跳转到搜索过滤页面
 const jumpFilterPage=()=> {
   Taro.navigateTo({
-    url: '/pages/product/searchFilterPage',
+    url: '/pagesC/product/searchFilterPage',
   })
 }
 
 const showDetail = (id) => {
   Taro.navigateTo({
-    url: '/pages/enjoy-detail/index?id='+id,
+    url: '/pagesA/enjoy-detail/index?id='+id,
   })
 }
 </script>
@@ -212,8 +212,9 @@ const showDetail = (id) => {
           :vip-price="product.CurrentPrice"
           :shop-desc="product.Descr"
           :delivery="`${(product.Discount)}折`"
-          @click="showDetail(product.Shareid)"
+
         >
+        <!-- @click="showDetail(product.Shareid)" -->
           <template #footer> 
             <view style="width: 100%;">
               <!-- <view class="discount-cs">

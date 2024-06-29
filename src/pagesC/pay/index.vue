@@ -58,7 +58,7 @@ useLoad(async()=>{
     data.settleProductsTotalNum=filteredProducts.value.totalQuantity
     data.total=vipTotalMoney.value 
   
-    console.log("结算数据",data)
+    // console.log("结算数据",data)
   // console.log("userinfo",userinfo)
     inputNumber.value=userinfo.phone
 
@@ -180,13 +180,13 @@ const createorder= async()=>{
     getdate:selfGetDate.value,
     comment:comment.value,
   })
-  console.log("params",params)
+  // console.log("params",params)
 
   // 发送结算信息给后端（更新订单、积分、结算价格）
   let payRes = await payApi(params)
   let resMeg=payRes.data.message
-  console.log("支付接口返回数据",payRes)
-  console.log("支付接口返回信息",resMeg)
+  // console.log("支付接口返回数据",payRes)
+  // console.log("支付接口返回信息",resMeg)
   if(payRes.data.status==200){
     let totalP = payRes.data.data.total
     console.log('支付总价',totalP)

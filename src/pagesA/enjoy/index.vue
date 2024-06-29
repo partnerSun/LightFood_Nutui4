@@ -39,7 +39,7 @@ const tabIndex=ref(1)
 
 const showDetail = (id) => {
   Taro.navigateTo({
-    url: '/pages/enjoy-detail/index?id='+id,
+    url: '/pagesA/enjoy-detail/index?id='+id,
   })
 }
 

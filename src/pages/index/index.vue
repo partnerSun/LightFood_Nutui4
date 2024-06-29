@@ -64,7 +64,7 @@ onMounted(() => {
   
 const jumpShop=()=>{
     Taro.navigateTo({
-      url: '/pages/product/index'
+      url: '/pagesC/product/index'
     })
 }
 </script>

@@ -14,12 +14,12 @@ const List = reactive([
   {
     title: '工艺',
     icon: h(Follow),
-    path: '/pages/enjoy/index'
+    path: '/pagesA/enjoy/index'
   },
   {
     title: '商品',
     icon: h(Shop3),
-    path: '/pages/product/index',
+    path: '/pagesC/product/index',
   },
   {
     title: '我的',
