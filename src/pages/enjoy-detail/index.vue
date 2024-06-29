@@ -29,19 +29,32 @@ const data = reactive({
 })
 
 
-onBeforeMount(async()=>{
-  // 获取所有的分享信息
-  let sharesCheckRes=await sharesCheck()
+// onBeforeMount(async()=>{
+//   // 获取所有的分享信息
+//   let sharesCheckRes=await sharesCheck()
+//   let sharesInfo=sharesCheckRes.data.data.items
+//   // 获取父组件传过来的参数
+//   const params = Taro.getCurrentInstance().router.params;
+//   id.value = Number(params.id); // 确保 id 是数字类型  
+//   // 过滤出当前id对应的分享信息
+//   data.result= sharesInfo.find(item => item.id === id.value);
+  
+//   data.content=data.result.content
+//   console.log("data",data)
+// })
+
+useLoad(async()=>{
+    // 获取所有的分享信息
+    let sharesCheckRes=await sharesCheck()
   let sharesInfo=sharesCheckRes.data.data.items
   // 获取父组件传过来的参数
   const params = Taro.getCurrentInstance().router.params;
   id.value = Number(params.id); // 确保 id 是数字类型  
   // 过滤出当前id对应的分享信息
   data.result= sharesInfo.find(item => item.id === id.value);
+  
   data.content=data.result.content
-})
-
-useLoad(()=>{
+  console.log("data",data)
   // 显示分享菜单
   Taro.showShareMenu({
     withShareTicket: true,
@@ -102,6 +115,9 @@ const share = () => {
 }
 
 
+const handleWaiting=(e)=>{
+  console.log("视频缓冲",e)
+}
 </script>
 
 <template>
@@ -115,8 +131,34 @@ const share = () => {
       :enhanced="true"
       :showScrollbar="false"
       >
+      <!-- <video
+        v-if="result.video && result.video.length > 0"
+        id="video"
+        :src="result.video[0]"
+        initial-time="0"
+        controls
+        autoplay
+        style="height: 60vh; width: 100%; object-fit: cover;"
+      ></video> -->
+      <video
+        v-if="result.video && result.video.length > 0"
+        id="video"
+        :src="result.video[0]"
+        :title="result.title"
+        play-btn-position="bottom"
+        :enable-play-gesture="true"
+        :page-gesture="true"
+        :show-mute-btn="true"
+        initial-time="0"
+        :controls="true"
+        :autoplay="false"
+        @waiting="handleWaiting"
+        object-fit="contain"
+        style="width: 100%; max-height: 80vh;"
+      ></video>
       <!-- 媒体展示 -->
       <nut-swiper
+        v-else
         :init-page="0"
         :auto-play="3000"
         pagination-visible

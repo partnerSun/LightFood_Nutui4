@@ -1,6 +1,7 @@
 <script setup>
 import {ref,reactive,toRefs} from 'vue';
 import { AtSearchBar } from 'taro-ui-vue3'
+import { PlayStart } from '@nutui/icons-vue-taro'
 import "taro-ui-vue3/dist/style/components/search-bar.scss";
 // import { Row, Col } from '@nutui/nutui-taro'
 // import TabBar from '../../components/TabBar.vue';
@@ -78,6 +79,12 @@ const searchFilterContent = () => {
   );
   // console.log('搜索结果', filteredSharesInfo.value)
 };
+
+const handleWaiting=(e)=>{
+  console.log(e)
+}
+
+let postersize=ref('100% 100%')
 </script>
 
 <template>
@@ -101,8 +108,17 @@ const searchFilterContent = () => {
     >
       <nut-row :gutter="4">
         <nut-col :span="12" v-for="(item,index) in filteredSharesInfo" :key="index" @click="showDetail(item.id)" >
-          <view class="block_content_view">
-            <img :mode="imgMode" :src="item.img[0]" class="img-content"/>
+          <view v-if="item.video && item.video.length > 0" class="block_content_view" >
+            <view class="center-content">
+              <PlayStart color="white" size="30" class="play-icon"/>
+              <img :mode="imgMode" :src="item.img[0]" class="img-content" lazyLoad/>
+            </view>
+            <view class="title">
+              <text class="title-content">{{ item.title }}</text>
+            </view>
+          </view>
+          <view v-else class="block_content_view">
+            <img  :mode="imgMode" :src="item.img[0]" class="img-content" lazyLoad/>
             <view class="title">
               <text class="title-content">{{ item.title }}</text>
             </view>
@@ -130,14 +146,33 @@ const searchFilterContent = () => {
   /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
   // overflow: hidden;
   // margin-left: 5rpx;
-  margin-bottom: 0rpx;
-  padding-bottom: 16rpx;
+  max-height: 600rpx; 
+  margin-bottom: 5rpx;
+  padding-bottom: 13rpx;
+.center-content{
+  position: relative;
+  display: flex;
+
+}
+
   .img-content{
     /* margin-top: 0rpx; */
     width: 100%; 
     height: 480rpx; 
     border-radius: 8rpx 8rpx 0 0;
+
     /* border: 1rpx solid rgb(231, 221, 221);  */
+  }
+ .play-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
   }
   .title{
     // display: flex;
