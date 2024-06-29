@@ -95,7 +95,7 @@ const defaultminLater = defaultTimeLater.getMinutes();
 const min = new Date(year, month, day,hours,minutes)
 const max = new Date(yearLater, monthLater-1, dayLater,23,59)
 // 
-const comment=ref('添加备注')
+const comment=ref('')
 
 // 时间选择器的默认值
 const initDate=ref(defaultTimeLater)
@@ -151,7 +151,7 @@ const formatter = (type, option) => {
 }
 const {settleProducts,settleProductsNum,settleProductsTotalNum,total}=toRefs(data)
 
-// 清空购物车
+// 清空购物车,此处用于支付后清空
 const trash=()=>{
   Taro.removeStorage('productQuantities')
   // loadQuantities()
@@ -160,6 +160,14 @@ const trash=()=>{
   
 }
 const createorder= async()=>{
+  if (inputNumber.value==0 || inputNumber.value.length < 11){
+    Taro.showToast({
+      title: '手机号码不完整',
+      icon: 'none',
+      duration: 2000
+    })
+    return
+  }
   let uid=Taro.getStorageSync('userId')
   // let productStr=Taro.getStorageSync('productQuantities')
   // let productStr=quantities.value
@@ -176,7 +184,9 @@ const createorder= async()=>{
 
   // 发送结算信息给后端（更新订单、积分、结算价格）
   let payRes = await payApi(params)
+  let resMeg=payRes.data.message
   console.log("支付接口返回数据",payRes)
+  console.log("支付接口返回信息",resMeg)
   if(payRes.data.status==200){
     let totalP = payRes.data.data.total
     console.log('支付总价',totalP)
@@ -186,12 +196,14 @@ const createorder= async()=>{
 
     // 后端计算返回商品总价
     console.log("跳转到微信付款")
+    console.log("付款后跳转到当前订单，订单返回的父级是商品页")
     // 删除本地的商品添加信息
     trash()
 
   }else{
+    // console.log("支付接口返回数据",payRes)
     Taro.showToast({
-      title: payRes.data.message,
+      title: resMeg,
       icon: 'none',
       duration: 2000
     })
@@ -201,6 +213,8 @@ const createorder= async()=>{
   // await getOrderInfo()
 
 }
+
+
 </script>
 
 <template>
@@ -276,7 +290,8 @@ const createorder= async()=>{
         <view class="titles">备注信息</view>
       </view>
       <view class="text" >
-        <nut-input  v-model="comment" placeholder="添加备注" max-length="32" type="text" clearable/>
+        <!-- <nut-input  v-model="comment" placeholder="添加备注" max-length="32" type="text" clearable/> -->
+        <nut-textarea v-model="comment"  limit-show :max-length="45" autosize />
       </view>
     </view>
     <!-- <van-icon name="arrow"/> -->
@@ -322,3 +337,9 @@ const createorder= async()=>{
   ></nut-date-picker>
 </nut-popup>
 </template>
+
+<style>
+page{
+  --nut-textarea-text-color:#8a8a8a
+}
+</style>

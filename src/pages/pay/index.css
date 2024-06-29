@@ -20,6 +20,7 @@ page{
    .shops-box{
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
   
    .shops-box .content{
@@ -38,7 +39,7 @@ page{
     background-color: #4a4a4a;
   }
    .shops-box .text{
-    
+    width: 100%;
     font-size: 26rpx;
     color: #8a8a8a;
   }

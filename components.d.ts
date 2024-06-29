@@ -23,6 +23,7 @@ declare module 'vue' {
     NutTabbarItem: typeof import('@nutui/nutui-taro')['TabbarItem']
     NutTabPane: typeof import('@nutui/nutui-taro')['TabPane']
     NutTabs: typeof import('@nutui/nutui-taro')['Tabs']
+    NutTextarea: typeof import('@nutui/nutui-taro')['Textarea']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TabBar: typeof import('./src/components/TabBar.vue')['default']
