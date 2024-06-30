@@ -29,6 +29,7 @@ page{
   
   }
    .shops-box .content .titles{
+    height: 40rpx;
     font-size: 30rpx;
     color: #3c3c3c;
     margin-right: 10rpx;
