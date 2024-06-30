@@ -1,9 +1,9 @@
 <script setup>
 import TabBar from '../../components/TabBar.vue';
-import { reactive, toRefs,watch ,computed,  ref } from 'vue';
+import { reactive, toRefs,watch,ref } from 'vue';
 import Taro,{ useLoad } from '@tarojs/taro'
-import { Minus,Plus,IconFont,Left ,Search2 ,Photograph ,Message   } from '@nutui/icons-vue-taro'
-import { AtIcon,AtSearchBar } from 'taro-ui-vue3'
+import { Minus,Plus,IconFont,Search2 , } from '@nutui/icons-vue-taro'
+import { AtIcon} from 'taro-ui-vue3'
 import "taro-ui-vue3/dist/style/components/search-bar.scss";
 import '../../assets/iconfont/iconfont.css'
 import './index.css'
@@ -212,21 +212,21 @@ const showDetail = (id) => {
           :vip-price="product.CurrentPrice"
           :shop-desc="product.Descr"
           :delivery="`${(product.Discount)}折`"
-
+          @click="showDetail(product.Shareid)"
         >
-        <!-- @click="showDetail(product.Shareid)" -->
           <template #footer> 
             <view style="width: 100%;">
               <!-- <view class="discount-cs">
                 {{ product.Discount }}折
               </view> -->
+              <!-- 使用事件修饰符 stop 来阻止事件冒泡。这可以防止子组件的点击事件冒泡到父组件，从而触发父组件的点击事件。 -->
               <view class="parent-button-class">
                 <view class="minusbutton-class" >
-                  <Minus  @click="decrementQuantity(product.ID)" size="21px" />  
+                  <Minus  @click.stop="decrementQuantity(product.ID)" size="21px" />  
                 </view>
                 <nut-input type="number" :readonly="true" :border="false" :input-align="inputContentPostion" v-model="quantities[product.ID]"   />
                 <view class="addbutton-class">
-                  <Plus @click="incrementQuantity(product.ID)" size="22px" />
+                  <Plus @click.stop="incrementQuantity(product.ID)" size="22px" />
                 </view>
               </view>
             </view>
@@ -262,6 +262,7 @@ const showDetail = (id) => {
       round
       safe-area-inset-bottom
       pop-class="actionsheet-class"
+      
     >
       <view style="padding-bottom: 260rpx;padding-top: 10rpx;">
         <view  hover-class="none" hover-stop-propagation="false"  class="trash-class" >  
@@ -282,17 +283,18 @@ const showDetail = (id) => {
           :title="product.Product"
           :price="product.OriginalPrice"
           :vip-price="product.CurrentPrice"
+          @click="showDetail(product.Shareid)"
           class="actionsheet-shopping-card-class"
         >
           <template #footer> 
             <view style="width: 100%;">
               <view class="parent-button-class2">
                 <view class="minusbutton-class" >
-                  <Minus  @click="decrementQuantity(product.ID)" size="20px" />  
+                  <Minus  @click.stop="decrementQuantity(product.ID)" size="20px" />  
                 </view>
                 <nut-input type="number" :readonly="true" :border="false" :input-align="inputContentPostion" v-model="quantities[product.ID]"   />
                 <view class="addbutton-class">
-                  <Plus @click="incrementQuantity(product.ID)" size="20px"/>
+                  <Plus @click.stop="incrementQuantity(product.ID)" size="20px"/>
                 </view>
               </view>
             </view>

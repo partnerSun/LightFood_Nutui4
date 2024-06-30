@@ -1,9 +1,8 @@
 <script setup>
-import TabBar from '../../components/TabBar.vue';
-import { reactive, toRefs,watch ,computed,  ref } from 'vue';
-import Taro,{ useLoad } from '@tarojs/taro'
-import { Minus,Plus,IconFont,Left ,Search2 ,Photograph ,Message   } from '@nutui/icons-vue-taro'
-import { AtIcon,AtSearchBar } from 'taro-ui-vue3'
+// import TabBar from '../../components/TabBar.vue';
+import { watch ,  ref } from 'vue';
+import Taro from '@tarojs/taro'
+import { Minus,Plus,} from '@nutui/icons-vue-taro'
 import "taro-ui-vue3/dist/style/components/search-bar.scss";
 import '../../assets/iconfont/iconfont.css'
 import './search.css'
@@ -14,15 +13,16 @@ import { storeToRefs } from 'pinia'
 defineOptions({
   inheritAttrs: false
 })
+
 const productStore = useProductStore();
 const { quantities,allProductInfo } = storeToRefs(productStore)
 const { incrementQuantity,decrementQuantity } = productStore
 
 
-const data = reactive({
-  items:[],
-  ptypes:[]
-})
+// const data = reactive({
+//   items:[],
+//   ptypes:[]
+// })
 
 
 const inputContentPostion=ref('center')
@@ -45,24 +45,24 @@ const filteredProductsInfo = ref([]);
 
 const onChange=(event)=> {
   inputValue.value=event.detail.value
-  console.log('搜索框内容改变value', event.detail.value)
+  // console.log('搜索框内容改变value', event.detail.value)
   let searchString = inputValue.value;
   filteredProductsInfo.value= allProductInfo.value.filter(item => 
     (item.Product && item.Product.includes(searchString)) || 
     (item.Ptype && item.Ptype.includes(searchString))
   );
-  console.log('搜索结果', filteredProductsInfo.value)
+  // console.log('搜索结果', filteredProductsInfo.value)
 }
 
 
 const searchFilterContent = () => {
   let searchString = inputValue.value;
-  console.log('过滤条件', inputValue.value)
+  // console.log('过滤条件', inputValue.value)
   filteredProductsInfo.value= allProductInfo.value.filter(item => 
     (item.Product && item.Product.includes(searchString)) || 
     (item.Ptype && item.Ptype.includes(searchString))
   );
-  console.log('搜索结果', filteredProductsInfo.value)
+  // console.log('搜索结果', filteredProductsInfo.value)
 };
 
 
@@ -74,7 +74,11 @@ watch(quantities, (newQuantities) => {
   }
 }, { deep: true });
 
-
+const showDetail = (id) => {
+  Taro.navigateTo({
+    url: '/pagesA/enjoy-detail/index?id='+id,
+  })
+}
 </script>
 
 <template>
@@ -109,17 +113,18 @@ watch(quantities, (newQuantities) => {
         :title="product.Product"
         :price="product.OriginalPrice"
         :vip-price="product.CurrentPrice"
+        @click="showDetail(product.Shareid)"
         class="actionsheet-shopping-card-class"
       >
         <template #footer> 
           <view style="width: 100%;">
             <view class="parent-button-class">
               <view class="minusbutton-class" >
-                <Minus  @click="decrementQuantity(product.ID)" size="22px" />  
+                <Minus  @click.stop="decrementQuantity(product.ID)" size="22px" />  
               </view>
               <nut-input type="number" :readonly="true" :border="false" :input-align="inputContentPostion" v-model="quantities[product.ID]"   />
               <view class="addbutton-class">
-                <Plus @click="incrementQuantity(product.ID)" size="22px"/>
+                <Plus @click.stop="incrementQuantity(product.ID)" size="22px"/>
               </view>
             </view>
           </view>

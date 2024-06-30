@@ -113,8 +113,8 @@
   display: flex;
   justify-content:center;
   align-items:center;
-  width: 40px; /* 按钮宽度 */
-  height: 40px; /* 按钮高度 */
+  width: 38px; /* 按钮宽度 */
+  height: 38px; /* 按钮高度 */
   border: 1px solid #f7d43a; /* 去掉边框 */
   box-sizing: border-box; /* 包含边框在内的总宽度 */
   border-radius: 50%; /* 圆形 */
@@ -130,8 +130,8 @@
   /* margin-left: 210rpx; */
   padding: 0;
   margin: auto;
-  width: 40px; /* 按钮宽度 */
-  height: 40px; /* 按钮高度 */
+  width: 38px; /* 按钮宽度 */
+  height: 38px; /* 按钮高度 */
   background-color: #f7d43a; /* 背景颜色 */
   border: none; /* 去掉边框 */
   border-radius: 50%; /* 圆形 */
