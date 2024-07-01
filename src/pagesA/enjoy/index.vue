@@ -172,10 +172,10 @@ const searchFilterContent = () => {
 }
 
 .parent-cion{
-  width: 30px;
-  height: 30px;
-  border-radius: 15px;
-  background-color: gray;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  background-color: rgb(157, 155, 155);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -194,7 +194,7 @@ const searchFilterContent = () => {
   // width: 20px;
   // height: 20px;
   // border-radius: 30px;
-  background-color: gray;
+  background-color: rgb(157, 155, 155);
   // background-color: rgba(221, 218, 218, 0.8); 
 
 }
