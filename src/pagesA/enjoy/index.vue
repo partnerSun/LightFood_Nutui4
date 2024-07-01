@@ -1,13 +1,12 @@
 <script setup>
 import {ref,reactive,toRefs} from 'vue';
 import { AtSearchBar } from 'taro-ui-vue3'
-import { PlayStart } from '@nutui/icons-vue-taro'
+import { PlayStart,IconFont } from '@nutui/icons-vue-taro'
+import '../../assets/iconfont/iconfont.css'
 import { AtIcon } from 'taro-ui-vue3'
 import "taro-ui-vue3/dist/style/components/icon.scss";
 import "taro-ui-vue3/dist/style/components/search-bar.scss";
-// import { Row, Col } from '@nutui/nutui-taro'
-// import TabBar from '../../components/TabBar.vue';
-// import { Dongdong } from '@nutui/icons-vue-taro';
+import TabBar from '../../components/TabBar.vue';
 import Taro,{useLoad} from '@tarojs/taro' 
 // import contentData from '../../components/info.js'
 import {sharesCheck} from '../../api/shares.js'
@@ -94,8 +93,11 @@ const searchFilterContent = () => {
   <view class="column-container">
     <view class="column-item" v-for="(item,index) in filteredSharesInfo" :key="index" @click="showDetail(item.id)">
       <view v-if="item.video && item.video.length > 0" class="center-content">
-        <!-- <AtIcon value='play' size='30' color='white' class="play-icon"></AtIcon> -->
-        <PlayStart color="white" size="28" class="play-icon"/>
+        <!-- <AtIcon value='play' size='18' color='white' class="play-icon"></AtIcon> -->
+      <view class="parent-cion">
+        <IconFont class="play-icon" color="white"  font-class-name="iconfont"  size="10" class-prefix="icon" name="icon_play"/>
+      </view>
+        <!-- <PlayStart  color="white" size="28" class="play-icon"/> -->
         <image :mode="imgMode" :src="item.img[0]" class="column-image" lazyLoad/>
       </view>
       <view v-else class="center-content">
@@ -111,10 +113,11 @@ const searchFilterContent = () => {
 
 <style lang="less">
 
+
 .column-container {
   column-count: 2; /* 设置列数 */
   column-gap: 10px; /* 列间距 */
-  padding: 1px 5px 5px 5px;
+  padding: 0px 8px 2px 8px;
   background-color: whitesmoke;
 }
 
@@ -168,17 +171,32 @@ const searchFilterContent = () => {
   display: flex;
 }
 
-.play-icon{
+.parent-cion{
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: gray;
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
   right: 14px;
   top: 14px;
+}
+.play-icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  // right: 14px;
+  // top: 14px;
+  // z-index: 1000;
   // width: 20px;
   // height: 20px;
-  // border-radius: 20px;
-  // background-color: rgba(255, 255, 255, 0.8); 
+  // border-radius: 30px;
+  background-color: gray;
+  // background-color: rgba(221, 218, 218, 0.8); 
+
 }
 
 
