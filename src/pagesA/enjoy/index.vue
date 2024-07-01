@@ -112,7 +112,7 @@ const searchFilterContent = () => {
 .column-container {
   column-count: 2; /* 设置列数 */
   column-gap: 10px; /* 列间距 */
-  padding: 5px;
+  padding: 1px 5px 5px 5px;
   background-color: whitesmoke;
 }
 
