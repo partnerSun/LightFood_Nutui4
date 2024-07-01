@@ -89,6 +89,7 @@ const searchFilterContent = () => {
     style="width: 100%;margin: auto;"
   />
   <view style="width: 100%;height: 42px;background-color: white;"></view>
+
   <!-- 发布分享页 -->
   <view class="column-container">
     <view class="column-item" v-for="(item,index) in filteredSharesInfo" :key="index" @click="showDetail(item.id)">
@@ -103,6 +104,7 @@ const searchFilterContent = () => {
         <view class="column-text">{{ item.title }}</view>
     </view>
   </view>
+
 
   <TabBar :tabindex="tabIndex"></TabBar>
 </template>
@@ -119,7 +121,7 @@ const searchFilterContent = () => {
 .column-item {
   display: inline-block; /* 必须使用 inline-block */
   width: 100%;
-  margin:  0;
+  margin:   0px;
   break-inside: avoid; /* 防止列中断 */
   border: 0.1px solid white;
   border-radius: 8px;

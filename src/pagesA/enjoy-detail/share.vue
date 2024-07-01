@@ -23,36 +23,36 @@ import { IconFont } from '@nutui/icons-vue-taro'
     })
   }
 
-  const showShareMenu = () => {
-    if (!userInfo) {
-      // 用户未授权，发起授权请求
-      Taro.getUserInfo().then(res => {
-        setUserInfo(res.userInfo)
-        Taro.showShareMenu({
-          withShareTicket: true,
-          success(res) {
-            console.log('showShareMenu success', res)
-          },
-          fail(err) {
-            console.error('showShareMenu fail', err)
-          }
-        })
-      }).catch(err => {
-        console.error('getUserInfo error', err)
-      })
-    } else {
-      // 用户已经授权，直接调用 showShareMenu
-      Taro.showShareMenu({
-        withShareTicket: true,
-        success(res) {
-          console.log('showShareMenu success', res)
-        },
-        fail(err) {
-          console.error('showShareMenu fail', err)
-        }
-      })
-    }
-  }
+  // const showShareMenu = () => {
+  //   if (!userInfo) {
+  //     // 用户未授权，发起授权请求
+  //     Taro.getUserInfo().then(res => {
+  //       setUserInfo(res.userInfo)
+  //       Taro.showShareMenu({
+  //         withShareTicket: true,
+  //         success(res) {
+  //           console.log('showShareMenu success', res)
+  //         },
+  //         fail(err) {
+  //           console.error('showShareMenu fail', err)
+  //         }
+  //       })
+  //     }).catch(err => {
+  //       console.error('getUserInfo error', err)
+  //     })
+  //   } else {
+  //     // 用户已经授权，直接调用 showShareMenu
+  //     Taro.showShareMenu({
+  //       withShareTicket: true,
+  //       success(res) {
+  //         console.log('showShareMenu success', res)
+  //       },
+  //       fail(err) {
+  //         console.error('showShareMenu fail', err)
+  //       }
+  //     })
+  //   }
+  // }
 
 
 

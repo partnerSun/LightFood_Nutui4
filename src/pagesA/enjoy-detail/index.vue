@@ -54,7 +54,7 @@ useLoad(async()=>{
   data.result= sharesInfo.find(item => item.id === id.value);
   
   data.content=data.result.content
-  console.log("data",data)
+  // console.log("data",data)
   // 显示分享菜单
   Taro.showShareMenu({
     withShareTicket: true,
@@ -131,15 +131,6 @@ const handleWaiting=(e)=>{
       :enhanced="true"
       :showScrollbar="false"
       >
-      <!-- <video
-        v-if="result.video && result.video.length > 0"
-        id="video"
-        :src="result.video[0]"
-        initial-time="0"
-        controls
-        autoplay
-        style="height: 60vh; width: 100%; object-fit: cover;"
-      ></video> -->
       <video
         v-if="result.video && result.video.length > 0"
         id="video"

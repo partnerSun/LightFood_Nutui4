@@ -33,21 +33,18 @@ export default defineAppConfig({
     }
   ],
   // https://taro-docs.jd.com/docs/vue-page
+  // https://taro-docs.jd.com/docs/app-config#window
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black',
-    // enablePullDownRefresh: true,
-    enableShareAppMessage: true,
-    enableShareTimeline: true
+    // enablePullDownRefresh
   },
+  // https://taro-docs.jd.com/docs/app-config#permission
   permission: {
       "scope.userLocation": {
         "desc": "你的位置信息将用于小程序定位服务"
-      },
-      "scope.writePhotosAlbum": {
-        "desc": "你的相册"
       },
     },
   lazyCodeLoading: 'requiredComponents',
