@@ -180,8 +180,8 @@ const searchFilterContent = () => {
   align-items: center;
   justify-content: center;
   position: absolute;
-  right: 14px;
-  top: 14px;
+  right: 16px;
+  top: 16px;
 }
 .play-icon{
   display: flex;
