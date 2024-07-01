@@ -169,7 +169,7 @@ const handleWaiting=(e)=>{
         </view>
         
         <view class="bottom_content">
-          <nut-ellipsis direction="start" :content="content" rows="3"></nut-ellipsis>
+          {{ content }}
         </view>
         <view style="height: 300rpx;"></view>
       </view>
@@ -193,22 +193,25 @@ const handleWaiting=(e)=>{
 
 <style scope>
 .bottom_title {
-  width: 96%;
-  margin: 20rpx auto;
+  /* width: 96%; */
+  /* margin: auto; */
+  padding: 20px 15px 5px 15px;
+  /* margin: 20rpx auto; */
   text-align: left;
-  /* font-family: "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif; */
   font-weight: 600;
-  font-size: 34rpx;
-  line-height: 150%;
+  font-size: 32px;
+  /* line-height: 150%; */
 }
 
 .bottom_content {
-  width: 96%;
-  /* margin-top: 40rpx; */
-  margin: 20rpx auto;
+  /* margin: auto; */
+  padding: 10px 20px;
   font-weight: 400;
-  font-size: 32rpx;
-  line-height: 150%;
+  font-size: 30rpx;
+  line-height:normal;
+  font-style: normal;
+  letter-spacing: 2px;
+  /* line-height: 150%; */
 }
 .bottom-bar{
   display: grid;
