@@ -85,10 +85,6 @@ const config = {
         }
       });
     },
-    prerender: {
-      match: 'pages/**', 
-      include: ['pagesA/enjoy/index','pagesB/personal/index','pagesC/product/index',], // `pages/any/way/index` 也会参与 prerender
-    },
     enableExtract:true,
     miniCssExtractPluginOption: {
         ignoreOrder: true
