@@ -29,8 +29,11 @@ useLoad(async()=>{
   // console.log("分享内容：",data.sharesInfo)
 })
 
-//  aspectFit
-const imgMode=ref('scaleToFit')
+// scaleToFill	缩放模式，不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素
+// aspectFit	缩放模式，保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。
+// widthFix 缩放模式，宽度不变，高度自动变化，保持原图宽高比不变
+const imgMode=ref('widthFix')
+
 // 启用 scroll-view 增强特性
 const enhanced=ref(true)
 // 滚动条显隐控制
@@ -93,10 +96,9 @@ const searchFilterContent = () => {
   <view class="column-container">
     <view class="column-item" v-for="(item,index) in filteredSharesInfo" :key="index" @click="showDetail(item.id)">
       <view v-if="item.video && item.video.length > 0" class="center-content">
-        <!-- <AtIcon value='play' size='18' color='white' class="play-icon"></AtIcon> -->
-      <view class="parent-cion">
-        <IconFont class="play-icon" color="white"  font-class-name="iconfont"  size="10" class-prefix="icon" name="icon_play"/>
-      </view>
+        <view class="parent-cion">
+          <IconFont class="play-icon" color="white"  font-class-name="iconfont"  size="10" class-prefix="icon" name="icon_play"/>
+        </view>
         <!-- <PlayStart  color="white" size="28" class="play-icon"/> -->
         <image :mode="imgMode" :src="item.img[0]" class="column-image" lazyLoad/>
       </view>
@@ -117,7 +119,7 @@ const searchFilterContent = () => {
 .column-container {
   column-count: 2; /* 设置列数 */
   column-gap: 10px; /* 列间距 */
-  padding: 0px 8px 2px 8px;
+  padding: 0px 6px 2px 8px;
   background-color: whitesmoke;
 }
 
@@ -137,7 +139,7 @@ const searchFilterContent = () => {
 
 .column-image {
   width: 100%; /* 确保图片宽度适应容器 */
-  height: 480px; /* 确保图片高度自适应 */
+  max-height: 480px;
   display: block;
 }
 
@@ -160,7 +162,7 @@ const searchFilterContent = () => {
 // 搜索栏
 .at-search-bar__action {
   color: rgb(8, 187, 172);
-  font-size: 14PX;
+  // font-size: 14px;
   background-color: white;
   opacity: 0;
 }
@@ -169,6 +171,7 @@ const searchFilterContent = () => {
 .center-content{
   position: relative;
   display: flex;
+
 }
 
 .parent-cion{
